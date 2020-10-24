@@ -1,37 +1,287 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>hxy&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、基础配置1.1.本地安装hexo首先保证你电脑上有node环境，这个不懂的可以自定百度。 控制台输入node -v出现版本号说明安装成功。 有了node就可以安装hexo了，控制台输入如下命令 1npm i -g hexo  同样控制台输入hexo -v出现版本号说明安装成功。 然后开始初始化项目，控制台输入： 1hexo init  生成的穆勒：  12345678node_modules：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hxy&#39;s Blog">
+<meta property="og:url" content="http://github.com/2020/10/21/hexo%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="hxy&#39;s Blog">
+<meta property="og:description" content="一、基础配置1.1.本地安装hexo首先保证你电脑上有node环境，这个不懂的可以自定百度。 控制台输入node -v出现版本号说明安装成功。 有了node就可以安装hexo了，控制台输入如下命令 1npm i -g hexo  同样控制台输入hexo -v出现版本号说明安装成功。 然后开始初始化项目，控制台输入： 1hexo init  生成的穆勒：  12345678node_modules：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-21T03:03:48.798Z">
+<meta property="article:modified_time" content="2020-10-20T13:59:49.273Z">
+<meta property="article:author" content="hxy">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="hxy&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hxy&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://github.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-hexo博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/21/hexo%E5%8D%9A%E5%AE%A2/" class="article-date">
+  <time datetime="2020-10-21T03:03:48.798Z" itemprop="datePublished">2020-10-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、基础配置"><a href="#一、基础配置" class="headerlink" title="一、基础配置"></a>一、基础配置</h1><h2 id="1-1-本地安装hexo"><a href="#1-1-本地安装hexo" class="headerlink" title="1.1.本地安装hexo"></a>1.1.本地安装hexo</h2><p>首先保证你电脑上有node环境，这个不懂的可以自定百度。</p>
+<p>控制台输入node -v出现版本号说明安装成功。</p>
+<p>有了node就可以安装hexo了，控制台输入如下命令</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g hexo</span><br></pre></td></tr></table></figure>
+
+<p>同样控制台输入hexo -v出现版本号说明安装成功。</p>
+<p>然后开始初始化项目，控制台输入：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>生成的穆勒：</p>
+<blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules：是依赖包</span><br><span class="line">public：存放的是生成的页面</span><br><span class="line">scaffolds：命令生成文章等的模板</span><br><span class="line">source：用命令创建的各种文章</span><br><span class="line">themes：主题</span><br><span class="line">_config.yml：整个博客的配置</span><br><span class="line">db.json：source解析所得到的</span><br><span class="line">package.json：项目所需模块项目的配置信息</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="1-2-本地运行"><a href="#1-2-本地运行" class="headerlink" title="1.2.本地运行"></a>1.2.本地运行</h2><p>首先在本地跑起来你的代码</p>
+<p>控制台安装hexo-server</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-server</span><br></pre></td></tr></table></figure>
+
+<p>然后运行 hexo-server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器中访问：<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 就可以看到你本定运行的页面了</p>
+<p>这时你可以在本地调试一下你的blog。</p>
+<h2 id="1-3-github配置"><a href="#1-3-github配置" class="headerlink" title="1.3.github配置"></a>1.3.github配置</h2><p>首先要创建一个github账号</p>
+<p>并配置好ssh</p>
+<p>这些不懂的可以自行百度。</p>
+<p>创建一个repo，名称为yourname.github.io, 其中yourname（huxingyi1997）是你的github名称，按照这个规则创建github page才会生效。</p>
+<p>修改_config.yml中的git配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:  https:<span class="comment">//github.com/huxingyi1997/huxingyi1997.github.io.git</span></span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-部署上传"><a href="#1-4-部署上传" class="headerlink" title="1.4.部署上传"></a>1.4.部署上传</h2><p>在本地安装上传工具</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>依次执行如下命令</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean     //删除上次打包</span><br><span class="line">hexo generate   //打包</span><br><span class="line">hexo deploy    /上传</span><br></pre></td></tr></table></figure>
+
+<p>这里我单独写了sh执行这三段脚本，这样每次只需要执行这个sh即可。</p>
+<p>在浏览器中输入<a target="_blank" rel="noopener" href="https://huxingyi1997.github.io/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%BA%86%EF%BC%81">https://huxingyi1997.github.io/就可以看到你的个人博客了！</a></p>
+<h2 id="1-5一些其他配置"><a href="#1-5一些其他配置" class="headerlink" title="1.5一些其他配置"></a>1.5一些其他配置</h2><h3 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h3><p>使用搜索功能首先需要：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -S hexo-generator-json-content</span><br></pre></td></tr></table></figure>
+
+<p>然后：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">search:</span><br><span class="line">    insight: true</span><br></pre></td></tr></table></figure>
+
+<h3 id="readme"><a href="#readme" class="headerlink" title="readme"></a>readme</h3><p>1.首先在source文件夹下建立一个README.md</p>
+<p>2.修改_config.yml</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip_render: README.md</span><br></pre></td></tr></table></figure>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<h1 id="二、绑定二人域名"><a href="#二、绑定二人域名" class="headerlink" title="二、绑定二人域名"></a>二、绑定二人域名</h1><h2 id="2-1购买一个域名"><a href="#2-1购买一个域名" class="headerlink" title="2.1购买一个域名"></a>2.1购买一个域名</h2><p>这里我选择的是阿里云，挑选一个自己喜欢的域名购买。</p>
+<h2 id="2-2域名解析"><a href="#2-2域名解析" class="headerlink" title="2.2域名解析"></a>2.2域名解析</h2><p>进入控制台添加域名解析。</p>
+<p>按照如下规则添加两条记录。</p>
+<p>解析好的域名404，说明域名解析没有问题，接下来进入github进行配置</p>
+<h2 id="2-3-hexo配置"><a href="#2-3-hexo配置" class="headerlink" title="2.3 hexo配置"></a>2.3 hexo配置</h2><p>在本地的博客目录中找到source文件夹。</p>
+<p>新建一个没有后缀名的文件GNAME</p>
+<p>在文件中添加你的域名，如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lisq.xyz</span><br></pre></td></tr></table></figure>
 
+<p>保存后重新生成，并提交你的博客。</p>
+<h2 id="2-4-github配置"><a href="#2-4-github配置" class="headerlink" title="2.4 github配置"></a>2.4 github配置</h2><p>在github中找到你的博客仓库。</p>
+<p>点击<code>Seeting</code></p>
+<p>找到<code>Custom domain</code></p>
+<p>输入你的域名点击save</p>
+<p>然后你就可以在浏览器用你的域名愉快的访问啦！</p>
 
-{% block content %}
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://github.com/2020/10/21/hexo%E5%8D%9A%E5%AE%A2/" data-id="ckgnqkrgz0001d4vsbgh3g8cq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/21/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/20/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  
+</article>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/24/%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2%E4%B8%80/">用hexo搭建github博客一</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/21/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/21/hexo%E5%8D%9A%E5%AE%A2/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/20/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+</aside>
+        
+      </div>
+      <script
+  async
+  src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"
+></script>
+<footer id="footer">
+  
+  <span id="busuanzi_container_page_pv">
+    本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+  </span>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 hxy<br />
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script type="text/javascript">
+      document.write(
+        unescape(
+          "%3Cspan id='cnzz_stat_icon_1279364396'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279364396' type='text/javascript'%3E%3C/script%3E"
+        )
+      );
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

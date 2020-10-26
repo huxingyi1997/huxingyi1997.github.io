@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>hxy&#39;s Blog</title>
   
-  
+  <subtitle>前端学习ing</subtitle>
   <link href="http://github.com/atom.xml" rel="self"/>
   
   <link href="http://github.com/"/>

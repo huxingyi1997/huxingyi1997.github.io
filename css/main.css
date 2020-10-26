@@ -1241,7 +1241,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff329c;
+  background: #4aff29;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2759,10 +2759,15 @@ pre {
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
 }
-body {
-  background: url("https://source.unsplash.com/random/1600x900");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: 50% 50%;
+@media screen and (min-width: 1200px) {
+  body {
+    background-image: url("https://source.unsplash.com/random/1600x900");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 50%;
+    background-size: 100% 100%;
+  }
+  #footer a {
+    coler: #eee;
+  }
 }

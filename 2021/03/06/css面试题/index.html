@@ -24,13 +24,13 @@
 
   <meta name="description" content="CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo搭建博客">
+<meta property="og:title" content="css面试题">
 <meta property="og:url" content="https://hxy1997.xyz/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
 <meta property="og:site_name" content="hxy的博客">
 <meta property="og:description" content="CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-06T04:02:39.000Z">
-<meta property="article:modified_time" content="2021-03-06T03:34:30.845Z">
+<meta property="article:modified_time" content="2021-03-07T04:16:21.507Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="前端基础">
 <meta property="article:tag" content="CSS">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>hexo搭建博客 | hxy的博客</title>
+  <title>css面试题 | hxy的博客</title>
   
 
 
@@ -213,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          hexo搭建博客
+          css面试题
         </h1>
 
         <div class="post-meta">
@@ -222,10 +222,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-06 12:02:39 / 修改时间：11:34:30" itemprop="dateCreated datePublished" datetime="2021-03-06T12:02:39+08:00">2021-03-06</time>
+              <time title="创建时间：2021-03-06 12:02:39" itemprop="dateCreated datePublished" datetime="2021-03-06T12:02:39+08:00">2021-03-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-07 12:16:21" itemprop="dateModified" datetime="2021-03-07T12:16:21+08:00">2021-03-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -271,64 +277,6 @@
         <p>CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧</p>
 <a id="more"></a>
 
-<h1 id="一、基础配置"><a href="#一、基础配置" class="headerlink" title="一、基础配置"></a>一、基础配置</h1><h2 id="1-1-本地安装hexo"><a href="#1-1-本地安装hexo" class="headerlink" title="1.1.本地安装hexo"></a>1.1.本地安装hexo</h2><p>首先保证你电脑上有node环境，这个不懂的可以自定百度。</p>
-<p>控制台输入node -v出现版本号说明安装成功。</p>
-<p>有了node就可以安装hexo了，控制台输入如下命令</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g hexo</span><br></pre></td></tr></table></figure>
-
-<p>同样控制台输入hexo -v出现版本号说明安装成功。</p>
-<p>然后开始初始化项目，控制台输入：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>生成的目录：</p>
-<blockquote>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules：是依赖包</span><br><span class="line">public：存放的是生成的页面</span><br><span class="line">scaffolds：命令生成文章等的模板</span><br><span class="line">source：用命令创建的各种文章</span><br><span class="line">themes：主题</span><br><span class="line">_config.yml：整个博客的配置</span><br><span class="line">db.json：source解析所得到的</span><br><span class="line">package.json：项目所需模块项目的配置信息</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h2 id="1-2-本地运行"><a href="#1-2-本地运行" class="headerlink" title="1.2.本地运行"></a>1.2.本地运行</h2><p>首先在本地跑起来你的代码</p>
-<p>控制台安装hexo-server</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-server</span><br></pre></td></tr></table></figure>
-
-<p>然后运行 hexo-server</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>在浏览器中访问：<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a>  就可以看到你本定运行的页面了</p>
-<p>这时你可以在本地调试一下你的blog。</p>
-<h2 id="1-3-github配置"><a href="#1-3-github配置" class="headerlink" title="1.3.github配置"></a>1.3.github配置</h2><p>首先要创建一个github账号</p>
-<p>并配置好ssh</p>
-<p>这些不懂的可以自行百度。</p>
-<p>创建一个repo，名称为yourname.github.io, 其中 yourname 是你的github名称，按照这个规则创建github page才会生效。</p>
-<p>修改_config.yml中的git配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo:  https:<span class="comment">//github.com/yourname/yourname.github.io.git</span></span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-4-部署上传"><a href="#1-4-部署上传" class="headerlink" title="1.4.部署上传"></a>1.4.部署上传</h2><p>在本地安装上传工具</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>依次执行如下命令</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean     //删除上次打包</span><br><span class="line">hexo generate   //打包</span><br><span class="line">hexo deploy    /上传</span><br></pre></td></tr></table></figure>
-
-<p>这里我单独写了sh执行这三段脚本，这样每次只需要执行这个sh即可。</p>
-<p>在浏览器中输入 <a target="_blank" rel="noopener" href="https://yourname.github.io/">https://yourname.github.io/</a> 就可以看到你的个人博客了！</p>
-<h2 id="1-5-README-md配置"><a href="#1-5-README-md配置" class="headerlink" title="1.5 README.md配置"></a>1.5 README.md配置</h2><p>1.首先在source文件夹下建立一个README.md</p>
-<p>2.修改_config.yml</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip_render: README.md</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="二、绑定二人域名"><a href="#二、绑定二人域名" class="headerlink" title="二、绑定二人域名"></a>二、绑定二人域名</h1><h2 id="2-1购买一个域名"><a href="#2-1购买一个域名" class="headerlink" title="2.1购买一个域名"></a>2.1购买一个域名</h2><p>这里我选择的是阿里云，挑选一个自己喜欢的域名购买。</p>
-<h2 id="2-2域名解析"><a href="#2-2域名解析" class="headerlink" title="2.2域名解析"></a>2.2域名解析</h2><p>进入控制台添加域名解析。</p>
-<p>按照如下规则添加两条记录。</p>
-<p>解析好的域名404，说明域名解析没有问题，接下来进入github进行配置</p>
-<h2 id="2-3-hexo配置"><a href="#2-3-hexo配置" class="headerlink" title="2.3 hexo配置"></a>2.3 hexo配置</h2><p>在本地的博客目录中找到source文件夹。</p>
-<p>新建一个没有后缀名的文件CNAME</p>
-<p>在文件中添加你的域名，如：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lisq.xyz</span><br></pre></td></tr></table></figure>
-
-<p>保存后重新生成，并提交你的博客。</p>
-<h2 id="2-4-github配置"><a href="#2-4-github配置" class="headerlink" title="2.4 github配置"></a>2.4 github配置</h2><p>在github中找到你的博客仓库。</p>
-<p>点击<code>Setting</code></p>
-<p>找到<code>Custom domain</code></p>
-<p>输入你的域名点击save</p>
-<p>然后你就可以在浏览器用你的域名愉快的访问啦！</p>
 
     </div>
 
@@ -375,7 +323,10 @@
     <a href="/2021/03/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" rel="prev" title="操作系统">
       <i class="fa fa-chevron-left"></i> 操作系统
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/07/vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0gitee%20pages/" rel="next" title="vue项目部署到gitee pages">
+      vue项目部署到gitee pages <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -435,7 +386,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">一、基础配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85hexo"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.本地安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">1.2.本地运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-github%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">1.3.github配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E9%83%A8%E7%BD%B2%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.4.</span> <span class="nav-text">1.4.部署上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-README-md%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 README.md配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%91%E5%AE%9A%E4%BA%8C%E4%BA%BA%E5%9F%9F%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text">二、绑定二人域名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1%E8%B4%AD%E4%B9%B0%E4%B8%80%E4%B8%AA%E5%9F%9F%E5%90%8D"><span class="nav-number">2.1.</span> <span class="nav-text">2.1购买一个域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">2.2域名解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-hexo%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 hexo配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-github%E9%85%8D%E7%BD%AE"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 github配置</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -451,7 +401,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -464,7 +414,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -508,7 +458,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共105.2k字</span>
+  <span class="post-count">博客全站共105.3k字</span>
 </div>
 
         

@@ -6,7 +6,7 @@
   <link href="https://hxy1997.xyz/atom.xml" rel="self"/>
   
   <link href="https://hxy1997.xyz/"/>
-  <updated>2021-03-07T04:19:26.124Z</updated>
+  <updated>2021-03-09T03:45:06.262Z</updated>
   <id>https://hxy1997.xyz/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一起愉快刷题</title>
+    <link href="https://hxy1997.xyz/2021/03/09/%E4%B8%80%E8%B5%B7%E6%84%89%E5%BF%AB%E5%88%B7%E9%A2%98/"/>
+    <id>https://hxy1997.xyz/2021/03/09/%E4%B8%80%E8%B5%B7%E6%84%89%E5%BF%AB%E5%88%B7%E9%A2%98/</id>
+    <published>2021-03-08T16:02:39.000Z</published>
+    <updated>2021-03-09T03:45:06.262Z</updated>
+    
+    <content type="html"><![CDATA[<p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号</p><a id="more"></a><h1 id="一、贪心算法"><a href="#一、贪心算法" class="headerlink" title="一、贪心算法"></a>一、贪心算法</h1><p>贪心思想保证每次操作都是局部最优的，并且最后得到的结果是全局最优的。</p><h2 id="分配饼干"><a href="#分配饼干" class="headerlink" title="分配饼干"></a><strong>分配饼干</strong></h2><p><a href="https://leetcode-cn.com/problems/assign-cookies">455. Assign Cookies (Easy)</a></p><p>题目描述：每个孩子都有一个满足度，每个饼干都有一个大小，只有饼干的大小大于等于一个孩子的满足度，该孩子才会获得满足。求解最多可以获得满足的孩子数量。</p><p>因为最小的孩子最容易得到满足，因此先满足最小孩子。给一个孩子的饼干应当尽量小又能满足该孩子，这样大饼干就能拿来给满足度比较大的孩子。因此贪心策略</p><p>证明：假设在某次选择中，贪心策略选择给当前满足度最小的孩子分配第 m 个饼干，第 m 个饼干为可以满足该孩子的最小饼干。假设存在一种最优策略，给该孩子分配第 n 个饼干，并且 m &lt; n。我们可以发现，经过这一轮分配，贪心策略分配后剩下的饼干一定有一个比最优策略来得大。因此在后续的分配中，贪心策略一定能满足更多的孩子。也就是说不存在比贪心策略更优的策略，即贪心策略就是最优策略。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @param &#123;number[]&#125; g</span><br><span class="line"> * @param &#123;number[]&#125; s</span><br><span class="line"> * @return &#123;number&#125;</span><br><span class="line"> * 贪心算法</span><br><span class="line"> *&#x2F;</span><br><span class="line">var findContentChildren &#x3D; function(g, s) &#123;</span><br><span class="line">    &#x2F;&#x2F; 按孩子要求先排序</span><br><span class="line">    g.sort((a, b) &#x3D;&gt; a - b);</span><br><span class="line">    &#x2F;&#x2F; 按饼干尺寸先排序</span><br><span class="line">    s.sort((a, b) &#x3D;&gt; a - b);</span><br><span class="line">    &#x2F;&#x2F; 孩子从小到大编号</span><br><span class="line">    let child &#x3D; 0, cookie &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F; 保证循环</span><br><span class="line">    while (child &lt; g.length &amp;&amp; cookie &lt; s.length) &#123;</span><br><span class="line">        &#x2F;&#x2F; 贪心选择给剩余孩子里最小饥饿度的孩子分配最小的能饱腹的饼干</span><br><span class="line">        if (g[child] &lt;&#x3D; s[cookie]) child++;</span><br><span class="line">        &#x2F;&#x2F; 饼干数+1</span><br><span class="line">        cookie++;</span><br><span class="line">    &#125;</span><br><span class="line">    return child;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="分配糖果"><a href="#分配糖果" class="headerlink" title="分配糖果"></a><strong>分配糖果</strong></h2><p><a href="https://leetcode-cn.com/problems/candy/">135. Candy (Hard)</a></p><p>每个孩子有一个评分，如果评分高于旁边的孩子，则被分配的糖果数量也必须更多，求最少总糖果数量，使得每个孩子都有糖果。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Given ratings as [1,0,2]</span><br><span class="line">Candy allocation is [2, 1, 2]</span><br></pre></td></tr></table></figure><p>贪心策略，从左往右和从右往左各遍历一遍。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @param &#123;number[]&#125; ratings</span><br><span class="line"> * @return &#123;number&#125;</span><br><span class="line"> * 贪心算法</span><br><span class="line"> * 两次遍历</span><br><span class="line"> *&#x2F;</span><br><span class="line">var candy &#x3D; function(ratings) &#123;</span><br><span class="line">    let len &#x3D; ratings.length;</span><br><span class="line">    if (len &lt; 2) return len;</span><br><span class="line">    let num &#x3D; new Array(len).fill(1);</span><br><span class="line">    for (let i &#x3D; 1; i &lt; len; i++) &#123;</span><br><span class="line">        &#x2F;&#x2F; 先从左往右遍历一遍，如果右边孩子的评分比左边的高，则右边孩子的糖果数更新为左边孩子的糖果数加1</span><br><span class="line">        if (ratings[i] &gt; ratings[i - 1]) &#123;</span><br><span class="line">            num[i] &#x3D; num[i - 1] + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i &#x3D; len - 1; i &gt; 0; i--) &#123;</span><br><span class="line">        &#x2F;&#x2F; 再从右往左遍历一遍，如果左边孩子的评分比右边的高，且左边孩子当前的糖果数不大于右边孩子的糖果数，则左边孩子的糖果数更新为右边孩子的糖果数加1</span><br><span class="line">        if (ratings[i] &lt; ratings[i - 1]) &#123;</span><br><span class="line">            num[i - 1] &#x3D; Math.max(num[i - 1], num[i] + 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 求和</span><br><span class="line">    return num.reduce((a, b) &#x3D;&gt; a + b);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="web前端" scheme="https://hxy1997.xyz/categories/web%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="javascript" scheme="https://hxy1997.xyz/tags/javascript/"/>
+    
+    <category term="数据结构和算法" scheme="https://hxy1997.xyz/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="面试" scheme="https://hxy1997.xyz/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>vue项目部署到gitee pages</title>
@@ -38,31 +63,6 @@
     <category term="gitee page" scheme="https://hxy1997.xyz/tags/gitee-page/"/>
     
     <category term="实战" scheme="https://hxy1997.xyz/tags/%E5%AE%9E%E6%88%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>css面试题</title>
-    <link href="https://hxy1997.xyz/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    <id>https://hxy1997.xyz/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
-    <published>2021-03-06T04:02:39.000Z</published>
-    <updated>2021-03-07T04:16:21.507Z</updated>
-    
-    <content type="html"><![CDATA[<p>CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧</p><a id="more"></a>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="web前端" scheme="https://hxy1997.xyz/categories/web%E5%89%8D%E7%AB%AF/"/>
-    
-    
-    <category term="前端基础" scheme="https://hxy1997.xyz/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/"/>
-    
-    <category term="CSS" scheme="https://hxy1997.xyz/tags/CSS/"/>
-    
-    <category term="面试" scheme="https://hxy1997.xyz/tags/%E9%9D%A2%E8%AF%95/"/>
     
   </entry>
   
@@ -106,11 +106,11 @@
     <category term="web前端" scheme="https://hxy1997.xyz/categories/web%E5%89%8D%E7%AB%AF/"/>
     
     
-    <category term="前端基础" scheme="https://hxy1997.xyz/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/"/>
+    <category term="javascript" scheme="https://hxy1997.xyz/tags/javascript/"/>
     
     <category term="面试" scheme="https://hxy1997.xyz/tags/%E9%9D%A2%E8%AF%95/"/>
     
-    <category term="javascript" scheme="https://hxy1997.xyz/tags/javascript/"/>
+    <category term="前端基础" scheme="https://hxy1997.xyz/tags/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   

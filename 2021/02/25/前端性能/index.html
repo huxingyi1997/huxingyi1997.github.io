@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"appID":"G8T14JH1ZW","apiKey":"5d556d7e24cc4708ad9d4689ffec6990","indexName":"My Blog","hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前端性能优化的相关内容，好好掌握消化，其实这一部分实用性远高于应试性，很考验各位前端仔的实战水平的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端性能">
+<meta property="og:url" content="https://hxy1997.xyz/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="前端性能优化的相关内容，好好掌握消化，其实这一部分实用性远高于应试性，很考验各位前端仔的实战水平的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/13/1734894ee7aaf2b6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/13/173489db13875e5b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/1-cache/img/memcache.png">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/1-cache/img/diskcache.png">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/2-request/img/resourcetiming.png">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/pipeline1.png">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/pipeline2.png">
+<meta property="og:image" content="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/async-defer.jpeg">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/6/170af501e710ce67?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/6/170af50e460d9a23?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/6/170af5139b7ba71b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-02-24T16:02:39.000Z">
+<meta property="article:modified_time" content="2021-03-11T14:41:02.443Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="前端性能">
+<meta property="article:tag" content="优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/7/13/1734894ee7aaf2b6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端性能 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端性能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-25 00:02:39" itemprop="dateCreated datePublished" datetime="2021-02-25T00:02:39+08:00">2021-02-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-11 22:41:02" itemprop="dateModified" datetime="2021-03-11T22:41:02+08:00">2021-03-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前端性能优化的相关内容，好好掌握消化，其实这一部分实用性远高于应试性，很考验各位前端仔的实战水平的</p>
+<a id="more"></a>
+
+<h1 id="1-RAIL模型"><a href="#1-RAIL模型" class="headerlink" title="1.RAIL模型"></a>1.RAIL模型</h1><p>RAIL是一个以用户为中心的性能模型，它把用户的体验拆分成几个关键点（例如，tap，scroll，load），并且帮你定义好了每一个的性能指标。</p>
+<p>有以下四个方面：</p>
+<ul>
+<li>Response</li>
+<li>Animation</li>
+<li>Idle</li>
+<li>Load</li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/7/13/1734894ee7aaf2b6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="RAIL示意图"></p>
+<h2 id="聚焦用户"><a href="#聚焦用户" class="headerlink" title="聚焦用户"></a>聚焦用户</h2><p>以下是用户对性能延迟的感知：</p>
+<table>
+<thead>
+<tr>
+<th>延迟时间</th>
+<th>用户感知</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0-16ms</td>
+<td>很流畅</td>
+</tr>
+<tr>
+<td>0-100ms</td>
+<td>基本流畅</td>
+</tr>
+<tr>
+<td>100-1000ms</td>
+<td>感觉到网站上有一些加载任务</td>
+</tr>
+<tr>
+<td>1000ms or more</td>
+<td>失去耐心了</td>
+</tr>
+<tr>
+<td>10000ms or more</td>
+<td>直接离开，不会再访问了</td>
+</tr>
+</tbody></table>
+<h2 id="Response-事件处理最好在50ms内完成"><a href="#Response-事件处理最好在50ms内完成" class="headerlink" title="Response: 事件处理最好在50ms内完成"></a>Response: 事件处理最好在50ms内完成</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><ul>
+<li>用户的输入到响应的时间不超过100ms，给用户的感受是瞬间就完成了。</li>
+</ul>
+<h3 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h3><ul>
+<li>事件处理函数在50ms内完成，考虑到idle task的情况，事件会排队，等待时间大概在50ms。适用于click，toggle，starting animations等，不适用于drag和scroll。</li>
+<li>复杂的js计算尽可能放在后台，如web worker，避免对用户输入造成阻塞</li>
+<li>超过50ms的响应，一定要提供反馈，比如倒计时，进度百分比等。</li>
+</ul>
+<blockquote>
+<p>idle task：除了要处理输入事件，浏览器还有其它任务要做，这些任务会占用部分时间，一般情况会花费50ms的时间，输入事件的响应则排在其后。</p>
+</blockquote>
+<p>下图是idle task对input response的影响：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/7/13/173489db13875e5b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="Idle Task示意图"></p>
+<h2 id="Animation-在10ms内产生一帧"><a href="#Animation-在10ms内产生一帧" class="headerlink" title="Animation: 在10ms内产生一帧"></a>Animation: 在10ms内产生一帧</h2><h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><ul>
+<li>产生每一帧的时间不要超过10ms，为了保证浏览器60帧，每一帧的时间在16ms左右，但浏览器需要用6ms来渲染每一帧。</li>
+<li>旨在视觉上的平滑。用户对帧率变化感知很敏感。</li>
+</ul>
+<h3 id="优化方案-1"><a href="#优化方案-1" class="headerlink" title="优化方案"></a>优化方案</h3><ul>
+<li>在一些高压点上，比如动画，不要去挑战cpu，尽可能地少做事，如：取offset，设置style等操作。尽可能地保证60帧的体验。</li>
+<li>在渲染性能上，针对不同的动画做一些特定优化</li>
+</ul>
+<blockquote>
+<p>动画不只是UI的视觉效果，以下行为都属于</p>
+<ul>
+<li>视觉动画，如渐隐渐显，tweens，loading等</li>
+<li>滚动，包含弹性滚动，松开手指后，滚动会持续一段距离</li>
+<li>拖拽，缩放，经常伴随着用户行为</li>
+</ul>
+</blockquote>
+<h2 id="Idle-最大化空闲时间"><a href="#Idle-最大化空闲时间" class="headerlink" title="Idle: 最大化空闲时间"></a>Idle: 最大化空闲时间</h2><h3 id="目标-2"><a href="#目标-2" class="headerlink" title="目标"></a>目标</h3><ul>
+<li>最大化空闲时间，以增大50ms内响应用户输入的几率</li>
+</ul>
+<h3 id="优化方案-2"><a href="#优化方案-2" class="headerlink" title="优化方案"></a>优化方案</h3><ul>
+<li>用空闲时间来完成一些延后的工作，如先加载页面可见的部分，然后利用空闲时间加载剩余部分，此处可以使用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback">requestIdleCallback API</a></li>
+<li>在空闲时间内执行的任务尽量控制在50ms以内，如果更长的话，会影响input handle的pending时间</li>
+<li>如果用户在空闲时间任务进行时进行交互，必须以此为最高优先级，并暂停空闲时间的任务</li>
+</ul>
+<h2 id="Load-传输内容到页面可交互的时间不超过5秒"><a href="#Load-传输内容到页面可交互的时间不超过5秒" class="headerlink" title="Load: 传输内容到页面可交互的时间不超过5秒"></a>Load: 传输内容到页面可交互的时间不超过5秒</h2><p>如果页面加载比较慢，用户的交点可能会离开。加载很快的页面，用户平均停留时间会变长，跳出率会更低，也就有更高的广告查看率</p>
+<h3 id="目标-3"><a href="#目标-3" class="headerlink" title="目标"></a>目标</h3><ul>
+<li>优化加载速度，可以根据设备、网络等条件。目前，比较好的一个方式是，让你的页面在一个中配的3G网络手机上打开时间不超过5秒</li>
+<li>对于第二次打开，尽量不超过2秒</li>
+</ul>
+<h3 id="优化方案-3"><a href="#优化方案-3" class="headerlink" title="优化方案"></a>优化方案</h3><ul>
+<li>在手机设备上测试加载性能，选用中配的3G网络（400kb/s，400ms RTT），可以使用 <a target="_blank" rel="noopener" href="https://www.webpagetest.org/easy">WebPageTest</a> 来测试</li>
+<li>要注意的是，即使用户的网络是4G，但因为丢包或者网络波动，可能会比预期的更慢</li>
+<li><a target="_blank" rel="noopener" href="https://web.dev/render-blocking-resources/">禁用渲染阻塞的资源，延后加载</a></li>
+<li>可以采用 <a target="_blank" rel="noopener" href="https://web.dev/native-lazy-loading/">lazy load</a>，<a target="_blank" rel="noopener" href="https://web.dev/reduce-javascript-payloads-with-code-splitting/">code-splitting</a> 等 <a target="_blank" rel="noopener" href="https://web.dev/fast/">其他优化</a> 手段，让第一次加载的资源更少</li>
+</ul>
+<h2 id="分析RAIL用的工具"><a href="#分析RAIL用的工具" class="headerlink" title="分析RAIL用的工具"></a>分析RAIL用的工具</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/chrome-devtools">Chrome DevTools</a></li>
+<li><a target="_blank" rel="noopener" href="https://web.dev/measure/">Lighthouse</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpagetest.org/easy">WebPageTest</a></li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>RAIL是一个旅程，为了提升用户在网站的交互体验而不断探索。你需要去理解用户如何感知你的站点，这样才能设置最佳的性能目标</p>
+<ul>
+<li>聚焦用户</li>
+<li>100ms内响应用户的输入</li>
+<li>10ms内产生1帧，在滚动或者动画执行时</li>
+<li>最大化主线程的空闲时间</li>
+<li>5s内让网页变得可交互</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://web.dev/rail/">web.dev/rail/</a></p>
+<h1 id="2-前端性能优化"><a href="#2-前端性能优化" class="headerlink" title="2.前端性能优化"></a>2.前端性能优化</h1><h1 id="一、缓存"><a href="#一、缓存" class="headerlink" title="一、缓存"></a>一、缓存</h1><p>当浏览器想要获取远程的数据时，我们的性能之旅就开始了。然而，我们并不会立即动身（发送请求）。在计算机领域，很多性能问题都会通过增加缓存来解决，前端也不例外。和许多后端服务一样，前端缓存也是多级的。下面让我们一起来具体看一看。</p>
+<h2 id="1-本地数据存储"><a href="#1-本地数据存储" class="headerlink" title="1. 本地数据存储"></a>1. 本地数据存储</h2><p>通过结合本地存储，可以在业务代码侧实现缓存。</p>
+<p>对于一些请求，我们可以直接在业务代码侧进行缓存处理。缓存方式包括 <code>localStorage</code>、<code>sessionStorage</code>、<code>indexedDB</code>。把这块加入缓存的讨论也许会有争议，但利用好它确实能在程序侧达到一些类似缓存的能力。</p>
+<p>例如，我们的页面上有一个日更新的榜单，我们可以做一个当日缓存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当用户加载站点中的榜单组件时，可以通过该方法获取榜单数据</span><br><span class="line">async function readListData() &#123;</span><br><span class="line">    const info &#x3D; JSON.parse(localStorage.getItem(&#39;listInfo&#39;));</span><br><span class="line">    if (isExpired(info.time, +(new Date))) &#123;</span><br><span class="line">        const list &#x3D; await fetchList();</span><br><span class="line">        localStorage.setItem(&#39;listInfo&#39;, JSON.stringify(&#123;</span><br><span class="line">            time: +(new Date),</span><br><span class="line">            list: list</span><br><span class="line">        &#125;));</span><br><span class="line">        return list;</span><br><span class="line">    &#125;</span><br><span class="line">    return info.list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>localStorage</code> 大家都比较了解了，<code>indexedDB</code> 可能会了解的更少一些。想快速了解 <code>indexedDB</code> 使用方式可以看<a target="_blank" rel="noopener" href="https://medium.com/free-code-camp/a-quick-but-complete-guide-to-indexeddb-25f030425501">这篇文章</a>[1]。</p>
+<p>从前端视角看，这是一种本地存储；但如果从整个系统的维度来看，很多时候其实也是缓存链条中的一环。对于一些特殊的、轻量级的业务数据，可以考虑使用本地存储作为缓存。</p>
+<h2 id="2-内存缓存（Memory）"><a href="#2-内存缓存（Memory）" class="headerlink" title="2. 内存缓存（Memory）"></a>2. 内存缓存（Memory）</h2><p>当你访问一个页面及其子资源时，有时候会出现一个资源被使用多次，例如图标。由于该资源已经存储在内存中，再去请求反而多此一举，浏览器内存则是最近、最快的响应场所。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/1-cache/img/memcache.png"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/1-cache/img/memcache.png" alt="memory cache"></a></p>
+<p>内存缓存并无明确的标准规定，它与 HTTP 语义下的缓存关联性不大，算是浏览器帮我们实现的优化，很多时候其实我们意识不到。</p>
+<p>对内存缓存感兴趣，可以在<a target="_blank" rel="noopener" href="https://calendar.perfplanet.com/2016/a-tale-of-four-caches/">这篇文章</a>[2]的 Memory Cache 部分进一步了解。</p>
+<h2 id="3-Cache-API"><a href="#3-Cache-API" class="headerlink" title="3. Cache API"></a>3. Cache API</h2><p>当我们没有命中内存缓存时，是否就开始发送请求了呢？其实不一定。</p>
+<p>在这时我们还可能会碰到 Cache API 里的缓存，提到它就不得不提一下 Service Worker 了。它们通常都是配合使用的。</p>
+<p>首先明确一下，这层的缓存没有规定说该缓存什么、什么情况下需要缓存，它只是提供给了客户端构建请求缓存机制的能力。如果你对 PWA 或者 Service Worker 很了解，应该非常清楚是怎么一回事。如果不了解也没有关系，我们可以简单看一下：</p>
+<p>首先，Service Worker 是一个后台运行的独立线程，可以在代码中启用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; index.js</span><br><span class="line">if (&#39;serviceWorker&#39; in navigator) &#123;</span><br><span class="line">    navigator.serviceWorker.register(&#39;.&#x2F;sw.js&#39;).then(function () &#123;</span><br><span class="line">        &#x2F;&#x2F; 注册成功</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后需要处理一些 Service Worker 的生命周期事件，而其中与这里提到的缓存功能直接相关的则是请求拦截：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; sw.js</span><br><span class="line">self.addEventListener(&#39;fetch&#39;, function (e) &#123;</span><br><span class="line">    &#x2F;&#x2F; 如果有cache则直接返回，否则通过fetch请求</span><br><span class="line">    e.respondWith(</span><br><span class="line">        caches.match(e.request).then(function (cache) &#123;</span><br><span class="line">            return cache || fetch(e.request);</span><br><span class="line">        &#125;).catch(function (err) &#123;</span><br><span class="line">            console.log(err);</span><br><span class="line">            return fetch(e.request);</span><br><span class="line">        &#125;)</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码会拦截所有的网络请求，查看是否有缓存的请求内容，如果有则返回缓存，否则会继续发送请求。与内存缓存不同，Cache API 提供的缓存可以认为是“永久性”的，关闭浏览器或离开页面之后，下次再访问仍然可以使用。</p>
+<p>Service Worker 与 Cache API 其实是一个功能非常强大的组合，能够实现堆业务的透明，在[兼容性](<a target="_blank" rel="noopener" href="https://caniuse.com/#feat=serviceworkers&amp;search=service">https://caniuse.com/#feat=serviceworkers&amp;search=service</a> worker)上也可以做成渐进支持。还是非常推荐在业务中尝试的。当然上面代码简略了很多，想要进一步了解 Service Worker 和 Cache API 的使用可以看<a target="_blank" rel="noopener" href="https://juejin.im/post/5aca14b6f265da237c692e6f">这篇文章</a>[3]。同时推荐使用 Google 的 <a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/workbox/">Workbox</a>。</p>
+<h2 id="4-HTTP-缓存"><a href="#4-HTTP-缓存" class="headerlink" title="4. HTTP 缓存"></a>4. HTTP 缓存</h2><p>如果 Service Worker 中也没有缓存的请求信息，那么就会真正到 HTTP request 的阶段了。这个时候出现的就是我们所熟知的 HTTP 缓存规范。</p>
+<p>HTTP 有一系列的规范来规定哪些情况下需要缓存请求信息、缓存多久，而哪些情况下不能进行信息的缓存。我们可以通过相关的 HTTP 请求头来实现缓存。</p>
+<p>HTTP 缓存大致可以分为强缓存与协商缓存。</p>
+<h3 id="4-1-强缓存"><a href="#4-1-强缓存" class="headerlink" title="4.1. 强缓存"></a>4.1. 强缓存</h3><p>在强缓存的情况下，浏览器不会向服务器发送请求，而是直接从本地缓存中读取内容，这个“本地”一般就是来源于硬盘。这也就是我们在 Chrome DevTools 上经常看到的「disk cache」。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/1-cache/img/diskcache.png"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/1-cache/img/diskcache.png" alt="disk cache"></a></p>
+<p>与其相关的响应头则是 <code>Expires</code> 和 <code>Cache-Control</code>。在 <code>Expires</code> 上可以设置一个过期时间，浏览器通过将其与当前本地时间对比，判断资源是否过期，未过期则直接从本地取即可。而 <code>Cache-Control</code> 则可以通过给它设置一个 <code>max-age</code>，来控制过期时间。例如，<code>max-age=300</code> 就是表示在响应成功后 300 秒内，资源请求会走强缓存。</p>
+<h3 id="4-2-协商缓存"><a href="#4-2-协商缓存" class="headerlink" title="4.2. 协商缓存"></a>4.2. 协商缓存</h3><p>你可能也感觉到了，强缓存不是那么灵活。如果我在 300 秒内更新了资源，需要怎么通知客户端呢？常用的方式就是通过协商缓存。</p>
+<p>我们知道，远程请求慢的一大原因就是报文体积较大。协商缓存就是希望能通过先“问一问”服务器资源到底有没有过期，来避免无谓的资源下载。这伴随的往往会是 HTTP 请求中的 304 响应码。下面简单介绍一下实现协商缓存的两种方式：</p>
+<p>一种协防缓存的方式是：服务器第一次响应时返回 <code>Last-Modified</code>，而浏览器在后续请求时带上其值作为 <code>If-Modified-Since</code>，相当于问服务端：XX 时间点之后，这个资源更新了么？服务器根据实际情况回答即可：更新了（状态码 200）或没更新（状态码 304）。</p>
+<p>上面是通过时间来判断是否更新，如果更新时间间隔过短，例如 1s 一下，那么使用更新时间的方式精度就不够了。所以还有一种是通过标识 —— <code>ETag</code>。服务器第一次响应时返回 <code>ETag</code>，而浏览器在后续请求时带上其值作为 <code>If-None-Match</code>。一般会用文件的 MD5 作为 <code>ETag</code>。</p>
+<p>作为前端工程师，一定要善于应用 HTTP 缓存。如果想要了解更多关于 HTTP 缓存的内容，可以阅读<a target="_blank" rel="noopener" href="https://github.com/amandakelake/blog/issues/41">这篇文章</a>[4]。</p>
+<blockquote>
+<p>上面这些的各级缓存的匹配机制里，都是包含资源的 uri 的匹配，即 uri 更改后不会命中缓存。也正是如此，我们目前在前端实践中都会把文件 HASH 加入到文件名中，避免同名文件命中缓存的旧资源。</p>
+</blockquote>
+<h2 id="5-Push-Cache"><a href="#5-Push-Cache" class="headerlink" title="5. Push Cache"></a>5. Push Cache</h2><p>假如很不幸，以上这些缓存你都没有命中，那么你将会碰到最后一个缓存检查 —— Push Cache。</p>
+<p>Push Cache 其实是 HTTP/2 的 Push 功能所带来的。简言之，过去一个 HTTP 的请求连接只能传输一个资源，而现在你在请求一个资源的同时，服务端可以为你“推送”一些其他资源 —— 你可能在在不久的将来就会用到一些资源。例如，你在请求 <a target="_blank" rel="noopener" href="http://www.sample.com/">www.sample.com</a> 时，服务端不仅发送了页面文档，还一起推送了 关键 CSS 样式表。这也就避免了浏览器收到响应、解析到相应位置时才会请求所带来的延后。</p>
+<p>不过 HTTP/2 Push Cache 是一个比较底层的网络特性，与其他的缓存有很多不同，例如：</p>
+<ul>
+<li>当匹配上时，并不会在额外检查资源是否过期；</li>
+<li>存活时间很短，甚至短过内存缓存（例如有文章提到，Chrome 中为 5min 左右）；</li>
+<li>只会被使用一次；</li>
+<li>HTTP/2 连接断开将导致缓存直接失效；</li>
+<li>……</li>
+</ul>
+<p>如果对 HTTP/2 Push 感兴趣，可以看看<a target="_blank" rel="noopener" href="https://jakearchibald.com/2017/h2-push-tougher-than-i-thought/">这篇文章</a>[5]。</p>
+<hr>
+<p>好了，到目前为止，我们可能还没有发出一个真正的请求。这也意味着，在缓存检查阶段我们就会有很多机会将后续的性能问题扼杀在摇篮之中 —— 如果远程请求都不必发出，又何须优化加载性能呢？</p>
+<p>所以，审视一下我们的应用、业务，看看哪些性能问题是可以在源头上解决的。</p>
+<h1 id="二、发送请求"><a href="#二、发送请求" class="headerlink" title="二、发送请求"></a>二、发送请求</h1><p>在前一部分，我们介绍了浏览器缓存。当一个请求走过了各级前端缓存后，就会需要实际发送一个请求了。</p>
+<blockquote>
+<p>在 HTTP 缓存中，我们其实也有发送请求；或者是在 HTTP/2 Push 下，使用了之前连接中推送的资源。不过为了保证思路的连贯，我还是把「发送请求」这个章节整体放在「缓存」之后了。</p>
+</blockquote>
+<h2 id="1-避免多余重定向"><a href="#1-避免多余重定向" class="headerlink" title="1. 避免多余重定向"></a>1. 避免多余重定向</h2><p>重定向是一个比较常用的技术手段。在一些情况下，你可能进行了服务迁移，修改了原有的 uri。这时候就可以使用重定向，把访问原网址的用户重定向到新的 uri。还有是在一些登录场景下，会使用到重定向技术。</p>
+<p>重定向分为 301 的永久重定向和 302 的临时重定向。建议贴合语义，例如服务迁移的情况下，使用 301 重定向。对 SEO 也会更友好。</p>
+<p>同时也不要滥用重定向。曾今也见过有业务在访问后重定向 3 次的情况，其实里面有些是不必要的。每次重定向都是有请求耗时的，建议避免过多的重定向。</p>
+<h2 id="2-DNS-预解析"><a href="#2-DNS-预解析" class="headerlink" title="2. DNS 预解析"></a>2. DNS 预解析</h2><p>基本我们访问远程服务的时候，不会直接使用服务的出口 IP，而是使用域名。所以请求的一个重要环节就是域名解析。</p>
+<p>DNS 服务本身是一个树状层级结构，其解析是一个递归与迭代的过程。例如 github.com 的大致解析流程如下：</p>
+<ol>
+<li>先检查本地 hosts 文件中是否有映射，有则使用；</li>
+<li>查找本地 DNS 缓存，有则返回；</li>
+<li>根据配置在 TCP/IP 参数中设置 DNS 查询服务器，并向其进行查询，这里先称为本地 DNS；</li>
+<li>如果该服务器无法解析域名（没有缓存），且不需要转发，则会向根服务器请求；</li>
+<li>根服务器根据域名类型判断对应的顶级域名服务器（.com），返回给本地 DNS，然后重复该过程，直到找到该域名；</li>
+<li>当然，如果设置了转发，本地 DNS 会将请求逐级转发，直到转发服务器返回或者也不能解析。</li>
+</ol>
+<p>更详细的介绍可以看<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23042131">这篇文章</a>[1]。</p>
+<p>这里我们需要了解的是：</p>
+<ul>
+<li>首先，DNS 解析流程可能会很长，耗时很高，所以整个 DNS 服务，包括客户端都会有缓存机制，这个作为前端不好涉入；</li>
+<li>其次，在 DNS 解析上，前端还是可以通过浏览器提供的其他手段来“加速”的。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.w3.org/TR/resource-hints/#dns-prefetch">DNS Prefetch</a>[2] 就是浏览器提供给我们的一个 API。它是 Resource Hint 的一部分。它可以告诉浏览器：过会我就可能要去 yourwebsite.com 上下载一个资源啦，帮我先解析一下域名吧。这样之后用户点击某个按钮，触发了 yourwebsite.com 域名下的远程请求时，就略去了 DNS 解析的步骤。使用方式很简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;dns-prefetch&quot; href&#x3D;&quot;&#x2F;&#x2F;yourwebsite.com&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然，浏览器并不保证一定会去解析域名，可能会根据当前的网络、负载等状况做决定。标准里也明确写了👇</p>
+<blockquote>
+<p>user agent SHOULD resolve as early as possible</p>
+</blockquote>
+<h2 id="3-预先建立连接"><a href="#3-预先建立连接" class="headerlink" title="3. 预先建立连接"></a>3. 预先建立连接</h2><p>我们知道，建立连接不仅需要 DNS 查询，还需要进行 TCP 协议握手，有些还会有 TLS/SSL 协议，这些都会导致连接的耗时。使用 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/resource-hints/#preconnect">Preconnect</a>[3] 可以帮助你告诉浏览器：“我有一些资源会用到某个源（origin），你可以帮我预先建立连接。”</p>
+<p>根据规范，当你使用 Preconnect 时，浏览器大致做了如下处理：</p>
+<ul>
+<li>首先，解析 Preconnect 的 url；</li>
+<li>其次，根据当前 link 元素中的属性进行 cors 的设置；</li>
+<li>然后，默认先将 credential 设为 <code>true</code>，如果 cors 为 <code>Anonymous</code> 并且存在跨域，则将 credential 置为 <code>false</code>；</li>
+<li>最后，进行连接。</li>
+</ul>
+<p>使用 Preconnect 只需要将 <code>rel</code> 属性设为 <code>preconnect</code> 即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;preconnect&quot; href&#x3D;&quot;&#x2F;&#x2F;sample.com&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然，你也可以设置 CORS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;preconnect&quot; href&#x3D;&quot;&#x2F;&#x2F;sample.com&quot; crossorigin&gt;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，标准并没有硬性规定浏览器一定要（而是 SHOULD）完成整个连接过程，与 DNS Prefetch 类似，浏览器可以视情况完成部分工作。</p>
+<h2 id="4-使用-CDN"><a href="#4-使用-CDN" class="headerlink" title="4. 使用 CDN"></a>4. 使用 CDN</h2><p>当我们实际把网络包发向我们的目标地址时，肯定希望越快到达目的地越好（对应的，也会希望越快获得响应）。而网络传输是有极限的，同样一个北京的用户，访问北京的服务器显然要比广州快很多。同时，服务的负载也会影响响应的速度。</p>
+<p>对于静态资源，我们可以考虑通过 CDN 来降低时延。</p>
+<p>对于使用 CDN 的资源，DNS 解析会将 CDN 资源的域名解析到 CDN 服务的负载均衡器上，负载均衡器可以通过请求的信息获取用户对应的地理区域，从而通过负载均衡算法，在背后的诸多服务器中，综合选择一台地理位置近、负载低的机器来提供服务。例如为北京联通用户解析北京的服务器 IP。这样，用户在之后访问 CDN 资源时都是访问北京服务器，距离近，速度快。</p>
+<p>想了解更多 CDN 的工作方式可以阅读<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/577708">这篇文章</a>[4]。</p>
+<hr>
+<p>下图是请求声明周期中各个阶段的示意图，可以帮助我们理解发送请求（以及接收响应）的流程。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/2-request/img/resourcetiming.png"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/2-request/img/resourcetiming.png" alt="resource timing line"></a></p>
+<hr>
+<p>在缓存没法满足我们的情况下，就要开始真正发送请求了。从前端性能优化视角，我们会关注重定向、DNS 解析等问题，从而加速请求。但这块还预留了一小部分 —— 服务端的处理与响应。</p>
+<p>过去，我们会将前端局限在浏览器中，但是随着 NodeJS 的兴起，很多业务都引入了基于 NodeJS 的 BFF 来为前端（客户端端）提供服务。所以咱们这次的旅程也会简单聊一下，在这一阶段可以做的一些优化。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23042131">DNS 的解析过程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3.org/TR/resource-hints/#dns-prefetch">Resource Hints - DNS Prefetch</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3.org/TR/resource-hints/#preconnect">Resource Hints - Preconnect</a></li>
+<li><a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/577708">CDN 之我见：原理篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/chrome-devtools/network/understanding-resource-timing">Understanding Resource Timing</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/tcp-3-way-handshake-process/">TCP 3-Way Handshake Process</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/tcp-connection-termination/">TCP 4 wave hands</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/3NKOCOeIUF2SGJnY7II9hA">图文还原HTTPS原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/URL_redirection">URL redirection (wikipedia)</a></li>
+</ol>
+<h1 id="三、服务端响应"><a href="#三、服务端响应" class="headerlink" title="三、服务端响应"></a>三、服务端响应</h1><p>把这一部分放进前端性能优化并不是很严谨：</p>
+<ul>
+<li>其一，服务端有着服务端的通用技术手段，这块深入去研究，会是一个不一样的领域；</li>
+<li>其二，我们既然在讨论前端性能优化，这部分主要还是指 NodeJS，但不是所有业务都使用 NodeJS。</li>
+</ul>
+<p>所以这里只会提一些实践中碰到的小点，辅以一些拓展阅读，希望能帮助大家抛砖引玉，开拓思维。</p>
+<h2 id="1-使用流进行响应"><a href="#1-使用流进行响应" class="headerlink" title="1. 使用流进行响应"></a>1. 使用流进行响应</h2><p>目前，现代浏览器都支持根据流的返回形式来逐步进行页面内容的解析、处理。这就意味着，即使请求的响应没有完全结束，浏览器也可以从手里已有的响应结果中进行页面的解析与渲染。</p>
+<p>例如 <a target="_blank" rel="noopener" href="https://github.com/alienzhou/css-only-chat-node">css-only-chat-node</a> 就利用了这个特点来实现无刷新、无 JavaScript 的页面更新。</p>
+<h2 id="2-业务聚合"><a href="#2-业务聚合" class="headerlink" title="2. 业务聚合"></a>2. 业务聚合</h2><p>BFF 非常合适做的一件事就是后端服务的聚合。</p>
+<p>如果你有一个两个接口服务：第一个服务是先获取产品信息，再根据产品信息中的上架时间通过第二个服务获取该时间后的产品列表。这个业务逻辑如果放在前端（浏览器）处理将会串行发送两个请求。假设每个请求 200ms，那么就需要等待 400ms。如果引入 NodeJS，这一层可以放在 NodeJS 中实现。NodeJS 部署的位置一般离其他后端服务“更近”，例如同一个局域网。这类服务间的请求耗时显然更低，可能只需要 200(浏览器) + 30(NodeJS) * 2 = 260ms。</p>
+<p>此外，如果一个业务需要在前端并发三、四个请求来获取完整数据，那么放在 NodeJS 的 BFF 层也是一个不错的选择。</p>
+<h2 id="3-避免代码问题"><a href="#3-避免代码问题" class="headerlink" title="3. 避免代码问题"></a>3. 避免代码问题</h2><p>代码问题其实就非常细节了。简单列举一些常见的问题：</p>
+<ul>
+<li><code>async</code> <code>await</code> 的不当使用导致并行请求被串行化了；</li>
+<li>频繁地 <code>JSON.parse</code> 和 <code>JSON.stringify</code> 大对象；</li>
+<li>正则表达式的灾难性回溯；</li>
+<li>闭包导致的内存泄漏；</li>
+<li>CPU 密集型任务导致事件循环 delay 严重；</li>
+<li>未捕获的异常导致进程频繁退出，守护进程（pm2/supervisor）又将进程重启，这种频繁的启停也会比较消耗资源；</li>
+<li>……</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/4-parse/README.md">https://github.com/alienzhou/fe-performance-journey/blob/master/4-parse/README.md</a>)</p>
+<hr>
+<h2 id="参考资料-1"><a href="#参考资料-1" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.yuque.com/office/yuque/0/2019/pdf/168578/1547529466557-357032b6-12fb-4e02-9682-076f498c1f42.pdf">你不知道的 Node.js 性能优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.smashingmagazine.com/2018/06/nodejs-tools-techniques-performance-servers/?utm_source=mybridge&utm_medium=blog&utm_campaign=read_more">Keeping Node.js Fast: Tools, Techniques, And Tips For Making High-Performance Node.js Servers</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackernoon.com/frontend-in-the-backend-a-pattern-for-cleaner-code-b497c92d0b49">Backend-in-the-frontend: a pattern for cleaner code</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/aliyun-node/Node.js-Troubleshooting-Guide">Node.js 应用故障排查手册</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/goldbergyoni/nodebestpractices">Node.js Best Practices</a></li>
+</ol>
+<h1 id="四、页面解析与处理"><a href="#四、页面解析与处理" class="headerlink" title="四、页面解析与处理"></a>四、页面解析与处理</h1><h2 id="主要工作"><a href="#主要工作" class="headerlink" title="主要工作"></a>主要工作</h2><p>这一阶段浏览器需要处理的东西很多，为了更好地理解性能优化，我们主要将其分为几个部分：</p>
+<ul>
+<li>页面 DOM 的解析；</li>
+<li>页面静态资源的加载，包括了页面引用的 JavaScript/CSS/图片/字体等；</li>
+<li>静态资源的解析与处理，像是 JavaScript 的执行、CSSOM 的构建与样式合成等；</li>
+</ul>
+<p>大致过程就是解析页面 DOM 结构，遇到外部资源就加载，加载好了就使用。但是由于这部分的内容比较多，所以在这一节里我们重点关注页面的解析（其他部分在写一节中介绍）。</p>
+<h2 id="1-注意资源在页面文档中的位置"><a href="#1-注意资源在页面文档中的位置" class="headerlink" title="1. 注意资源在页面文档中的位置"></a>1. 注意资源在页面文档中的位置</h2><p>我们的目标是收到内容就尽快解析处理，页面有依赖的资源就尽快发送请求，收到响应则尽快处理。然而，这个美好的目标也有可能会被我们不小心破坏。</p>
+<p>JavaScript 脚本和 CSS 样式表在关于 DOM 元素的属性，尤其是样式属性上都有操作的权利。这就像是一个多线程问题。服务端多线程编程中经常通过锁来保证线程间的互斥。回到咱们的前端，现在也是两方在竞争同一个资源，显然也是会有互斥的问题。这就带来了 DOM 解析、JavaScript 加载与执行、CSS 加载与使用之间的一些互斥关系。</p>
+<p>仅仅看 DOM 与 CSS 的关系，则如下图所示：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/4-parse/img/pipeline1.png"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/pipeline1.png" alt="pipeline for dom and css"></a></p>
+<p>HTML 解析为 DOM Tree，CSS 解析为 CSSOM，两者再合成 Render Tree，并行执行，非常完美。然而，当 JavaScript 入场之后，局面就变了：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/4-parse/img/pipeline2.png"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/pipeline2.png" alt="pipeline for dom and css with js"></a></p>
+<p>根据标准规范，在 JavaScript 中可以访问 DOM。因此当遇到 JavaScript 后会阻塞 DOM 的解析。于此同时，为避免 CSS 与 JavaScript 之间的竞态，CSSOM 的构建会阻塞 JavaScript 的脚本执行。总结起来就是 ——</p>
+<blockquote>
+<p>JavaScript 会阻塞 DOM 构建，而 CSSOM 的构建又回阻塞 JavaScript 的执行。</p>
+</blockquote>
+<p>所以这就是为什么在优化的最佳实践中，我们基本都推荐把 CSS 样式表放在 <code>&lt;head&gt;</code> 之中（即页面的头部），把 JavaScript 脚本放在 <code>&lt;body&gt;</code> 的最后（即页面的尾部）。</p>
+<p>关于这部分的一些解释可以看<a target="_blank" rel="noopener" href="https://calendar.perfplanet.com/2012/deciphering-the-critical-rendering-path/">这篇文章</a>[1]。</p>
+<h2 id="2-使用-defer-和-async"><a href="#2-使用-defer-和-async" class="headerlink" title="2. 使用 defer 和 async"></a>2. 使用 defer 和 async</h2><p>上面提到了，当 DOM 解析遇到 JavaScript 脚本时，会停止解析，开始下载脚本并执行，再恢复解析，相当于是阻塞了 DOM 构建。</p>
+<p>那除了将脚本放在 <code>body</code> 的最后，还有什么优化方法么？是有的。</p>
+<p>可以使用 <code>defer</code> 或 <code>async</code> 属性。两者都会防止 JavaScript 脚本的下载阻塞 DOM 构建。但是两者也有区别，最直观的表现如下：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alienzhou/fe-performance-journey/blob/master/4-parse/img/async-defer.jpeg"><img data-src="https://github.com/alienzhou/fe-performance-journey/raw/master/4-parse/img/async-defer.jpeg" alt="async defer"></a></p>
+<p><code>defer</code> 会在 HTML 解析完成后，按照脚本出现的次序再顺序执行；而 <code>async</code> 则是下载完成就立即开始执行，同时阻塞页面解析，不保证脚本间的执行顺序。</p>
+<p>根据它们的特点，推荐在一些与主业务无关的 JavaScript 脚本上使用 async。例如统计脚本、监控脚本、广告脚本等。这些脚本一般都是一份独立的文件，没有外部依赖，不需要访问 DOM，也不需要有严格的执行时机限制。在这些脚本上使用 <code>async</code> 可以有效避免这些非核心功能的加载影响页面解析速度。</p>
+<h2 id="3-页面文档压缩"><a href="#3-页面文档压缩" class="headerlink" title="3. 页面文档压缩"></a>3. 页面文档压缩</h2><p>HTML 的文档大小也会极大影响响应体下载的时间。一般会进行 HTML 内容压缩（uglify）的同时，使用文本压缩算法（例如 gzip）进行文本的压缩。关于资源压缩这一块，在下一节的内容中还会再详细进行介绍。</p>
+<hr>
+<p>说一句题外话，你知道与页面解析密切相关的 DOMContentLoaded 事件何时触发么？interactive/complete 等 readyState 具体代表什么么？如果不太了解可以从<a target="_blank" rel="noopener" href="https://html.spec.whatwg.org/multipage/dom.html#current-document-readiness">HTML spec</a>[2]里看。</p>
+<p>用原话来说就是：</p>
+<blockquote>
+<p>Returns “loading” while the Document is loading, “interactive” once it is finished parsing but still loading subresources, and “complete” once it has loaded.</p>
+</blockquote>
+<blockquote>
+<p>The readystatechange event fires on the Document object when this value changes.</p>
+</blockquote>
+<blockquote>
+<p>The DOMContentLoaded event fires after the transition to “interactive” but before the transition to “complete”, at the point where all subresources apart from async script elements have loaded.</p>
+</blockquote>
+<hr>
+<p>好了，在这一站我们又了解了页面的解析过程及其性能优化。</p>
+<h1 id="五、页面静态资源"><a href="#五、页面静态资源" class="headerlink" title="五、页面静态资源"></a>五、页面静态资源</h1><p>首先还是从宏观上来了解一下：</p>
+<h2 id="1-总体原则"><a href="#1-总体原则" class="headerlink" title="#1. 总体原则"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_1-%E6%80%BB%E4%BD%93%E5%8E%9F%E5%88%99">#</a>1. 总体原则</h2><p>这一部分会涉及到各类常见的静态资源：JavaScript 脚本、CSS 样式表、图片、字体等。不同资源的优化措施既有联系又有差别，后续会以各类资源为维度，针对性介绍其优化的关注点和手段。</p>
+<p>但咱们还是要先从整体维度上进行一些分析。其实在总体原则上，各类资源的优化思路都是大体类似的，包括但不限于：</p>
+<ul>
+<li>减少不必要的请求</li>
+<li>减少包体大小</li>
+<li>降低应用资源时的消耗</li>
+<li>利用缓存</li>
+</ul>
+<p>为了大家能更好理解各类优化实施策略从何而来，先初步扩展一下以上的思路。</p>
+<h3 id="1-1-减少不必要的请求"><a href="#1-1-减少不必要的请求" class="headerlink" title="#1.1. 减少不必要的请求"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_1-1-%E5%87%8F%E5%B0%91%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E8%AF%B7%E6%B1%82">#</a>1.1. 减少不必要的请求</h3><p>核心是希望能够减少请求的数量，因为浏览器对同源请求有并发上限的限制（例如 Chrome 是6），所以在 HTTP/1.1 下，请求过多可能会导致请求被排队了。一个典型场景就是一些图库类型的网站，页面加载后可能需要请求十数张图片。</p>
+<p>同时，TCP/IP 的拥塞控制也使其传输有慢启动（slow start）的特点，连接刚建立时包体传输速率较低，后续会渐渐提速。因此，发送过多的“小”请求可能也不是一个很好的做法。</p>
+<p>减少不必要的请求主要分为几个维度：</p>
+<ul>
+<li>对于不需要使用的内容，其实不需要请求，否则相当于做了无用功；</li>
+<li>对于可以延迟加载的内容，不必要现在就立刻加载，最好就在需要使用之前再加载；</li>
+<li>对于可以合并的资源，进行资源合并也是一种方法。</li>
+</ul>
+<h3 id="1-2-减少包体大小"><a href="#1-2-减少包体大小" class="headerlink" title="#1.2. 减少包体大小"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_1-2-%E5%87%8F%E5%B0%91%E5%8C%85%E4%BD%93%E5%A4%A7%E5%B0%8F">#</a>1.2. 减少包体大小</h3><p>包体大小对性能也是有直接影响的。显然同样速率下，包体越小，传输耗时越低，整体页面加载与渲染的性能也会更好。</p>
+<p>减少包体大小常用的方式包括了：</p>
+<ul>
+<li>使用适合当前资源的压缩技术；</li>
+<li>避免再响应包体里“塞入”一些不需要的内容。</li>
+</ul>
+<h3 id="1-3-降低应用资源时的消耗"><a href="#1-3-降低应用资源时的消耗" class="headerlink" title="#1.3. 降低应用资源时的消耗"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_1-3-%E9%99%8D%E4%BD%8E%E5%BA%94%E7%94%A8%E8%B5%84%E6%BA%90%E6%97%B6%E7%9A%84%E6%B6%88%E8%80%97">#</a>1.3. 降低应用资源时的消耗</h3><p>以上主要的关注点都在页面资源加载的效率，其实有些时候，浏览器去执行或使用资源的也是有消耗的。例如在 JavaScript 执行了一段 CPU 密集的计算，或者进行频繁的 DOM 操作，这些都会让 JavaScript 的执行变成影响性能的一大问题。虽然今天的像 V8 这样的引擎已经很快了，但是一些不当的操作仍然会带来性能的损耗。</p>
+<p>此外，像是 CSS 选择器匹配、图片的解析与处理等，都是要消耗 CPU 和内存的。也许这些不太常成为性能杀手，但是某些特性场合下，了解它们也许会对你有所帮助。</p>
+<h3 id="1-4-利用缓存"><a href="#1-4-利用缓存" class="headerlink" title="#1.4. 利用缓存"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_1-4-%E5%88%A9%E7%94%A8%E7%BC%93%E5%AD%98">#</a>1.4. 利用缓存</h3><p>还记得咱们这趟旅程从哪出发的么？没错，缓存。</p>
+<p>在旅程的第一站，我们介绍了浏览器访问一个 url 时的多级缓存策略。千万不要忘了，这些静态子资源也是网络请求，它们仍然可以利用之前介绍的完整缓存流程。缓存在很多时候会是一个帮你解决性能问题的非常有效的手段。</p>
+<p>由于第一站已经对缓存进行了详细介绍，所以缓存这部分，在这一站里只会在针对资源类型再补充一些内容。</p>
+<h2 id="2-针对各类资源的性能优化-🚀"><a href="#2-针对各类资源的性能优化-🚀" class="headerlink" title="#2. 针对各类资源的性能优化 🚀"></a><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/#_2-%E9%92%88%E5%AF%B9%E5%90%84%E7%B1%BB%E8%B5%84%E6%BA%90%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%F0%9F%9A%80">#</a>2. 针对各类资源的性能优化 🚀</h2><p>以上的原则可以指导我们针对性地优化各类资源。下面我就以资源类型为维度，详细介绍其中涉及到的优化点与优化措施。</p>
+<blockquote>
+<p>如果你一口气读到这里，可能有些累了。不如先伸个懒腰放松下，整理回忆一下之前的内容。</p>
+</blockquote>
+<p>如果准备好了，咱们就继续出发吧👇</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/javascript.html">JavaScript 优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/css.html">CSS 优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/image.html">图片优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/font.html">字体优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://alienzhou.com/projects/fe-performance-journey/5-subresources/video.html">视频优化</a></li>
+</ul>
+<h1 id="3-重排-reflow-和重绘-repaint"><a href="#3-重排-reflow-和重绘-repaint" class="headerlink" title="3.重排(reflow)和重绘(repaint)"></a>3.重排(reflow)和重绘(repaint)</h1><h2 id="页面生成的过程："><a href="#页面生成的过程：" class="headerlink" title="页面生成的过程："></a>页面生成的过程：</h2><p>1.HTML 被 HTML 解析器解析成 DOM 树；</p>
+<p>2.CSS 被 CSS 解析器解析成 CSSOM 树；</p>
+<p>3.结合 DOM 树和 CSSOM 树，生成一棵渲染树(Render Tree)，这一过程称为 Attachment；</p>
+<p>4.生成布局(flow)，浏览器在屏幕上“画”出渲染树中的所有节点；</p>
+<p>5.将布局绘制(paint)在屏幕上，显示出整个页面。</p>
+<p>第四步和第五步是最耗时的部分，这两步合起来，就是我们通常所说的渲染。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/3/6/170af501e710ce67?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image"></p>
+<h2 id="渲染："><a href="#渲染：" class="headerlink" title="渲染："></a>渲染：</h2><p>在页面的生命周期中，**网页生成的时候，至少会渲染一次。在用户访问的过程中，还会不断触发重排(reflow)和重绘(repaint)**，不管页面发生了重绘还是重排，都会影响性能，最可怕的是重排，会使我们付出高额的性能代价，所以我们应尽量避免。</p>
+<h2 id="重排比重绘大："><a href="#重排比重绘大：" class="headerlink" title="重排比重绘大："></a>重排比重绘大：</h2><p>大，在这个语境里的意思是：谁能影响谁？</p>
+<ul>
+<li>重绘：某些元素的外观被改变，例如：元素的填充颜色</li>
+<li>重排：重新生成布局，重新排列元素。</li>
+</ul>
+<p>就如上面的概念一样，单单改变元素的外观，肯定不会引起网页重新生成布局，但当浏览器完成重排之后，将会重新绘制受到此次重排影响的部分。比如改变元素高度，这个元素乃至周边dom都需要重新绘制。</p>
+<p>也就是说：<strong>重绘不一定导致重排，但重排一定会导致重绘</strong>。</p>
+<h2 id="重排-reflow-："><a href="#重排-reflow-：" class="headerlink" title="重排(reflow)："></a>重排(reflow)：</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>当DOM的变化影响了元素的几何信息(元素的的位置和尺寸大小)，浏览器需要重新计算元素的几何属性，将其安放在界面中的正确位置，这个过程叫做重排。</p>
+<p>重排也叫回流，简单的说就是重新生成布局，重新排列元素。</p>
+<h3 id="下面情况会发生重排："><a href="#下面情况会发生重排：" class="headerlink" title="下面情况会发生重排："></a>下面情况会发生重排：</h3><ul>
+<li>页面初始渲染，这是开销最大的一次重排</li>
+<li>添加/删除可见的DOM元素</li>
+<li>改变元素位置</li>
+<li>改变元素尺寸，比如边距、填充、边框、宽度和高度等</li>
+<li>改变元素内容，比如文字数量，图片大小等</li>
+<li>改变元素字体大小</li>
+<li>改变浏览器窗口尺寸，比如resize事件发生时</li>
+<li>激活CSS伪类（例如：<code>:hover</code>）</li>
+<li>设置 style 属性的值，因为通过设置style属性改变结点样式的话，每一次设置都会触发一次reflow</li>
+<li>查询某些属性或调用某些计算方法：offsetWidth、offsetHeight等，除此之外，当我们调用 <code>getComputedStyle</code>方法，或者IE里的 <code>currentStyle</code> 时，也会触发重排，原理是一样的，都为求一个“即时性”和“准确性”。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常见引起重排属性和方法</th>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>width</td>
+<td>height</td>
+<td>margin</td>
+<td>padding</td>
+</tr>
+<tr>
+<td>display</td>
+<td>border-width</td>
+<td>border</td>
+<td>position</td>
+</tr>
+<tr>
+<td>overflow</td>
+<td>font-size</td>
+<td>vertical-align</td>
+<td>min-height</td>
+</tr>
+<tr>
+<td>clientWidth</td>
+<td>clientHeight</td>
+<td>clientTop</td>
+<td>clientLeft</td>
+</tr>
+<tr>
+<td>offsetWudth</td>
+<td>offsetHeight</td>
+<td>offsetTop</td>
+<td>offsetLeft</td>
+</tr>
+<tr>
+<td>scrollWidth</td>
+<td>scrollHeight</td>
+<td>scrollTop</td>
+<td>scrollLeft</td>
+</tr>
+<tr>
+<td>scrollIntoView()</td>
+<td>scrollTo()</td>
+<td>getComputedStyle()</td>
+<td></td>
+</tr>
+<tr>
+<td>getBoundingClientRect()</td>
+<td>scrollIntoViewIfNeeded()</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="重排影响的范围："><a href="#重排影响的范围：" class="headerlink" title="重排影响的范围："></a>重排影响的范围：</h3><p>由于浏览器渲染界面是基于流失布局模型的，所以触发重排时会对周围DOM重新排列，影响的范围有两种：</p>
+<ul>
+<li>全局范围：从根节点html开始对整个渲染树进行重新布局。</li>
+<li>局部范围：对渲染树的某部分或某一个渲染对象进行重新布局</li>
+</ul>
+<p><strong>全局范围重排：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;hello&quot;&gt;</span><br><span class="line">    &lt;h4&gt;hello&lt;&#x2F;h4&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;Name:&lt;&#x2F;strong&gt;BDing&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;h5&gt;male&lt;&#x2F;h5&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line">      &lt;li&gt;coding&lt;&#x2F;li&gt;</span><br><span class="line">      &lt;li&gt;loving&lt;&#x2F;li&gt;</span><br><span class="line">    &lt;&#x2F;ol&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当p节点上发生reflow时，hello和body也会重新渲染，甚至h5和ol都会收到影响。</p>
+<p><strong>局部范围重排：</strong></p>
+<p>用局部布局来解释这种现象：把一个dom的宽高之类的几何信息定死，然后在dom内部触发重排，就只会重新渲染该dom内部的元素，而不会影响到外界。</p>
+<h2 id="重绘-Repaints"><a href="#重绘-Repaints" class="headerlink" title="重绘(Repaints):"></a>重绘(Repaints):</h2><h3 id="概念：-1"><a href="#概念：-1" class="headerlink" title="概念："></a>概念：</h3><p>当一个元素的外观发生改变，但没有改变布局,重新把元素外观绘制出来的过程，叫做重绘。</p>
+<h3 id="常见的引起重绘的属性："><a href="#常见的引起重绘的属性：" class="headerlink" title="常见的引起重绘的属性："></a>常见的引起重绘的属性：</h3><table>
+<thead>
+<tr>
+<th>属性：</th>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>border-style</td>
+<td>visibility</td>
+<td>background</td>
+</tr>
+<tr>
+<td>text-decoration</td>
+<td>background-image</td>
+<td>background-position</td>
+<td>background-repeat</td>
+</tr>
+<tr>
+<td>outline-color</td>
+<td>outline</td>
+<td>outline-style</td>
+<td>border-radius</td>
+</tr>
+<tr>
+<td>outline-width</td>
+<td>box-shadow</td>
+<td>background-size</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="重排优化建议："><a href="#重排优化建议：" class="headerlink" title="重排优化建议："></a>重排优化建议：</h2><p>重排的代价是高昂的，会破坏用户体验，并且让UI展示非常迟缓。通过减少重排的负面影响来提高用户体验的最简单方式就是尽可能的减少重排次数，重排范围。下面是一些行之有效的建议，大家可以用来参考。</p>
+<h3 id="减少重排范围"><a href="#减少重排范围" class="headerlink" title="减少重排范围"></a>减少重排范围</h3><p>我们应该尽量以局部布局的形式组织html结构，尽可能小的影响重排的范围。</p>
+<ul>
+<li>尽可能在低层级的DOM节点上，而不是像上述全局范围的示例代码一样，如果你要改变p的样式，class就不要加在div上，通过父元素去影响子元素不好。</li>
+<li>不要使用 table 布局，可能很小的一个小改动会造成整个 table 的重新布局。那么在不得已使用table的场合，可以设置table-layout:auto;或者是table-layout:fixed这样可以让table一行一行的渲染，这种做法也是为了限制reflow的影响范围。</li>
+</ul>
+<h3 id="减少重排次数"><a href="#减少重排次数" class="headerlink" title="减少重排次数"></a>减少重排次数</h3><h4 id="1-样式集中改变"><a href="#1-样式集中改变" class="headerlink" title="1.样式集中改变"></a>1.样式集中改变</h4><p>不要频繁的操作样式，对于一个静态页面来说，明智且可维护的做法是更改类名而不是修改样式，对于动态改变的样式来说，相较每次微小修改都直接触及元素，更好的办法是统一在 <code>cssText</code> 变量中编辑。虽然现在大部分现代浏览器都会有 <code>Flush</code> 队列进行渲染队列优化，但是有些老版本的浏览器比如IE6的效率依然低下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; bad</span><br><span class="line">var left &#x3D; 10;</span><br><span class="line">var top &#x3D; 10;</span><br><span class="line">el.style.left &#x3D; left + &quot;px&quot;;</span><br><span class="line">el.style.top &#x3D; top + &quot;px&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 当top和left的值是动态计算而成时...</span><br><span class="line">&#x2F;&#x2F; better </span><br><span class="line">el.style.cssText +&#x3D; &quot;; left: &quot; + left + &quot;px; top: &quot; + top + &quot;px;&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; better</span><br><span class="line">el.className +&#x3D; &quot; className&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-分离读写操作"><a href="#2-分离读写操作" class="headerlink" title="2.分离读写操作"></a>2.分离读写操作</h4><p>DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; bad 强制刷新 触发四次重排+重绘</span><br><span class="line">div.style.left &#x3D; div.offsetLeft + 1 + &#39;px&#39;;</span><br><span class="line">div.style.top &#x3D; div.offsetTop + 1 + &#39;px&#39;;</span><br><span class="line">div.style.right &#x3D; div.offsetRight + 1 + &#39;px&#39;;</span><br><span class="line">div.style.bottom &#x3D; div.offsetBottom + 1 + &#39;px&#39;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; good 缓存布局信息 相当于读写分离 触发一次重排+重绘</span><br><span class="line">var curLeft &#x3D; div.offsetLeft;</span><br><span class="line">var curTop &#x3D; div.offsetTop;</span><br><span class="line">var curRight &#x3D; div.offsetRight;</span><br><span class="line">var curBottom &#x3D; div.offsetBottom;</span><br><span class="line"></span><br><span class="line">div.style.left &#x3D; curLeft + 1 + &#39;px&#39;;</span><br><span class="line">div.style.top &#x3D; curTop + 1 + &#39;px&#39;;</span><br><span class="line">div.style.right &#x3D; curRight + 1 + &#39;px&#39;;</span><br><span class="line">div.style.bottom &#x3D; curBottom + 1 + &#39;px&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>原来的操作会导致四次重排，读写分离之后实际上只触发了一次重排，这都得益于浏览器的渲染队列机制：</p>
+<blockquote>
+<p>当我们修改了元素的几何属性，导致浏览器触发重排或重绘时。它会把该操作放进渲染队列，等到队列中的操作到了一定的数量或者到了一定的时间间隔时，浏览器就会批量执行这些操作。</p>
+</blockquote>
+<h4 id="3-将-DOM-离线"><a href="#3-将-DOM-离线" class="headerlink" title="3.将 DOM 离线"></a>3.将 DOM 离线</h4><p>“离线”意味着不在当前的 DOM 树中做修改，我们可以这样做：</p>
+<ul>
+<li><p>使用 display:none</p>
+<p>一旦我们给元素设置 <code>display:none</code> 时（只有一次重排重绘），元素便不会再存在在渲染树中，相当于将其从页面上“拿掉”，我们之后的操作将不会触发重排和重绘，添加足够多的变更后，通过 <code>display</code>属性显示（另一次重排重绘）。通过这种方式即使大量变更也只触发两次重排。另外，<code>visibility : hidden</code> 的元素只对重绘有影响，不影响重排。</p>
+</li>
+<li><p>通过 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment">documentFragment</a> 创建一个 <code>dom</code> 碎片,在它上面批量操作 <code>dom</code>，操作完成之后，再添加到文档中，这样只会触发一次重排。</p>
+</li>
+<li><p>复制节点，在副本上工作，然后替换它！</p>
+</li>
+</ul>
+<h4 id="4-使用-absolute-或-fixed-脱离文档流"><a href="#4-使用-absolute-或-fixed-脱离文档流" class="headerlink" title="4.使用 absolute 或 fixed 脱离文档流"></a>4.使用 absolute 或 fixed 脱离文档流</h4><p>使用绝对定位会使的该元素单独成为渲染树中 <code>body</code> 的一个子元素，重排开销比较小，不会对其它节点造成太多影响。当你在这些节点上放置这个元素时，一些其它在这个区域内的节点可能需要重绘，但是不需要重排。</p>
+<h4 id="5-优化动画"><a href="#5-优化动画" class="headerlink" title="5.优化动画"></a>5.优化动画</h4><ul>
+<li><p>可以把动画效果应用到 <code>position</code>属性为 <code>absolute</code> 或 <code>fixed</code> 的元素上，这样对其他元素影响较小。</p>
+<p>动画效果还应牺牲一些平滑，来换取速度，这中间的度自己衡量： 比如实现一个动画，以1个像素为单位移动这样最平滑，但是Layout就会过于频繁，大量消耗CPU资源，如果以3个像素为单位移动则会好很多</p>
+</li>
+<li><p>启用GPU加速 <code>GPU</code> 硬件加速是指应用 <code>GPU</code> 的图形性能对浏览器中的一些图形操作交给 <code>GPU</code> 来完成，因为 <code>GPU</code> 是专门为处理图形而设计，所以它在速度和能耗上更有效率。</p>
+<p><code>GPU</code> 加速通常包括以下几个部分：Canvas2D，布局合成, CSS3转换（transitions），CSS3 3D变换（transforms），WebGL和视频(video)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">* 根据上面的结论</span><br><span class="line">* 将 2d transform 换成 3d</span><br><span class="line">* 就可以强制开启 GPU 加速</span><br><span class="line">* 提高动画性能</span><br><span class="line">*&#x2F;</span><br><span class="line">div &#123;</span><br><span class="line">  transform: translate3d(10px, 10px, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="如何在浏览器中查看页面渲染时间"><a href="#如何在浏览器中查看页面渲染时间" class="headerlink" title="如何在浏览器中查看页面渲染时间"></a>如何在浏览器中查看页面渲染时间</h2><p>1.打开开发者工具：点击 Performance 左侧有个小圆点 点击刷新页面会录制整个页面加载出来 时间的分配情况。如下图</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/3/6/170af50e460d9a23?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image"></p>
+<ul>
+<li>蓝色: 网络通信和HTML解析</li>
+<li>黄色: JavaScript执行</li>
+<li>紫色: 样式计算和布局，即重排</li>
+<li>绿色: 重绘</li>
+</ul>
+<p>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。</p>
+<p>2.点击 Event Log：单独勾选 Loading 项会显示 html 和 css 加载时间。如下图：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/3/6/170af5139b7ba71b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image"></p>
+<p>3.解析完 DOM+CSSOM 之后会生成一个渲染树 Render Tree，就是 DOM 和 CSSOM 的一一对应关系。</p>
+<p>4.通过渲染树中在屏幕上“画”出的所有节点，称为渲染。</p>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><ul>
+<li>渲染的三个阶段 Layout，Paint，Composite Layers。 Layout：重排，又叫回流。 Paint:重绘，重排重绘这些步骤都是在 CPU 中发生的。 Compostite Layers：CPU 把生成的 BitMap（位图）传输到 GPU，渲染到屏幕。</li>
+<li>CSS3 就是在 GPU 发生的：Transform Opacity。在 GPU 发生的属性比较高效。所以 CSS3 性能比较高。</li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>非常感谢你看完了这篇很长的文章，也希望大家能重视重排的这些问题，在我们平时的开发中，也需要有意识的规避这些问题，才能让我们写出来的代码更规范！</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017491520">掌握浏览器重绘(repaint)重排(reflow))-前端进阶</a></p>
+<p><a target="_blank" rel="noopener" href="https://csstriggers.com/">csstriggers</a></p>
+<p><a target="_blank" rel="noopener" href="https://efe.baidu.com/blog/hardware-accelerated-css-the-nice-vs-the-naughty/">CSS硬件加速的好与坏</a></p>
+<h1 id="4-白屏时间"><a href="#4-白屏时间" class="headerlink" title="4.白屏时间"></a>4.白屏时间</h1><h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><p>白屏时间：即用户点击一个链接或打开浏览器输入URL地址后，从屏幕空白到显示第一个画面的时间。</p>
+<blockquote>
+<p>白屏时间的长短将直接影响用户对该网站的第一印象。</p>
+</blockquote>
+<h2 id="二、白屏时间的重要性"><a href="#二、白屏时间的重要性" class="headerlink" title="二、白屏时间的重要性"></a>二、白屏时间的重要性</h2><p>当用户点开一个链接或者是直接在浏览器中输入URL开始进行访问时，就开始等待页面的展示。页面渲染的时间越短，用户等待的时间就越短，用户感知到页面的速度就越快。这样可以极大的提升用户的体验，减少用户的跳出，提升页面的留存率。</p>
+<h2 id="三、白屏是一个怎样的过程呢？"><a href="#三、白屏是一个怎样的过程呢？" class="headerlink" title="三、白屏是一个怎样的过程呢？"></a>三、白屏是一个怎样的过程呢？</h2><blockquote>
+<p>让我们一起来揭秘：从打开一个页面，到页面的画面展示经历了怎样的过程！</p>
+</blockquote>
+<h3 id="1-DNS-Lookup"><a href="#1-DNS-Lookup" class="headerlink" title="1. DNS Lookup"></a>1. DNS Lookup</h3><blockquote>
+<p>DNS Lookup 即浏览器从DNS服务器中进行域名查询。</p>
+</blockquote>
+<p>浏览器会先对页面进行<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cns?from=10680">域名解析</a>，获取到服务器的IP地址后，进而和服务器进行通信。</p>
+<p>Tips: 通常在整个加载页面的过程中，浏览器会多次进行DNS Lookup，包括页面本身的域名查询以及在解析HTML页面时加载的JS、CSS、Image、Video等资源产生的域名查询。</p>
+<h3 id="2-建立TCP请求连接"><a href="#2-建立TCP请求连接" class="headerlink" title="2. 建立TCP请求连接"></a>2. 建立TCP请求连接</h3><p>浏览器和服务端TCP请求建立的过程，是基于TCP/IP，该协议由网络层的IP和传输层的TCP组成。IP是每一台互联网设备在互联网中的唯一地址。</p>
+<p>TCP通过三次握手建立连接，并提供可靠的数据传输服务。</p>
+<h3 id="3-服务端请求处理响应"><a href="#3-服务端请求处理响应" class="headerlink" title="3. 服务端请求处理响应"></a>3. 服务端请求处理响应</h3><p>在TCP连接建立后，Web服务器接受请求，开始进行处理，同时浏览器端开始等待服务器的处理响应。</p>
+<p>Web服务器根据请求类型的不同，进行相应的处理。静态资源如图片、CSS文件、静态HTML直接进行响应；如其他注册的请求转发给相应的应用服务器，进行如数据处理、缓存中取数据，将数据按照约定好的格式响应给浏览器。</p>
+<blockquote>
+<p>在大型应用中，通常为分布式服务架构，应用服务器的处理有可能经过很多个系统的中间件，最终获取到需要的数据</p>
+</blockquote>
+<h3 id="4-客户端下载、解析、渲染显示页面"><a href="#4-客户端下载、解析、渲染显示页面" class="headerlink" title="4. 客户端下载、解析、渲染显示页面"></a>4. 客户端下载、解析、渲染显示页面</h3><p>在服务器返回数据后，客户端浏览器接收数据，进行HTML下载、解析、渲染显示。</p>
+<ul>
+<li>a. 如果是Gzip包，则先解压为HTML</li>
+<li>b. 解析HTML的头部代码，下载头部代码中的样式资源文件或脚本资源文件</li>
+<li>c. 解析HTML代码和样式文件代码，构建HTML的DOM树以及与CSS相关的CSSOM树</li>
+<li>d. 通过遍历DOM树和CSSOM树，浏览器依次计算每个节点的大小、坐标、颜色等样式，构造渲染树</li>
+<li>e. 根据渲染树完成绘制过程</li>
+</ul>
+<p>浏览器下载HTML后，首先解析头部代码，进行样式表下载，然后继续向下解析HTML代码，构建DOM树，同时进行样式下载。当DOM树构建完成后，立即开始构造CSSOM树。理想情况下，样式表下载速度够快，DOM树和CSSOM树进入一个并行的过程，当两棵树构建完毕，构建渲染树，然后进行绘制。</p>
+<p>Tips:浏览器安全解析策略对解析HTML造成的影响：</p>
+<ul>
+<li>当解析HTML时遇到内联JS代码，会阻塞DOM树的构建</li>
+<li>特别悲惨的情况： 当CSS样式文件没有下载完成时，浏览器解析HTML遇到了内联JS代码，此时！！！根据浏览器的安全解析策略，浏览器暂停JS脚本执行，暂停HTML解析。直到CSS文件下载完成，完成CSSOM树构建，重新恢复原来的解析。 一定要合理放置JS代码！！！</li>
+</ul>
+<h2 id="四、白屏-性能优化"><a href="#四、白屏-性能优化" class="headerlink" title="四、白屏-性能优化"></a>四、白屏-性能优化</h2><p>至此，我们已经了解了从浏览器在打开一个链接开始，到屏幕展示的过程-白屏时间的历程，那这对每个环节中发生的事情，我们可以有针对性的进行相关的优化。</p>
+<h3 id="1-DNS解析优化"><a href="#1-DNS解析优化" class="headerlink" title="1. DNS解析优化"></a>1. DNS解析优化</h3><p>针对DNS Lookup环节，我们可以针对性的进行DNS解析优化。</p>
+<ul>
+<li>DNS缓存优化</li>
+<li>DNS预加载策略</li>
+<li>稳定可靠的DNS服务器</li>
+</ul>
+<h3 id="2-TCP网络链路优化"><a href="#2-TCP网络链路优化" class="headerlink" title="2. TCP网络链路优化"></a>2. TCP网络链路优化</h3><p>针对网络链路的优化，好像除了花钱没有什么更好的方式！</p>
+<h3 id="3-服务端处理优化"><a href="#3-服务端处理优化" class="headerlink" title="3. 服务端处理优化"></a>3. 服务端处理优化</h3><p>服务端的处理优化，是一个非常庞大的话题，会涉及到如<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/crs?from=10680">Redis</a>缓存、数据库存储优化或是系统内的各种中间件以及Gzip压缩等…</p>
+<h3 id="4-浏览器下载、解析、渲染页面优化"><a href="#4-浏览器下载、解析、渲染页面优化" class="headerlink" title="4. 浏览器下载、解析、渲染页面优化"></a>4. 浏览器下载、解析、渲染页面优化</h3><p>根据浏览器对页面的下载、解析、渲染过程，可以考虑一下的优化处理：</p>
+<ul>
+<li>尽可能的精简HTML的代码和结构</li>
+<li>尽可能的优化CSS文件和结构</li>
+<li>一定要合理的放置JS代码，尽量不要使用内联的JS代码</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"><i class="fa fa-tag"></i> 面试</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" rel="tag"><i class="fa fa-tag"></i> 前端性能</a>
+              <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> 优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/23/javascript%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" rel="prev" title="javascript面试问题">
+      <i class="fa fa-chevron-left"></i> javascript面试问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" rel="next" title="操作系统">
+      操作系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-RAIL%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">1.RAIL模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E7%84%A6%E7%94%A8%E6%88%B7"><span class="nav-number">1.1.</span> <span class="nav-text">聚焦用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Response-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%9C%80%E5%A5%BD%E5%9C%A850ms%E5%86%85%E5%AE%8C%E6%88%90"><span class="nav-number">1.2.</span> <span class="nav-text">Response: 事件处理最好在50ms内完成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">1.2.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.2.</span> <span class="nav-text">优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Animation-%E5%9C%A810ms%E5%86%85%E4%BA%A7%E7%94%9F%E4%B8%80%E5%B8%A7"><span class="nav-number">1.3.</span> <span class="nav-text">Animation: 在10ms内产生一帧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Idle-%E6%9C%80%E5%A4%A7%E5%8C%96%E7%A9%BA%E9%97%B2%E6%97%B6%E9%97%B4"><span class="nav-number">1.4.</span> <span class="nav-text">Idle: 最大化空闲时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-%E4%BC%A0%E8%BE%93%E5%86%85%E5%AE%B9%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%8F%AF%E4%BA%A4%E4%BA%92%E7%9A%84%E6%97%B6%E9%97%B4%E4%B8%8D%E8%B6%85%E8%BF%875%E7%A7%92"><span class="nav-number">1.5.</span> <span class="nav-text">Load: 传输内容到页面可交互的时间不超过5秒</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87-3"><span class="nav-number">1.5.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88-3"><span class="nav-number">1.5.2.</span> <span class="nav-text">优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90RAIL%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">1.6.</span> <span class="nav-text">分析RAIL用的工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.8.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">2.前端性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">一、缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-number">3.1.</span> <span class="nav-text">1. 本地数据存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98%EF%BC%88Memory%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2. 内存缓存（Memory）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Cache-API"><span class="nav-number">3.3.</span> <span class="nav-text">3. Cache API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-HTTP-%E7%BC%93%E5%AD%98"><span class="nav-number">3.4.</span> <span class="nav-text">4. HTTP 缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%BC%BA%E7%BC%93%E5%AD%98"><span class="nav-number">3.4.1.</span> <span class="nav-text">4.1. 强缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="nav-number">3.4.2.</span> <span class="nav-text">4.2. 协商缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Push-Cache"><span class="nav-number">3.5.</span> <span class="nav-text">5. Push Cache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82"><span class="nav-number">4.</span> <span class="nav-text">二、发送请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%81%BF%E5%85%8D%E5%A4%9A%E4%BD%99%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">4.1.</span> <span class="nav-text">1. 避免多余重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DNS-%E9%A2%84%E8%A7%A3%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">2. DNS 预解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%A2%84%E5%85%88%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.3.</span> <span class="nav-text">3. 预先建立连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8-CDN"><span class="nav-number">4.4.</span> <span class="nav-text">4. 使用 CDN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.4.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%93%8D%E5%BA%94"><span class="nav-number">5.</span> <span class="nav-text">三、服务端响应</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BD%BF%E7%94%A8%E6%B5%81%E8%BF%9B%E8%A1%8C%E5%93%8D%E5%BA%94"><span class="nav-number">5.1.</span> <span class="nav-text">1. 使用流进行响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%9A%E5%8A%A1%E8%81%9A%E5%90%88"><span class="nav-number">5.2.</span> <span class="nav-text">2. 业务聚合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%81%BF%E5%85%8D%E4%BB%A3%E7%A0%81%E9%97%AE%E9%A2%98"><span class="nav-number">5.3.</span> <span class="nav-text">3. 避免代码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99-1"><span class="nav-number">5.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">四、页面解析与处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%B7%A5%E4%BD%9C"><span class="nav-number">6.1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%B3%A8%E6%84%8F%E8%B5%84%E6%BA%90%E5%9C%A8%E9%A1%B5%E9%9D%A2%E6%96%87%E6%A1%A3%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-number">6.2.</span> <span class="nav-text">1. 注意资源在页面文档中的位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8-defer-%E5%92%8C-async"><span class="nav-number">6.3.</span> <span class="nav-text">2. 使用 defer 和 async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%A1%B5%E9%9D%A2%E6%96%87%E6%A1%A3%E5%8E%8B%E7%BC%A9"><span class="nav-number">6.4.</span> <span class="nav-text">3. 页面文档压缩</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%A1%B5%E9%9D%A2%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90"><span class="nav-number">7.</span> <span class="nav-text">五、页面静态资源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%80%BB%E4%BD%93%E5%8E%9F%E5%88%99"><span class="nav-number">7.1.</span> <span class="nav-text">1. 总体原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%87%8F%E5%B0%91%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="nav-number">7.1.1.</span> <span class="nav-text">1.1. 减少不必要的请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%87%8F%E5%B0%91%E5%8C%85%E4%BD%93%E5%A4%A7%E5%B0%8F"><span class="nav-number">7.1.2.</span> <span class="nav-text">1.2. 减少包体大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E9%99%8D%E4%BD%8E%E5%BA%94%E7%94%A8%E8%B5%84%E6%BA%90%E6%97%B6%E7%9A%84%E6%B6%88%E8%80%97"><span class="nav-number">7.1.3.</span> <span class="nav-text">1.3. 降低应用资源时的消耗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%88%A9%E7%94%A8%E7%BC%93%E5%AD%98"><span class="nav-number">7.1.4.</span> <span class="nav-text">1.4. 利用缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%92%88%E5%AF%B9%E5%90%84%E7%B1%BB%E8%B5%84%E6%BA%90%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%F0%9F%9A%80"><span class="nav-number">7.2.</span> <span class="nav-text">2. 针对各类资源的性能优化 🚀</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E9%87%8D%E6%8E%92-reflow-%E5%92%8C%E9%87%8D%E7%BB%98-repaint"><span class="nav-number">8.</span> <span class="nav-text">3.重排(reflow)和重绘(repaint)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E7%94%9F%E6%88%90%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">8.1.</span> <span class="nav-text">页面生成的过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%EF%BC%9A"><span class="nav-number">8.2.</span> <span class="nav-text">渲染：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%8E%92%E6%AF%94%E9%87%8D%E7%BB%98%E5%A4%A7%EF%BC%9A"><span class="nav-number">8.3.</span> <span class="nav-text">重排比重绘大：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%8E%92-reflow-%EF%BC%9A"><span class="nav-number">8.4.</span> <span class="nav-text">重排(reflow)：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="nav-number">8.4.1.</span> <span class="nav-text">概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E6%83%85%E5%86%B5%E4%BC%9A%E5%8F%91%E7%94%9F%E9%87%8D%E6%8E%92%EF%BC%9A"><span class="nav-number">8.4.2.</span> <span class="nav-text">下面情况会发生重排：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%8E%92%E5%BD%B1%E5%93%8D%E7%9A%84%E8%8C%83%E5%9B%B4%EF%BC%9A"><span class="nav-number">8.4.3.</span> <span class="nav-text">重排影响的范围：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%BB%98-Repaints"><span class="nav-number">8.5.</span> <span class="nav-text">重绘(Repaints):</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A-1"><span class="nav-number">8.5.1.</span> <span class="nav-text">概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BC%95%E8%B5%B7%E9%87%8D%E7%BB%98%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="nav-number">8.5.2.</span> <span class="nav-text">常见的引起重绘的属性：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%8E%92%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="nav-number">8.6.</span> <span class="nav-text">重排优化建议：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E9%87%8D%E6%8E%92%E8%8C%83%E5%9B%B4"><span class="nav-number">8.6.1.</span> <span class="nav-text">减少重排范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E9%87%8D%E6%8E%92%E6%AC%A1%E6%95%B0"><span class="nav-number">8.6.2.</span> <span class="nav-text">减少重排次数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%A0%B7%E5%BC%8F%E9%9B%86%E4%B8%AD%E6%94%B9%E5%8F%98"><span class="nav-number">8.6.2.1.</span> <span class="nav-text">1.样式集中改变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%88%86%E7%A6%BB%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="nav-number">8.6.2.2.</span> <span class="nav-text">2.分离读写操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86-DOM-%E7%A6%BB%E7%BA%BF"><span class="nav-number">8.6.2.3.</span> <span class="nav-text">3.将 DOM 离线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8-absolute-%E6%88%96-fixed-%E8%84%B1%E7%A6%BB%E6%96%87%E6%A1%A3%E6%B5%81"><span class="nav-number">8.6.2.4.</span> <span class="nav-text">4.使用 absolute 或 fixed 脱离文档流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E4%BC%98%E5%8C%96%E5%8A%A8%E7%94%BB"><span class="nav-number">8.6.2.5.</span> <span class="nav-text">5.优化动画</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%9F%A5%E7%9C%8B%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E6%97%B6%E9%97%B4"><span class="nav-number">8.7.</span> <span class="nav-text">如何在浏览器中查看页面渲染时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="nav-number">8.7.1.</span> <span class="nav-text">小结：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">8.8.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">8.9.</span> <span class="nav-text">参考文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%99%BD%E5%B1%8F%E6%97%B6%E9%97%B4"><span class="nav-number">9.</span> <span class="nav-text">4.白屏时间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E5%BF%B5"><span class="nav-number">9.1.</span> <span class="nav-text">一、概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%99%BD%E5%B1%8F%E6%97%B6%E9%97%B4%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">9.2.</span> <span class="nav-text">二、白屏时间的重要性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%99%BD%E5%B1%8F%E6%98%AF%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E8%BF%87%E7%A8%8B%E5%91%A2%EF%BC%9F"><span class="nav-number">9.3.</span> <span class="nav-text">三、白屏是一个怎样的过程呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DNS-Lookup"><span class="nav-number">9.3.1.</span> <span class="nav-text">1. DNS Lookup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BB%BA%E7%AB%8BTCP%E8%AF%B7%E6%B1%82%E8%BF%9E%E6%8E%A5"><span class="nav-number">9.3.2.</span> <span class="nav-text">2. 建立TCP请求连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94"><span class="nav-number">9.3.3.</span> <span class="nav-text">3. 服务端请求处理响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8B%E8%BD%BD%E3%80%81%E8%A7%A3%E6%9E%90%E3%80%81%E6%B8%B2%E6%9F%93%E6%98%BE%E7%A4%BA%E9%A1%B5%E9%9D%A2"><span class="nav-number">9.3.4.</span> <span class="nav-text">4. 客户端下载、解析、渲染显示页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%99%BD%E5%B1%8F-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">9.4.</span> <span class="nav-text">四、白屏-性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DNS%E8%A7%A3%E6%9E%90%E4%BC%98%E5%8C%96"><span class="nav-number">9.4.1.</span> <span class="nav-text">1. DNS解析优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-TCP%E7%BD%91%E7%BB%9C%E9%93%BE%E8%B7%AF%E4%BC%98%E5%8C%96"><span class="nav-number">9.4.2.</span> <span class="nav-text">2. TCP网络链路优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%84%E7%90%86%E4%BC%98%E5%8C%96"><span class="nav-number">9.4.3.</span> <span class="nav-text">3. 服务端处理优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8B%E8%BD%BD%E3%80%81%E8%A7%A3%E6%9E%90%E3%80%81%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96"><span class="nav-number">9.4.4.</span> <span class="nav-text">4. 浏览器下载、解析、渲染页面优化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共176.5k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

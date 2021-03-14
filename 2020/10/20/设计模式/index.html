@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
@@ -282,7 +282,7 @@
 <li>行为型模式</li>
 </ul>
 <p>接下来将概述属于这三种类型的 23 种设计模式的主要概念。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="一、基础篇"><a href="#一、基础篇" class="headerlink" title="一、基础篇"></a>一、基础篇</h1><h2 id="this、new、bind、call、apply"><a href="#this、new、bind、call、apply" class="headerlink" title="this、new、bind、call、apply"></a>this、new、bind、call、apply</h2><h3 id="1-this-指向的类型"><a href="#1-this-指向的类型" class="headerlink" title="1. this 指向的类型"></a><strong>1. this 指向的类型</strong></h3><h4 id="this-在函数的指向有以下几种场景："><a href="#this-在函数的指向有以下几种场景：" class="headerlink" title="this 在函数的指向有以下几种场景："></a><strong>this 在函数的指向有以下几种场景：</strong></h4><ul>
 <li>作为构造函数被 new 调用；</li>
@@ -627,12 +627,10 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 饭店方法 */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Restaurant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.menuData = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 创建菜品 */</span></span><br><span class="line">    <span class="function"><span class="title">getMenu</span>(<span class="params">menu</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>.menuData[menu])</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;这个菜本店没有 -。-&#x27;</span>)</span><br><span class="line">        <span class="keyword">const</span> &#123; type, message &#125; = <span class="built_in">this</span>.menuData[menu]</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Menu(type, message)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 增加菜品种类 */</span></span><br><span class="line">    <span class="function"><span class="title">addMenu</span>(<span class="params">menu, type, message</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.menuData[menu]) &#123;</span><br><span class="line">            <span class="built_in">console</span>.Info(<span class="string">&#x27;已经有这个菜了!&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.menuData[menu] = &#123; type, message &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 移除菜品 */</span></span><br><span class="line">    <span class="function"><span class="title">removeMenu</span>(<span class="params">menu</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>.menuData[menu]) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">delete</span> <span class="built_in">this</span>.menuData[menu]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 菜品类 */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">type, message</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.type = type</span><br><span class="line">        <span class="built_in">this</span>.message = message</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="title">eat</span>(<span class="params"></span>)</span> &#123; <span class="built_in">console</span>.log(<span class="built_in">this</span>.type + <span class="built_in">this</span>.message) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> restaurant = <span class="keyword">new</span> Restaurant()</span><br><span class="line">restaurant.addMenu(<span class="string">&#x27;YuXiangRouSi&#x27;</span>, <span class="string">&#x27;鱼香肉丝&#x27;</span>, <span class="string">&#x27; 真香~&#x27;</span>)			<span class="comment">// 注册菜品</span></span><br><span class="line">restaurant.addMenu(<span class="string">&#x27;GongBaoJiDin&#x27;</span>, <span class="string">&#x27;宫保鸡丁&#x27;</span>, <span class="string">&#x27; 让我想起了外婆做的菜~&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dish1 = restaurant.getMenu(<span class="string">&#x27;YuXiangRouSi&#x27;</span>)</span><br><span class="line">dish1.eat()																				<span class="comment">// 输出: 鱼香肉丝 真香~</span></span><br><span class="line"><span class="keyword">const</span> dish2 = restaurant.getMenu(<span class="string">&#x27;HongSaoPaiGu&#x27;</span>)	<span class="comment">// 输出: Error 这个菜本店没有 -。-</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p>我们还给 Restaurant 类增加了 <code>addMenu/removeMenu</code> 私有方法，以便于扩展。</p>
-</li>
-<li><p>当然这里如果菜品参数不太一致，可以在 <code>addMenu</code> 时候注册构造函数或者类，创建的时候返回 <code>new</code> 出的对应类实例，灵活变通即可。</p>
-<p><strong>工厂模式的优缺点</strong></p>
-</li>
+<li>我们还给 Restaurant 类增加了 <code>addMenu/removeMenu</code> 私有方法，以便于扩展。</li>
+<li>当然这里如果菜品参数不太一致，可以在 <code>addMenu</code> 时候注册构造函数或者类，创建的时候返回 <code>new</code> 出的对应类实例，灵活变通即可。</li>
 </ul>
+<p> <strong>工厂模式的优缺点</strong></p>
 <p>工厂模式将对象的创建和实现分离，这带来了优点：</p>
 <ul>
 <li>良好的封装，代码结构清晰，访问者无需知道对象的创建流程，特别是创建比较复杂的情况下；</li>
@@ -711,15 +709,13 @@
 </ul>
 <p><strong>建造者模式的缺点：</strong></p>
 <ul>
-<li><p>建造者模式一般适用于产品之间组成部件类似的情况，如果产品之间差异性很大、复用性不高，那么不要使用建造者模式；</p>
-</li>
-<li><p>实例的创建增加了许多额外的结构，无疑增加了许多复杂度，如果对象粒度不大，那么我们最好直接创建对象；</p>
-<p><strong>建造者模式的适用场景</strong></p>
-</li>
-<li><p>相同的方法，不同的执行顺序，产生不一样的产品时，可以采用建造者模式；</p>
-</li>
-<li><p>产品的组成部件类似，通过组装不同的组件获得不同产品时，可以采用建造者模式；</p>
-</li>
+<li>建造者模式一般适用于产品之间组成部件类似的情况，如果产品之间差异性很大、复用性不高，那么不要使用建造者模式；</li>
+<li>实例的创建增加了许多额外的结构，无疑增加了许多复杂度，如果对象粒度不大，那么我们最好直接创建对象；</li>
+</ul>
+<p> <strong>建造者模式的适用场景</strong></p>
+<ul>
+<li>相同的方法，不同的执行顺序，产生不一样的产品时，可以采用建造者模式；</li>
+<li>产品的组成部件类似，通过组装不同的组件获得不同产品时，可以采用建造者模式；</li>
 </ul>
 <p><strong>建造者模式与工厂模式</strong></p>
 <ul>
@@ -813,11 +809,11 @@
 </ul>
 <p><strong>享元模式和工厂模式、单例模式</strong></p>
 <ul>
-<li><p>在区分出不同种类的外部状态后，创建新对象时需要选择不同种类的共享对象，这时就可以使用工厂模式来提供共享对象，在共享对象的维护上，经常会采用单例模式来提供单实例的共享对象。</p>
-<p><strong>享元模式和组合模式</strong></p>
-</li>
-<li><p>在使用工厂模式来提供共享对象时，比如某些时候共享对象中的某些状态就是对象不需要的，可以引入组合模式来提升自定义共享对象的自由度，对共享对象的组成部分进一步归类、分层，来实现更复杂的多层次对象结构，当然系统也会更难维护。</p>
-</li>
+<li>在区分出不同种类的外部状态后，创建新对象时需要选择不同种类的共享对象，这时就可以使用工厂模式来提供共享对象，在共享对象的维护上，经常会采用单例模式来提供单实例的共享对象。</li>
+</ul>
+<p> <strong>享元模式和组合模式</strong></p>
+<ul>
+<li>在使用工厂模式来提供共享对象时，比如某些时候共享对象中的某些状态就是对象不需要的，可以引入组合模式来提升自定义共享对象的自由度，对共享对象的组成部分进一步归类、分层，来实现更复杂的多层次对象结构，当然系统也会更难维护。</li>
 </ul>
 <p><strong>享元模式和策略模式</strong></p>
 <blockquote>
@@ -1264,7 +1260,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共248.1k字</span>
+  <span class="post-count">博客全站共248.6k字</span>
 </div>
 
         

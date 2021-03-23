@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="用了这么久的js，多次使用js的数组，突然好奇，js数组到底是怎样的机制，很明显它与C语言的数组有很多不同，C语言数组就是内存中一块连续的区域，那么JS呢？感谢原作者：Paul Shan 原文：Diving deep into JavaScript array - evolution &amp; performance 以及辛苦的翻译人员">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深究 JavaScript 数组 —— 演进&amp;性能">
+<meta property="og:url" content="https://hxy1997.xyz/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="用了这么久的js，多次使用js的数组，突然好奇，js数组到底是怎样的机制，很明显它与C语言的数组有很多不同，C语言数组就是内存中一块连续的区域，那么JS呢？感谢原作者：Paul Shan 原文：Diving deep into JavaScript array - evolution &amp; performance 以及辛苦的翻译人员">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/5/c68a7cf972e76a0c7eabc638064e9139?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/9/5/195788ff466cc6fcb7c9f481baa39508?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-03-22T04:30:27.000Z">
+<meta property="article:modified_time" content="2021-03-22T09:06:30.917Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="数组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/9/5/c68a7cf972e76a0c7eabc638064e9139?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深究 JavaScript 数组 —— 演进&性能 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深究 JavaScript 数组 —— 演进&性能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-22 12:30:27 / 修改时间：17:06:30" itemprop="dateCreated datePublished" datetime="2021-03-22T12:30:27+08:00">2021-03-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>用了这么久的js，多次使用js的数组，突然好奇，js数组到底是怎样的机制，很明显它与C语言的数组有很多不同，C语言数组就是内存中一块连续的区域，那么JS呢？感谢原作者：<a href="http://link.zhihu.com/?target=http://voidcanvas.com/author/paulshan/">Paul Shan</a> 原文：<a href="http://link.zhihu.com/?target=http://voidcanvas.com/javascript-array-evolution-performance/">Diving deep into JavaScript array - evolution &amp; performance</a> 以及辛苦的翻译人员</p>
+<span id="more"></span>
+
+<h2 id="深究-JavaScript-数组-——-演进-amp-性能"><a href="#深究-JavaScript-数组-——-演进-amp-性能" class="headerlink" title="深究 JavaScript 数组 —— 演进&amp;性能"></a>深究 JavaScript 数组 —— 演进&amp;性能</h2><p>写文章前我要说一下，这篇文章不是讲 JavaScript 数组基础的，也不会教相关的语法和用法。文章更多的是讲数组在内存中的存储方式、优化、不同语法导致的行为差异、性能和最近的改进。</p>
+<p>我接触 JavaScript 的时候，已经对 C/C++/C# 等语言相当熟悉了。但和许多 C/C++使用者一样，第一次与 JavaScipt 的「约会」并不愉快。</p>
+<p>我不喜欢 JavaScipt 的一个主要原因是它的Array。 JavaScript 的数组通过哈希映射或者字典的方式来实现，所以不是连续的。我觉得这是一门劣等语言：连数组都不能正确的实现。但时至今日， JavaScript 以及我对 JavaScript 的理解都有相当大的变化。</p>
+<h2 id="为什么-JavaScript-数组不是真正的数组"><a href="#为什么-JavaScript-数组不是真正的数组" class="headerlink" title="为什么 JavaScript 数组不是真正的数组"></a><strong>为什么 JavaScript 数组不是真正的数组</strong></h2><p>在讲 JavaScript 相关的东西前，让我先告诉你什么是 Array。</p>
+<p>数组( Array )在内存中用一串连续的区域来存放一些值。注意「连续」一词，它至关重要。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2017/9/5/c68a7cf972e76a0c7eabc638064e9139?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>上图表示存储在内存中的一个数组。存储4个4 bit 的元素,一共需要16 bit 存储区域，每个元素顺序保持一致。</p>
+<p>假设，我声明了tinyInt arr[4]，它占用从1201位置开始的一溜存储区域。当某个时刻我尝试读取a[2]，那么只要做简单的计算，找到a[2]的位置就可以了。例如1201+(2X4)然后直接从1209位置读取数据。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2017/9/5/195788ff466cc6fcb7c9f481baa39508?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>在 JavaScript 中，数组是哈希映射。它可以通过多种数据结构实现，其中一种是链表。所以，如果在 JavaScript 中声明var arr = new Array(4)；它会产生类似上图的结构。因此，如果你想在程序中某一处读取a[2]，它必须从1201位置开始溯寻a[2]的位置。</p>
+<p>这就是 JavaScript 数组和真正的数组不同的地方。显然数学计算要比链表遍历花的时间少。遇到长点的数组，日子就不好过了啊。</p>
+<h2 id="JavaScript-数组演进"><a href="#JavaScript-数组演进" class="headerlink" title="JavaScript 数组演进"></a><strong>JavaScript 数组演进</strong></h2><p>还记得以前如果某个朋友的电脑有 256MB RAM我们多嫉妒吗？但现在，8GB RAM 已经稀松平常了。</p>
+<p>跟它一样，JavaScript 这门语言也进化了许多。由于V8 、SpiderMonkey、TC39以及日益增多的 web 用户的努力，世界已经离不开 JavaScript 了。拥有如此巨大的用户群体，性能提升也势在必行。</p>
+<p>近些日子， JavaScript 引擎已经在为同种数据类型的数组分配连续的存储空间了。优秀的开发者总是保持数组的数据类型一致，这样即时编译器 (JIT) 就能像 C 编译器一样通过计算读取数组了。</p>
+<p>但是，如果你想在同种类型的数组中插入不同类型的元素，JIT 会销毁整个数组然后用以前的办法重建。</p>
+<p>所以，如果你没写垃圾代码的话，JavaScript 的Array对象会维护一个真正的数组，这对现代 JS 开发者来说是一件大好事。</p>
+<p>另外，在 ES2015/ES6 中， 数组还有其它改进。 TC39 决定在 JavaScript 中引入类型化数组，所以如今我们有 ArrayBuffer了。</p>
+<p>ArrayBuffer 会有一大块连续的存储位置，你能用它做任何你想做的事情。不过，直接处理内存涉及非常底层的操作，相当复杂。</p>
+<p>所以我们有 <a href="http://link.zhihu.com/?target=https://developer.mozilla.org/en-US/docs/Web/API/ArrayBufferView">Views</a> 来处理 ArrayBuffer。已经有一些可用的 View 了，未来还会加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var buffer &#x3D; new ArrayBuffer(8);</span><br><span class="line">var view  &#x3D;  new Int32Array(buffer);</span><br><span class="line">view[0]&#x3D;100;</span><br></pre></td></tr></table></figure>
+
+<p><em>如果你想知道更多有关类型化数组的信息，可以去看看<a href="http://link.zhihu.com/?target=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays">MDN 文档</a></em></p>
+<p>类型化数组性能良好且非常高效。WebGL 开发者因为缺少高效处理二进制数据的手段而经常面临性能问题，所以提出了类型化数组。你还可以使用<a href="http://link.zhihu.com/?target=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer">SharedArrayBuffer</a>在多个 web-workers 间共享内存数据来提升性能。</p>
+<p>惊讶吗？从简单的哈希映射开始，我们现在已经在讨论SharedArrayBuffer了。</p>
+<h2 id="旧数组-vs-类型化数组-性能"><a href="#旧数组-vs-类型化数组-性能" class="headerlink" title="旧数组 vs 类型化数组-性能"></a><strong>旧数组 vs 类型化数组-性能</strong></h2><p>我们已经讲了大量 JavaScript 数组的改进了。现在看看类型化数组的好处。我在Mac 上用 Node.js 8.4.0 跑了一些小测试：</p>
+<p><strong>旧数组-插入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var LIMIT &#x3D; 10000000;</span><br><span class="line">var arr &#x3D; new Array(LIMIT);</span><br><span class="line">console.time(&#39;Array insertion time&#39;);</span><br><span class="line">for(var i&#x3D;0;i&lt;LIMIT; i++)&#123;</span><br><span class="line">    arr[i]&#x3D;i;</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&#39;Array insertion time&#39;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>所需时间</strong>：55ms</p>
+<p><strong>类型化数组-插入</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var LIMIT &#x3D; 10000000;</span><br><span class="line">var buffer &#x3D; new ArrayBuffer(LIMIT * 4);</span><br><span class="line">var arr &#x3D; new Int32Array(buffer);</span><br><span class="line">console.time(&quot;ArrayBuffer insertion time&quot;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; LIMIT; i++) &#123;</span><br><span class="line">    arr[i] &#x3D; i;</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;ArrayBuffer insertion time&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>所需时间</strong>：52ms</p>
+<p>我擦，我看到了啥？旧数组和 ArraryBuffer 的性能一样？不。回顾一下，前面我已经说过了，如今编译器已经在为类型一致的数组分配连续的存储空间了。所以在第一个例子中，即使我用的是new Array(LIMIT)，它仍然维护的是一个类型化数组。</p>
+<p>让我们把第一个例子改成类型不一致的数组看看性能有没有变化。</p>
+<p><strong>旧数组-插入（类型不一致）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var LIMIT &#x3D; 10000000;</span><br><span class="line">var arr &#x3D; new Array(LIMIT);</span><br><span class="line">arr.push(&#123;a: 22&#125;);</span><br><span class="line">console.time(&#39;Array insertion time&#39;);</span><br><span class="line">for(var i&#x3D;0;i&lt;LIMIT; i++)&#123;</span><br><span class="line">    arr[i]&#x3D;i;</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&#39;Array insertion time&#39;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>所需时间</strong>：1207ms</p>
+<p>我在上面第三行插入了一个表达式让数组的类型不一致，其它所有的都跟前面一模一样。但是性能上有了巨大的变化：慢了整整22倍。</p>
+<p><strong>旧数组-读取</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var arr &#x3D; new Array(LIMIT);</span><br><span class="line">arr.push(&#123;a: 22&#125;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; LIMIT; i++) &#123;</span><br><span class="line">    arr[i] &#x3D; i;</span><br><span class="line">&#125;</span><br><span class="line">var p;</span><br><span class="line">console.time(&quot;Array read time&quot;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; LIMIT; i++) &#123;</span><br><span class="line">    &#x2F;&#x2F;arr[i] &#x3D; i;</span><br><span class="line">    p &#x3D; arr[i];</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;Array read time&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>所需时间</strong>：196ms</p>
+<p><strong>类型化数组-读取</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var LIMIT &#x3D; 10000000;</span><br><span class="line">var buffer &#x3D; new ArrayBuffer(LIMIT * 4);</span><br><span class="line">var arr &#x3D; new Int32Array(buffer);</span><br><span class="line">console.time(&quot;ArrayBuffer insertion time&quot;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; LIMIT; i++) &#123;</span><br><span class="line">    arr[i] &#x3D; i;</span><br><span class="line">&#125;</span><br><span class="line">console.time(&quot;ArrayBuffer read time&quot;);</span><br><span class="line">for (var i &#x3D; 0; i &lt; LIMIT; i++) &#123;</span><br><span class="line">    var p &#x3D; arr[i];</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;ArrayBuffer read time&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>所需时间</strong>:27ms</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h2><p>在 JavaScript 中引入类型化数组是一个巨大的进步，Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array 等都是类型化数组 view,按照原生的 byte 数排序。你也可以看看 <a href="http://link.zhihu.com/?target=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView">DataView </a>创建自己的 view 窗口。希望在将来会有更多 DataView 库方便我们使用 ArrayBuffer。</p>
+<p>JavaScript 对数组做的改进很棒。现在它们快速、高效并且在分配内存时足够聪明了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h2><ol>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/is-javascript-really-interpreted-or-compiled-language/">Is JavaScript really interpreted or compiled language?</a></li>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/create-filter-an-array-to-have-only-unique-elements-in-it/">Create / filter an array to have only unique elements in it</a></li>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/object-entries-object-values-ecmascript2017-es8-examples/">Object.entries() &amp; Object.values() in EcmaScript2017 (ES8) with examples</a></li>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/import-vs-require/">import vs require – ESM &amp; commonJs module differences</a></li>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/deep-dive-ember-routers-ember-js-tutorial-part-5/">A deep dive into ember routers – Ember.js Tutorial part 5</a></li>
+<li><a href="http://link.zhihu.com/?target=http://voidcanvas.com/myths-facts-javascript/">Myths and Facts of JavaScript</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/%E6%95%B0%E7%BB%84/" rel="tag"><i class="fa fa-tag"></i> 数组</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/17/%E5%B7%A5%E7%A8%8B%E5%8C%96%E9%A1%B9%E7%9B%AE/" rel="prev" title="工程化">
+      <i class="fa fa-chevron-left"></i> 工程化
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E7%A9%B6-JavaScript-%E6%95%B0%E7%BB%84-%E2%80%94%E2%80%94-%E6%BC%94%E8%BF%9B-amp-%E6%80%A7%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">深究 JavaScript 数组 —— 演进&amp;性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-JavaScript-%E6%95%B0%E7%BB%84%E4%B8%8D%E6%98%AF%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%95%B0%E7%BB%84"><span class="nav-number">2.</span> <span class="nav-text">为什么 JavaScript 数组不是真正的数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E6%95%B0%E7%BB%84%E6%BC%94%E8%BF%9B"><span class="nav-number">3.</span> <span class="nav-text">JavaScript 数组演进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A7%E6%95%B0%E7%BB%84-vs-%E7%B1%BB%E5%9E%8B%E5%8C%96%E6%95%B0%E7%BB%84-%E6%80%A7%E8%83%BD"><span class="nav-number">4.</span> <span class="nav-text">旧数组 vs 类型化数组-性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共404.8k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

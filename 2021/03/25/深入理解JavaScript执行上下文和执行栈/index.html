@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="每个 JavaScript 开发者都需要 JavaScript 程序执行机制，这是一个非常考察计算机基础的概念，可以结合单片机的执行栈来解读，计算机组成我是囫囵吞枣看过了，感觉JS的和其他程序大同小异，不过仍然有其独特之处。这篇文章作者浪里行舟参考了国外大佬Sukhjinder Arora的Understanding Execution Context and Execution Stack in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解JavaScript执行上下文和执行栈">
+<meta property="og:url" content="https://hxy1997.xyz/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="每个 JavaScript 开发者都需要 JavaScript 程序执行机制，这是一个非常考察计算机基础的概念，可以结合单片机的执行栈来解读，计算机组成我是囫囵吞枣看过了，感觉JS的和其他程序大同小异，不过仍然有其独特之处。这篇文章作者浪里行舟参考了国外大佬Sukhjinder Arora的Understanding Execution Context and Execution Stack in">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/5/1694e75626c746d1?imageslim">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/4/16949529105ae0a6?imageslim">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/10/16966f12b2ff5478?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-03-25T04:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-25T03:52:50.345Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="执行上下文">
+<meta property="article:tag" content="执行栈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/3/5/1694e75626c746d1?imageslim">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深入理解JavaScript执行上下文和执行栈 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深入理解JavaScript执行上下文和执行栈
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-25 12:00:00 / 修改时间：11:52:50" itemprop="dateCreated datePublished" datetime="2021-03-25T12:00:00+08:00">2021-03-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>每个 JavaScript 开发者都需要 JavaScript 程序执行机制，这是一个非常考察计算机基础的概念，可以结合单片机的执行栈来解读，计算机组成我是囫囵吞枣看过了，感觉JS的和其他程序大同小异，不过仍然有其独特之处。<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903798784131079">这篇文章</a>作者浪里行舟参考了国外大佬<a target="_blank" rel="noopener" href="https://blog.bitsrc.io/@Sukhjinder?source=post_header_lockup">Sukhjinder Arora</a>的<a target="_blank" rel="noopener" href="https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0">Understanding Execution Context and Execution Stack in Javascript</a>，通俗易懂。</p>
+<span id="more"></span>
+
+<h2 id="一、执行上下文（Execution-Context）"><a href="#一、执行上下文（Execution-Context）" class="headerlink" title="一、执行上下文（Execution Context）"></a>一、执行上下文（Execution Context）</h2><h3 id="1-什么是执行上下文"><a href="#1-什么是执行上下文" class="headerlink" title="1.什么是执行上下文"></a>1.什么是执行上下文</h3><p>简而言之，执行上下文就是当前 JavaScript 代码被解析和执行时所在环境的抽象概念， JavaScript 中运行任何的代码都是在执行上下文中运行</p>
+<h3 id="2-执行上下文的类型"><a href="#2-执行上下文的类型" class="headerlink" title="2.执行上下文的类型"></a>2.执行上下文的类型</h3><p>执行上下文总共有三种类型：</p>
+<ul>
+<li>全局执行上下文： 这是默认的、最基础的执行上下文。不在任何函数中的代码都位于全局执行上下文中。它做了两件事：1. 创建一个全局对象，在浏览器中这个全局对象就是 window 对象。2. 将 this 指针指向这个全局对象。一个程序中只能存在一个全局执行上下文。</li>
+<li>函数执行上下文： 每次调用函数时，都会为该函数创建一个新的执行上下文。每个函数都拥有自己的执行上下文，但是只有在函数被调用的时候才会被创建。一个程序中可以存在任意数量的函数执行上下文。每当一个新的执行上下文被创建，它都会按照特定的顺序执行一系列步骤，具体过程将在本文后面讨论。</li>
+<li>Eval 函数执行上下文： 运行在 eval 函数中的代码也获得了自己的执行上下文，但由于 Javascript 开发人员不常用 eval 函数，所以在这里不再讨论。</li>
+</ul>
+<h2 id="二、执行上下文的生命周期"><a href="#二、执行上下文的生命周期" class="headerlink" title="二、执行上下文的生命周期"></a>二、执行上下文的生命周期</h2><p>执行上下文的生命周期包括三个阶段：<strong>创建阶段→执行阶段→回收阶段</strong>，本文重点介绍创建阶段。</p>
+<h3 id="1-创建阶段"><a href="#1-创建阶段" class="headerlink" title="1.创建阶段"></a>1.创建阶段</h3><p>当函数被调用，但未执行任何其内部代码之前，会做以下三件事：</p>
+<ul>
+<li>创建变量对象：首先初始化函数的参数arguments，提升函数声明和变量声明。下文会详细说明。</li>
+<li>创建作用域链（Scope Chain）：在执行期上下文的创建阶段，作用域链是在变量对象之后创建的。作用域链本身包含变量对象。作用域链用于解析变量。当被要求解析变量时，JavaScript 始终从代码嵌套的最内层开始，如果最内层没有找到变量，就会跳转到上一层父作用域中查找，直到找到该变量。</li>
+<li>确定this指向：包括多种情况，下文会详细说明</li>
+</ul>
+<p>在一段 JS 脚本执行之前，要先解析代码（所以说 JS 是解释执行的脚本语言），解析的时候会先创建一个全局执行上下文环境，先把代码中即将执行的变量、函数声明都拿出来。变量先暂时赋值为undefined，函数则先声明好可使用。这一步做完了，然后再开始正式执行程序。</p>
+<p>另外，一个函数在执行之前，也会创建一个函数执行上下文环境，跟全局上下文差不多，不过 函数执行上下文中会多出this arguments和函数的参数。</p>
+<h3 id="2-执行阶段"><a href="#2-执行阶段" class="headerlink" title="2.执行阶段"></a>2.执行阶段</h3><p>执行变量赋值、代码执行</p>
+<h3 id="3-回收阶段"><a href="#3-回收阶段" class="headerlink" title="3.回收阶段"></a>3.回收阶段</h3><p>执行上下文出栈等待虚拟机回收执行上下文</p>
+<h2 id="三、变量提升和this指向的细节"><a href="#三、变量提升和this指向的细节" class="headerlink" title="三、变量提升和this指向的细节"></a>三、变量提升和this指向的细节</h2><h3 id="1-变量声明提升"><a href="#1-变量声明提升" class="headerlink" title="1.变量声明提升"></a>1.变量声明提升</h3><p>大部分编程语言都是先声明变量再使用，但在JS中，事情有些不一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(a)&#x2F;&#x2F; undefined</span><br><span class="line">var a &#x3D; 10</span><br></pre></td></tr></table></figure>
+
+<p>上述代码正常输出<code>undefined</code>而不是报错<code>Uncaught ReferenceError: a is not defined</code>,这是因为声明提升（hoisting），相当于如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a; &#x2F;&#x2F;声明 默认值是undefined “准备工作”</span><br><span class="line">console.log(a);</span><br><span class="line">a &#x3D; 10; &#x2F;&#x2F;赋值</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-函数声明提升"><a href="#2-函数声明提升" class="headerlink" title="2.函数声明提升"></a>2.函数声明提升</h3><p>我们都知道，创建一个函数的方法有两种，一种是通过函数声明<code>function foo()&#123;&#125;</code> 另一种是通过函数表达式<code>var foo = function()&#123;&#125;</code> ,那这两种在函数提升有什么区别呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">console.log(f1) &#x2F;&#x2F; function f1()&#123;&#125;</span><br><span class="line">function f1() &#123;&#125; &#x2F;&#x2F; 函数声明</span><br><span class="line">console.log(f2) &#x2F;&#x2F; undefined</span><br><span class="line">var f2 &#x3D; function() &#123;&#125; &#x2F;&#x2F; 函数表达式</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们通过一个例子来说明这个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function test() &#123;</span><br><span class="line">    foo(); &#x2F;&#x2F; Uncaught TypeError &quot;foo is not a function&quot;</span><br><span class="line">    bar(); &#x2F;&#x2F; &quot;this will run!&quot;</span><br><span class="line">    var foo &#x3D; function () &#123; &#x2F;&#x2F; function expression assigned to local variable &#39;foo&#39;</span><br><span class="line">        alert(&quot;this won&#39;t run!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    function bar() &#123; &#x2F;&#x2F; function declaration, given the name &#39;bar&#39;</span><br><span class="line">        alert(&quot;this will run!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test();</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，foo()调用的时候报错了，而bar能够正常调用。</p>
+<p>我们前面说过变量和函数都会上升，遇到函数表达式 <code>var foo = function()&#123;&#125;</code>时，首先会将<code>var foo</code>上升到函数体顶部，然而此时的foo的值为undefined,所以执行<code>foo()</code>报错。</p>
+<p>而对于函数<code>bar()</code>, 则是提升了整个函数，所以<code>bar()</code>才能够顺利执行。</p>
+<p>有个细节必须注意：<strong>当遇到函数和变量同名且都会被提升的情况，函数声明优先级比较高，因此变量声明会被函数声明所覆盖，但是可以重新赋值。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert(a); &#x2F;&#x2F; 输出：function a()&#123; alert(&#39;我是函数&#39;) &#125;</span><br><span class="line">function a()&#123; alert(&#39;我是函数&#39;) &#125; &#x2F;&#x2F;</span><br><span class="line">var a &#x3D; &#39;我是变量&#39;;</span><br><span class="line">alert(a); &#x2F;&#x2F; 输出：&#39;我是变量&#39;</span><br></pre></td></tr></table></figure>
+
+<p>function声明的优先级比var声明高，也就意味着当两个同名变量同时被function和var声明时，function声明会覆盖var声明</p>
+<p>这代码等效于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function a()&#123;alert(&#39;我是函数&#39;)&#125; </span><br><span class="line">var a;    &#x2F;&#x2F; hoisting</span><br><span class="line">alert(a);    &#x2F;&#x2F; 输出：function a()&#123; alert(&#39;我是函数&#39;) &#125;</span><br><span class="line">a &#x3D; &#39;我是变量&#39;;&#x2F;&#x2F; 赋值</span><br><span class="line">alert(a);   &#x2F;&#x2F; 输出：&#39;我是变量&#39;</span><br></pre></td></tr></table></figure>
+
+<p>最后我们看个复杂点的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function test(arg)&#123;</span><br><span class="line">    &#x2F;&#x2F; 1. 形参 arg 是 &quot;hi&quot;</span><br><span class="line">    &#x2F;&#x2F; 2. 因为函数声明比变量声明优先级高，所以此时 arg 是 function</span><br><span class="line">    console.log(arg);  </span><br><span class="line">    var arg &#x3D; &#39;hello&#39;; &#x2F;&#x2F; 3.var arg 变量声明被忽略， arg &#x3D; &#39;hello&#39;被执行</span><br><span class="line">    function arg()&#123;</span><br><span class="line">		console.log(&#39;hello world&#39;) </span><br><span class="line">    &#125;</span><br><span class="line">    console.log(arg);  </span><br><span class="line">&#125;</span><br><span class="line">test(&#39;hi&#39;);</span><br><span class="line">&#x2F;* 输出：</span><br><span class="line">function arg()&#123;</span><br><span class="line">    console.log(&#39;hello world&#39;) </span><br><span class="line">&#125;</span><br><span class="line">hello </span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>这是因为当函数执行的时候,首先会形成一个新的私有的作用域，然后依次按照如下的步骤执行：</p>
+<ul>
+<li>如果有形参，先给形参赋值</li>
+<li>进行私有作用域中的预解释，函数声明优先级比变量声明高，最后后者会被前者所覆盖，<strong>但是可以重新赋值</strong></li>
+<li>私有作用域中的代码从上到下执行</li>
+</ul>
+<h3 id="3-确定this的指向"><a href="#3-确定this的指向" class="headerlink" title="3.确定this的指向"></a>3.确定this的指向</h3><p>先搞明白一个很重要的概念 —— <strong>this的值是在执行的时候才能确认，定义的时候不能确认！</strong> 为什么呢 —— 因为this是执行上下文环境的一部分，而执行上下文需要在代码执行之前确定，而不是定义的时候。看如下例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 情况1</span><br><span class="line">function foo() &#123;</span><br><span class="line">	console.log(this.a) &#x2F;&#x2F;1</span><br><span class="line">&#125;</span><br><span class="line">var a &#x3D; 1</span><br><span class="line">foo()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 情况2</span><br><span class="line">function fn()&#123;</span><br><span class="line">	console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">var obj &#x3D; &#123;fn:fn&#125;;</span><br><span class="line">obj.fn(); &#x2F;&#x2F;this-&gt;obj</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 情况3</span><br><span class="line">function CreateJsPerson(name,age)&#123;</span><br><span class="line">    &#x2F;&#x2F; this是当前类的一个实例p1</span><br><span class="line">    this.name &#x3D; name; &#x2F;&#x2F; &#x3D;&gt;p1.name&#x3D;name</span><br><span class="line">    this.age &#x3D; age; &#x2F;&#x2F; &#x3D;&gt;p1.age&#x3D;age</span><br><span class="line">&#125;</span><br><span class="line">var p1&#x3D;new CreateJsPerson(&quot;尹华芝&quot;,48);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 情况4</span><br><span class="line">function add(c, d)&#123;</span><br><span class="line">	return this.a + this.b + c + d;</span><br><span class="line">&#125;</span><br><span class="line">var o &#x3D; &#123;a:1, b:3&#125;;</span><br><span class="line">add.call(o, 5, 7); &#x2F;&#x2F; 1 + 3 + 5 + 7 &#x3D; 16</span><br><span class="line">add.apply(o, [10, 20]); &#x2F;&#x2F; 1 + 3 + 10 + 20 &#x3D; 34</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 情况5</span><br><span class="line">&lt;button id&#x3D;&quot;btn1&quot;&gt;箭头函数this&lt;&#x2F;button&gt;</span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;   </span><br><span class="line">    let btn1 &#x3D; document.getElementById(&#39;btn1&#39;);</span><br><span class="line">    let obj &#x3D; &#123;</span><br><span class="line">        name: &#39;kobe&#39;,</span><br><span class="line">        age: 39,</span><br><span class="line">        getName: function () &#123;</span><br><span class="line">            btn1.onclick &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">                console.log(this);&#x2F;&#x2F;obj</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    obj.getName();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们逐一解释上面几种情况</p>
+<ul>
+<li>对于直接调用 foo 来说，不管 foo 函数被放在了什么地方，this 一定是 window</li>
+<li>对于 obj.foo() 来说，我们只需要记住，谁调用了函数，谁就是 this，所以在这个场景下 foo 函数中的 this 就是 obj 对象</li>
+<li>在构造函数模式中，类中(函数体中)出现的this.xxx=xxx中的this是当前类的一个实例</li>
+<li>call、apply和bind：this 是第一个参数</li>
+<li>箭头函数this指向:箭头函数没有自己的this，看其外层的是否有函数，如果有，外层函数的this就是内部箭头函数的this，如果没有，则this是window。</li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/3/5/1694e75626c746d1?imageslim" alt="img"></p>
+<h2 id="四、执行上下文栈（Execution-Context-Stack）"><a href="#四、执行上下文栈（Execution-Context-Stack）" class="headerlink" title="四、执行上下文栈（Execution Context Stack）"></a>四、执行上下文栈（Execution Context Stack）</h2><p>函数多了，就有多个函数执行上下文，每次调用函数创建一个新的执行上下文，那如何管理创建的那么多执行上下文呢？</p>
+<p>JavaScript 引擎创建了执行上下文栈来管理执行上下文。<strong>可以把执行上下文栈认为是一个存储函数调用的栈结构，遵循先进后出的原则</strong>。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/3/4/16949529105ae0a6?imageslim" alt="img"></p>
+<p>从上面的流程图，我们需要记住几个关键点：</p>
+<ul>
+<li>JavaScript执行在单线程上，所有的代码都是排队执行。</li>
+<li>一开始浏览器执行全局的代码时，首先创建全局的执行上下文，压入执行栈的顶部。</li>
+<li>每当进入一个函数的执行就会创建函数的执行上下文，并且把它压入执行栈的顶部。当前函数执行完成后，当前函数的执行上下文出栈，并等待垃圾回收。</li>
+<li>浏览器的JS执行引擎总是访问栈顶的执行上下文。</li>
+<li>全局上下文只有唯一的一个，它在浏览器关闭时出栈。</li>
+</ul>
+<p>我们再来看个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var color &#x3D; &#39;blue&#39;;</span><br><span class="line">function changeColor() &#123;</span><br><span class="line">    var anotherColor &#x3D; &#39;red&#39;;</span><br><span class="line">    function swapColors() &#123;</span><br><span class="line">        var tempColor &#x3D; anotherColor;</span><br><span class="line">        anotherColor &#x3D; color;</span><br><span class="line">        color &#x3D; tempColor;</span><br><span class="line">    &#125;</span><br><span class="line">    swapColors();</span><br><span class="line">&#125;</span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure>
+
+<p>上述代码运行按照如下步骤：</p>
+<ul>
+<li><p>当上述代码在浏览器中加载时，JavaScript 引擎会创建一个全局执行上下文并且将它推入当前的执行栈</p>
+</li>
+<li><p>调用 changeColor函数时，此时changeColor函数内部代码还未执行，js执行引擎立即创建一个changeColor的执行上下文（简称EC），然后把这执行上下文压入到执行栈（简称ECStack）中。</p>
+</li>
+<li><p>执行changeColor函数过程中，调用swapColors函数，同样地，swapColors函数执行之前也创建了一个swapColors的执行上下文，并压入到执行栈中。</p>
+</li>
+<li><p>swapColors函数执行完成，swapColors函数的执行上下文出栈，并且被销毁。</p>
+</li>
+<li><p>changeColor函数执行完成，changeColor函数的执行上下文出栈，并且被销毁。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/3/10/16966f12b2ff5478?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://yanhaijing.com/javascript/2014/04/29/what-is-the-execution-context-in-javascript/">了解JavaScript的执行上下文</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/book/6844733763675488269/section/6844733763763568654">前端面试之道</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/wangfupeng1988/p/4001284.html">深入理解javascript原型和闭包系列</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903704466833421">【译】理解 Javascript 执行上下文和执行栈</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.html.cn/archives/7255">深入理解JavaScript中的作用域和上下文</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012646203">前端基础进阶（二）：执行上下文详细图解</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/creeperyang/blog/issues/16">深入理解JS中声明提升、作用域（链）和<code>this</code>关键字</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/" rel="tag"><i class="fa fa-tag"></i> 执行上下文</a>
+              <a href="/tags/%E6%89%A7%E8%A1%8C%E6%A0%88/" rel="tag"><i class="fa fa-tag"></i> 执行栈</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/22/%E6%B7%B1%E7%A9%B6%20JavaScript%20%E6%95%B0%E7%BB%84/" rel="prev" title="深究 JavaScript 数组 —— 演进&性能">
+      <i class="fa fa-chevron-left"></i> 深究 JavaScript 数组 —— 演进&性能
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88Execution-Context%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、执行上下文（Execution Context）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是执行上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2.执行上下文的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">二、执行上下文的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.</span> <span class="nav-text">1.创建阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="nav-number">2.2.</span> <span class="nav-text">2.执行阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%9B%9E%E6%94%B6%E9%98%B6%E6%AE%B5"><span class="nav-number">2.3.</span> <span class="nav-text">3.回收阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87%E5%92%8Cthis%E6%8C%87%E5%90%91%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-number">3.</span> <span class="nav-text">三、变量提升和this指向的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E6%8F%90%E5%8D%87"><span class="nav-number">3.1.</span> <span class="nav-text">1.变量声明提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E6%8F%90%E5%8D%87"><span class="nav-number">3.2.</span> <span class="nav-text">2.函数声明提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A1%AE%E5%AE%9Athis%E7%9A%84%E6%8C%87%E5%90%91"><span class="nav-number">3.3.</span> <span class="nav-text">3.确定this的指向</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E6%A0%88%EF%BC%88Execution-Context-Stack%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、执行上下文栈（Execution Context Stack）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共409.8k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

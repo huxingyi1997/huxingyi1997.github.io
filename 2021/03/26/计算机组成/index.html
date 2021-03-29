@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="其实学习80C51单片机的时候已经学过了一些相关知识，觉得还算有趣，我们通常使用的计算机原来是怎么构成的，就是真实感受汇编语言不会编，记得大作业那个红绿灯搞了我很久，当时搞出来的时候我热泪盈眶。 上面是闲话，还是当越深入学习，越会发现计算机组成的重要性。 比如知道js里面0.1 + 0.2 是不等于0.3的，为什么呢？这就牵扯到计算机组成原理中浮点数的表示方法，以及浮点数的加减运算，当时学Veri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成">
+<meta property="og:url" content="https://hxy1997.xyz/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="其实学习80C51单片机的时候已经学过了一些相关知识，觉得还算有趣，我们通常使用的计算机原来是怎么构成的，就是真实感受汇编语言不会编，记得大作业那个红绿灯搞了我很久，当时搞出来的时候我热泪盈眶。 上面是闲话，还是当越深入学习，越会发现计算机组成的重要性。 比如知道js里面0.1 + 0.2 是不等于0.3的，为什么呢？这就牵扯到计算机组成原理中浮点数的表示方法，以及浮点数的加减运算，当时学Veri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec1959586293?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec19595e1b31?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec1959a12b82?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706b694c2b484bd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706b6d32a002249?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706b702defc6fe1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706bff6d4271172?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c01bf8cca0fb?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c09a00c1bf76?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c0c704b4d5e4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c1c88439428c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c2497c78ea7f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c398612217b8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c4a705a0c799?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706c9d470edc315?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706cbcf713a5daa?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706cc3a1c2ac0b4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec19592d1486?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/22/1706d5e33596c8fe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/1706ff11252cf012?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/1707000f2236ced5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/170704847227a313?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/170705cec4efdbbf?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/170705db54658733?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17070a5d364385ee?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17070ac01d4adfbe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/170713830fa5eb8b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec195b23428e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17071e09c7aa0ec0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17071f8af2c754fa?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17071fac43ab80f6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/1707206ef2336a07?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/17072561bbbaabd0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/23/1707263d5cdbcf4b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec195b3d9c27?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-03-26T06:30:00.000Z">
+<meta property="article:modified_time" content="2021-03-26T09:25:11.069Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="计算机组成">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/1/2/1680ec1959586293?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机组成 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机组成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-26 14:30:00 / 修改时间：17:25:11" itemprop="dateCreated datePublished" datetime="2021-03-26T14:30:00+08:00">2021-03-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>其实学习80C51单片机的时候已经学过了一些相关知识，觉得还算有趣，我们通常使用的计算机原来是怎么构成的，就是真实感受汇编语言不会编，记得大作业那个红绿灯搞了我很久，当时搞出来的时候我热泪盈眶。</p>
+<p>上面是闲话，还是当越深入学习，越会发现计算机组成的重要性。</p>
+<p>比如知道js里面<code>0.1 + 0.2</code> 是<code>不等于0.3</code>的，为什么呢？这就牵扯到计算机组成原理中<code>浮点数</code>的表示方法，以及<code>浮点数</code>的加减运算，当时学Verilog的大作业，对于浮点数来说，乘除法反而好些，加减法写了半天。</p>
+<p>又例如从键盘输入<code>a+b</code>这个指令，如何通过<code>cpu</code>的调度输出到<code>屏幕上</code>呢？这就涉及到<code>冯诺依曼体系</code>，如果你是编程人员，都不清楚数据从键盘到屏幕的<code>基本流向</code>，输入、输出设备、中央处理器是做什么的都不知道，真的该下定决心补一补这些基础。</p>
+<span id="more"></span>
+
+<h1 id="1-计算机的基本组成"><a href="#1-计算机的基本组成" class="headerlink" title="1.计算机的基本组成"></a>1.计算机的基本组成</h1><h2 id="1-1-冯·诺依曼计算机的特点"><a href="#1-1-冯·诺依曼计算机的特点" class="headerlink" title="1.1 冯·诺依曼计算机的特点"></a>1.1 冯·诺依曼计算机的特点</h2><ul>
+<li>计算机由运算器、存储器、控制器、输入设备和输出设备组成</li>
+<li>指令由操作码（表示操作的性质）和地址码（表示操作数在存储器中的位置）组成</li>
+<li>指令和数据皆用二进制表示</li>
+<li>指令和数据以同等地位存放于存储器内，并可按地址寻访</li>
+<li>指令在存储器内按顺序存放，通常是顺序执行的。但也可根据运算结果或设定的条件，改变执行顺序</li>
+<li>机器以运算器为中心，输入输出设备与存储器之间的数据传送通过运算器完成</li>
+</ul>
+<h2 id="1-2-计算机硬件框图"><a href="#1-2-计算机硬件框图" class="headerlink" title="1.2 计算机硬件框图"></a>1.2 计算机硬件框图</h2><p>现代计算机可认为由三大部分组成：CPU、I/O 设备及主存储器（Main Memory，MM），如下图所示：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec1959586293?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="现代计算机的组成框图"></p>
+<ul>
+<li>M⋅M（Main Memory）：主存储器，也就是常说的内存，与CPU直接交换信息。此外还有辅存，如硬盘、U盘等;</li>
+<li>ALU（Arithmetic Logic Unit）：算数逻辑运算单元；</li>
+<li>CU（Contro Unit）：控制单元，解释存储器中的指令，并发出各种命令执行指令。</li>
+</ul>
+<h2 id="1-3-细化的计算机组成框图"><a href="#1-3-细化的计算机组成框图" class="headerlink" title="1.3 细化的计算机组成框图"></a>1.3 细化的计算机组成框图</h2><p>为了形象地了解计算机的工作过程，对现代计算机的组成框图进行细化：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec19595e1b31?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="细化的计算机组成框图"></p>
+<h3 id="1-3-1-运算器"><a href="#1-3-1-运算器" class="headerlink" title="1.3.1 运算器"></a>1.3.1 运算器</h3><p>运算器最少包含 3 个寄存器（现代计算机处理器内部往往设有通用寄存器组，如 ARM Cortex-A8 处理器，有 40 个 32bit 的寄存器（32 个通用寄存器，7 个状态寄存器，1 个程序计数器（PC，Program Counter）））和一个算数逻辑运算单元（ALU）。</p>
+<ul>
+<li>ACC（Accumulator）：累加器</li>
+<li>MQ（Multiple-Quotient register）：乘商寄存器</li>
+<li>X：操作数寄存器</li>
+</ul>
+<h3 id="1-3-2-控制器"><a href="#1-3-2-控制器" class="headerlink" title="1.3.2 控制器"></a>1.3.2 控制器</h3><p>控制器是计算机的神经中枢，由它指挥各部件自动、协调地运行。具体而言：</p>
+<ol>
+<li>读取指令：命令存储器读出一条指令</li>
+<li>分析指令：指出该指令需要完成什么操作，并按寻址特征指出操作数的地址</li>
+<li>执行指令：根据操作数所在地址以及指令的操作码，完成某种操作</li>
+</ol>
+<p>控制器由程序计数器（Program Counter，PC）、指令寄存器（Instruction Register，IR）和控制单元（CU）组成：</p>
+<ul>
+<li>PC：存放当前欲执行指令的地址，与主存的 MAR（Memory Address Register，存储器地址寄存器）有一条直接通路，且具备自动 +1 的功能，即可自动形成下一条指令的地址</li>
+<li>IR：存放当前的指令，其内容来自主存的 MDR。IR 中的操作码 (OP(IR)) 送至CU，用来分析指令。其地址码 (Ad(IR)) 作为操作数的地址，送至存储器的 MAR</li>
+<li>CU：分析当前指令所需完成的操作，并发出各种微操作序列，用以控制所有被控对象</li>
+</ul>
+<h3 id="1-3-3-主存储器"><a href="#1-3-3-主存储器" class="headerlink" title="1.3.3 主存储器"></a>1.3.3 主存储器</h3><p>主存储器（简称主存或内存）包括存储体M、各种逻辑部件和控制电路等。存储体由许多存储单元组成，每个存储单元又包含很多存储元件，每个存储元件可以存储一位二进制代码 0 或 1。可见一个存储单元可存储一串二进制代码，称这串二进制代码为一个存储字，这串二进制代码的位数称为存储字长。<strong>存储字长可以是 8 位、16 位、32 位等</strong>。一个存储字可代表一个二进制数、一串十六进制字符、两个 ASCII 码或者一条指令。</p>
+<p>每个存储单元都有自己的地址，主存的工作方式就是按照存储单元的地址实现对存储字各位的读写，而 MAR、MDR 则用来实现按地址访问：</p>
+<ul>
+<li>MAR(Memory Address Register)：存储器地址寄存器，存放欲访问的存储单元的地址。其位数对应存储单元的个数，如 MAR 是 32 位，则共有 2^32 = 4 * 1024 * 1024 * 1024 (1024个记作 1K) 个存储单元</li>
+<li>MDR(Memory Data Register)：存储器数据寄存器，存放从存储体读出的数据或准备写入存储体的数据（可以是代码，也可以是指令），其位数与存储字长相等</li>
+</ul>
+<p>当然，要想实现一个完整的读/写操作，CPU还需要给主存发送各种控制信号，如读命令、写命令、地址译码驱动信号等。随着硬件电路的发展，主存都制成大规模集成电路的芯片，<strong>而将MAR、MDR 集成在 CPU 芯片中。</strong></p>
+<p>早期计算机的存储字长一般与机器的指令字长、数据字长相等，故访问一次主存便可取一条指令或一个数据。随着计算机应用范围的不断扩大，往往要求计算机的指令字长、数据字长是可变的。为了适应指令字长和数据字长的可变性，其长度不再由存储字长确定，而由字节的个数来表示。比如 4 字节的指令字长就是 32bit，2 字节的指令字长就是 16bit。至此，指令字长、数据字长和存储字长不必相等，但都必须是字节的整数倍。</p>
+<p>下图为32位架构的ARM存储器组织结构，其基本数据类型有：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec1959a12b82?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="ARM存储器的组织结构"></p>
+<ul>
+<li>Byte：字节，8位；</li>
+<li>HalfWord：半字，16位（半字必须与2字节边界对齐）；</li>
+<li>Word：字，32位（字必须与4字节边界对齐）；</li>
+<li>Double World（Cortex-A支持）：双字，64位（双字必须与8字节边界对齐）。</li>
+</ul>
+<h1 id="1、计算机的工作原理"><a href="#1、计算机的工作原理" class="headerlink" title="1、计算机的工作原理"></a>1、计算机的工作原理</h1><p>首先，计算机最基本的5大组成部分如下图，分别为：<code>输入设备</code>(比如键盘、鼠标), <code>存储器</code>(比如内存、硬盘), <code>运算器</code>(cpu), <code>控制器</code>(cpu)（两者合称中央处理器）, <code>输出设备</code>(显示器)。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706b694c2b484bd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>工作原理如下</p>
+<h2 id="2-1-控制器-—-gt-控制输入设备-—-gt-指令流向内存"><a href="#2-1-控制器-—-gt-控制输入设备-—-gt-指令流向内存" class="headerlink" title="2.1 控制器 —&gt; 控制输入设备 —-&gt; 指令流向内存"></a>2.1 控制器 —&gt; 控制输入设备 —-&gt; 指令流向内存</h2><p>当我们输入数据的时候，cpu里的<code>控制器</code>会让<code>输入设备</code>把这些指令存储到<code>存储器</code>(内存)上。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706b6d32a002249?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="2-2-控制器分析指令-—-gt-控制存储器-—-gt-把数据送到运算器"><a href="#2-2-控制器分析指令-—-gt-控制存储器-—-gt-把数据送到运算器" class="headerlink" title="2.2 控制器分析指令 —&gt; 控制存储器 —&gt; 把数据送到运算器"></a>2.2 控制器分析指令 —&gt; 控制存储器 —&gt; 把数据送到运算器</h2><p>控制器分析指令之后， 此时让<code>存储器</code>把数据发送到<code>运算器</code>里(<code>控制器</code>和<code>运算器</code>都在<code>cpu</code>里面)</p>
+<p>这里需要注意，<code>存储器</code>既能<code>存储数据</code>，还能<code>存储指令</code></p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706b702defc6fe1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="1-3-控制器控制运算器做数据的运算-并且将运算结果返回存储器"><a href="#1-3-控制器控制运算器做数据的运算-并且将运算结果返回存储器" class="headerlink" title="1.3 控制器控制运算器做数据的运算 并且将运算结果返回存储器"></a>1.3 控制器控制运算器做数据的运算 并且将运算结果返回存储器</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706bff6d4271172?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="1-4-控制器控制存储器将结果返回给输出设备"><a href="#1-4-控制器控制存储器将结果返回给输出设备" class="headerlink" title="1.4 控制器控制存储器将结果返回给输出设备"></a>1.4 控制器控制存储器将结果返回给输出设备</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c01bf8cca0fb?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h1 id="3-计算机硬件的主要技术指标"><a href="#3-计算机硬件的主要技术指标" class="headerlink" title="3.计算机硬件的主要技术指标"></a>3.计算机硬件的主要技术指标</h1><h2 id="3-1-机器字长"><a href="#3-1-机器字长" class="headerlink" title="3.1 机器字长"></a>3.1 机器字长</h2><p>机器字长是指计算机进行一次整数运算所能处理的二进制数据的位数（整数运算即定点整数运算）。因为计算机中数的表示有定点数和浮点数之分，定点数又有定点整数和定点小数之分，这里所说的整数运算即定点整数运算。机器字长也就是运算器进行定点数运算的字长，<strong>即通用寄存器的位数</strong>。</p>
+<p>主存字长一般等于机器字长，不等的情况下，一般是主存储器字长小于机器字长。例如机器字长是 32 位，主存储器字长可以是 32 位，也可以是 16 位。</p>
+<p>Windows 64 位操作系统是针对 64 位机器字长的 CPU 设计的，目前 64 位架构实现技术主要有 AMD64、Intel EM64T 等。</p>
+<h2 id="3-2-存储容量"><a href="#3-2-存储容量" class="headerlink" title="3.2 存储容量"></a>3.2 存储容量</h2><p>主存容量 = 存储单元数 * 存储字长</p>
+<p>比如，若 MAR 是 32 位，则存储单元个数为： 2^32 = 4 * 1024 * 1024 * 1024个。若存储字长为 8 位，则存储容量 =  4 * 1024 * 1024 * 1024 * 8 bit，即 4G(4 Gigabyte) 。</p>
+<h2 id="3-3-运算速度"><a href="#3-3-运算速度" class="headerlink" title="3.3 运算速度"></a>3.3 运算速度</h2><p>单位时间内执行的指令平均条数，单位 MIPS（Million Instruction Per Second）。</p>
+<h1 id="4-CPU及其工作过程"><a href="#4-CPU及其工作过程" class="headerlink" title="4.CPU及其工作过程"></a>4.CPU及其工作过程</h1><p>CPU中比较重要的两个部件是<code>运算器</code>和<code>控制器</code>，我们先来看看运算器的主要作用</p>
+<h2 id="4-1-运算器主要部件"><a href="#4-1-运算器主要部件" class="headerlink" title="4.1 运算器主要部件"></a>4.1 运算器主要部件</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c09a00c1bf76?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>如上图，运算器里最重要的部件是<code>ALU</code>，中文叫<code>算术逻辑单元</code>，用来进行<code>算术</code>和<code>逻辑运算</code>的。其它的<code>MQ</code>,<code>ACC</code>这些我们不用管了，是一些<code>寄存器</code>。</p>
+<h2 id="4-2-控制器主要部件"><a href="#4-2-控制器主要部件" class="headerlink" title="4.2 控制器主要部件"></a>4.2 控制器主要部件</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c0c704b4d5e4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>控制器中最重要的部件是<code>CU</code>（控制单元），只要是<code>分析指令</code>，给出<code>控制信号</code>。</p>
+<p><code>IR</code>（指令寄存器），存放当前需要执行的指令</p>
+<p><code>PC</code>存放的指令的地址。</p>
+<h2 id="4-3-举例-取数指令执行过程"><a href="#4-3-举例-取数指令执行过程" class="headerlink" title="4.3 举例 - 取数指令执行过程"></a>4.3 举例 - 取数指令执行过程</h2><p>首先，是取指令的过程如下</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c1c88439428c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<ul>
+<li>第一步，<code>PC</code>，也就是存放指令地址的地方，我们要知道下一条指令是什么，就必须去存储器拿，<code>CPU</code>才知道接下来做什么。<code>PC</code>去了存储器的<code>MAR</code>拿要执行的指令地址，<code>MAR</code>（存储器里专门存指令地址的地方）</li>
+<li>第二步和第三步，<code>MAR</code>去存储体内拿到指令之后，将指令地址放入<code>MDR</code>(存储器里专门存数据的地方)</li>
+<li>第四步<code>MDR</code>里的数据返回到<code>IR</code>里面，<code>IR</code>是存放指令的地方，我们把刚才从存储体里拿的指令放在这里</li>
+</ul>
+<p>然后，分析指令，执行指令的过程如下</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c2497c78ea7f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<ul>
+<li>第五步， <code>IR</code>将指令放入<code>CU</code>中，来分析指令，比如说分析出是一个取数指令，接着就要执行指令了（这里取数指令，其实就是一个地址码，按着这个地址去存储体取数据）</li>
+<li>第六步，第七步 <code>IR</code>就会接着去找存储体里的<code>MAR</code>（存储地址的地方），<code>MAR</code>就根据取数指令里的地址吗去存储体里去数据</li>
+<li>第八步，取出的数据返回给<code>MDR</code>（存放数据的地方）</li>
+<li>第九步，<code>MDR</code>里的数据放到运算器的寄存器里，这里的取指令的过程结束了。</li>
+</ul>
+<p>来个插曲，我们知道数据在<code>内存</code>里是<code>二进制</code>存着，也就是<code>0和1</code>, <code>0和1</code>怎么用表示呢？</p>
+<p>我们拿其中一种存储0和1的方式来说明</p>
+<ul>
+<li><p>电容是否有电荷，有电荷代表1，无电荷代表0</p>
+</li>
+<li><p>如下图</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c398612217b8?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+</li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c4a705a0c799?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h1 id="5-计算机编程语言"><a href="#5-计算机编程语言" class="headerlink" title="5.计算机编程语言"></a>5.计算机编程语言</h1><h2 id="5-1-机器语言"><a href="#5-1-机器语言" class="headerlink" title="5.1 机器语言"></a>5.1 机器语言</h2><p>存放一个数的指令，例如下图</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706c9d470edc315?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>我们来看二进制代码 <code>0000，0000，000000010000</code></p>
+<ul>
+<li>其中第一个<code>0000</code>，表示的是汇编语言里的<code>LOAD</code>，也就是加载，加载什么呢</li>
+<li>加载地址<code>000000010000</code>上的数据到第二个<code>0000</code>（寄存器的位置）。</li>
+</ul>
+<h2 id="5-2-汇编语言"><a href="#5-2-汇编语言" class="headerlink" title="5.2 汇编语言"></a>5.2 汇编语言</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706cbcf713a5daa?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p><code>LOAD A, 16</code>意思是将存储体内的16号单元数据，放到寄存器地址A中 <code>ADD C, A, B</code>意思是将寄存器里的A,B数据相加，得到C <code>STORE C, 17</code>意思是将寄存器里的数据存到存储体17号单元内</p>
+<h2 id="5-3-高级语言"><a href="#5-3-高级语言" class="headerlink" title="5.3 高级语言"></a>5.3 高级语言</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706cc3a1c2ac0b4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>高级语言是不是很简单，就一个<code>a+b</code>，你都不用去考虑<code>寄存器</code>，<code>存储体</code>这些事。</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec19592d1486?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="多层次结构的计算机系统"></p>
+<p>最初的计算机并没有微指令系统。由于 M0、M1 都是实际存在的，为了区分，这里分为微程序机器、传统机器。</p>
+<p>将高级语言翻译成机器语言的程序叫做翻译程序，翻译程序分为编译程序与解释程序两种类型：</p>
+<ul>
+<li>编译程序：一次性将高级语言全部翻译成机器语言，直接借助<code>编译器</code>，将高级语言转换为<code>二进制</code>代码，比如<code>c</code>，这样<code>c</code>运行起来就特别快，因为编译后是机器语言，直接就能在系统上跑，但问题是，编译的速度可能会比较慢。</li>
+<li>解释程序：翻译一句执行一句，重新执行需要再次翻译，比如 <code>js</code>，是将代码翻译一行成<code>机器语言</code>（中间可能会先翻译为<code>汇编</code>代码或者<code>字节码</code>），解释一行，执行一行</li>
+</ul>
+<p>需要注意的是，按照第一种将大量的高级代码翻译为机器语言，这其中就有很大的空间给<code>编译器</code>做代码优化，解释性语言就很难做这种优化，但是在<code>v8</code>引擎中，<code>js</code>还是要被优化的，在<code>编译阶段</code>（代码分<code>编译</code>和<code>执行</code>两个阶段）会对代码做一些优化，编译后立即执行的方式通常被称为 <code>JIT (Just In Time) Comipler</code>。</p>
+<h1 id="6-进制转换"><a href="#6-进制转换" class="headerlink" title="6.进制转换"></a>6.进制转换</h1><h2 id="6-1-二进制如何转化为十进制"><a href="#6-1-二进制如何转化为十进制" class="headerlink" title="6.1 二进制如何转化为十进制"></a>6.1 二进制如何转化为十进制</h2><p>例如<code>2</code>进制<code>101.1</code>如何转化为<code>10</code>进制。（有些同学觉得可以用<code>parseInt(&#39;101.1&#39;, 2)</code>，这个是不行的，因为<code>parseInt</code>返回整数）</p>
+<p>转化方法如下：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/22/1706d5e33596c8fe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>上图的规则是什么呢？</p>
+<p><code>二进制</code>的每个数去<code>乘以2</code>的相应次方,注意小数点后是乘以它的<code>负相应次方</code>。 再举一个例子你就明白了，</p>
+<p>二进制<code>1101</code>转为十进制</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/1706ff11252cf012?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<h2 id="6-2-十进制整数转为二进制"><a href="#6-2-十进制整数转为二进制" class="headerlink" title="6.2 十进制整数转为二进制"></a>6.2 十进制整数转为二进制</h2><p><code>JS</code>里面可以用<code>toString(2)</code>这个方法来转换。如果要用通用的方法，例如：将十进制数<code>（29）</code>转换成二进制数， 算法如下：</p>
+<ul>
+<li>把给定的十进制数29除以2，商为14，所得的余数1是二进制数的最低位的数码</li>
+<li>再将14除以2，商为7，余数为0</li>
+<li>再将7除以2，商为3，余数为1，再将3除以2，商为1，余数为1</li>
+<li>再将1除以2，商为0，余数为1是二进制数的最高位的数码</li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/1707000f2236ced5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>其结果为：11101</p>
+<h2 id="6-3-十进制小数转为二进制"><a href="#6-3-十进制小数转为二进制" class="headerlink" title="6.3 十进制小数转为二进制"></a>6.3 十进制小数转为二进制</h2><p>方式是采用“乘2取整，顺序排列”法。具体做法是：</p>
+<ul>
+<li>用2乘十进制小数，可以得到积，将积的整数部分取出-</li>
+<li>再用2乘余下的小数部分，又得到一个积，再将积的整数部分取出-</li>
+<li>如此进行，直到积中的小数部分为零，或者达到所要求的精度为止</li>
+</ul>
+<p>我们具体举一个例子</p>
+<p>如: 十进制 0.25 转为二进制</p>
+<ul>
+<li><code>0.25 * 2 = 0.5</code>   取出整数部分：<code>0</code></li>
+<li><code>0.5 * 2 = 1.0</code>  取出整数部分1</li>
+</ul>
+<p>即十进制<code>0.25</code>的二进制为 <code>0.01</code> ( 第一次所得到为最高位,最后一次得到为最低位)</p>
+<p>此时我们可以试试十进制<code>0.1</code>和<code>0.2</code>如何转为二进制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0.1(十进制) &#x3D; 0.0001100110011001(二进制)</span><br><span class="line">十进制数0.1转二进制计算过程：</span><br><span class="line">0.1*2＝0.2……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.2”接着计算。</span><br><span class="line">0.2*2＝0.4……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.4”接着计算。</span><br><span class="line">0.4*2＝0.8……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.8”接着计算。</span><br><span class="line">0.8*2＝1.6……1——整数部分为“1”。整数部分“1”清零后为“0”，用“0.6”接着计算。</span><br><span class="line">0.6*2＝1.2……1——整数部分为“1”。整数部分“1”清零后为“0”，用“0.2”接着计算。</span><br><span class="line">0.2*2＝0.4……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.4”接着计算。</span><br><span class="line">0.4*2＝0.8……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.8”接着计算。</span><br><span class="line">0.8*2＝1.6……1——整数部分为“1”。整数部分“1”清零后为“0”，用“0.6”接着计算。</span><br><span class="line">0.6*2＝1.2……1——整数部分为“1”。整数部分“1”清零后为“0”，用“0.2”接着计算。</span><br><span class="line">0.2*2＝0.4……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.4”接着计算。</span><br><span class="line">0.4*2＝0.8……0——整数部分为“0”。整数部分“0”清零后为“0”，用“0.2”接着计算。</span><br><span class="line">0.8*2＝1.6……1——整数部分为“1”。整数部分“1”清零后为“0”，用“0.2”接着计算。</span><br><span class="line">……</span><br><span class="line">……</span><br><span class="line">所以，得到的整数依次是：“0”，“0”，“0”，“1”，“1”，“0”，“0”，“1”，“1”，“0”，“0”，“1”……。</span><br><span class="line">由此，大家肯定能看出来，整数部分出现了无限循环。</span><br></pre></td></tr></table></figure>
+
+<p>接下来看<code>0.2</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0.2化二进制是</span><br><span class="line">0.2*2&#x3D;0.4,整数位为0</span><br><span class="line">0.4*2&#x3D;0.8,整数位为0</span><br><span class="line">0.8*2&#x3D;1.6,整数位为1,去掉整数位得0.6</span><br><span class="line">0.6*2&#x3D;1.2,整数位为1,去掉整数位得0.2</span><br><span class="line">0.2*2&#x3D;0.4,整数位为0</span><br><span class="line">0.4*2&#x3D;0.8.整数位为0</span><br><span class="line">就这样推下去！小数*2整,一直下去就行</span><br><span class="line">这个数整不断</span><br><span class="line">0.0011001</span><br></pre></td></tr></table></figure>
+
+<p>所以<code>0.1</code>和<code>0.2</code>都无法完美转化为二进制，所以它们相加当然不是<code>0.3</code>了</p>
+<h1 id="7-定点数和浮点数"><a href="#7-定点数和浮点数" class="headerlink" title="7.定点数和浮点数"></a>7.定点数和浮点数</h1><p>首先，什么是定点数呢？</p>
+<h2 id="7-1-定点数"><a href="#7-1-定点数" class="headerlink" title="7.1 定点数"></a>7.1 定点数</h2><p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/170704847227a313?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>如上图，举例纯整数的二进制<code>1011</code>和<code>-1011</code>，如果是<code>整数</code>，符号位用<code>0</code>表示，如果是<code>负数</code>符号为用<code>1</code>表示</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/170705cec4efdbbf?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>同理，纯小数表示举例如下：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/170705db54658733?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>那如果不是<code>纯小数</code>或者<code>纯整数</code>，该怎么表示呢？</p>
+<p>比如<code>10.1</code>, 可以乘以一个比例因子，将<code>10.1 ---&gt; 101</code> 比例因子是<code>10</code>, 或者<code>10.1 ---&gt; 0.101</code>比例因子是<code>100</code></p>
+<p>定点数很简单，接下来我们介绍浮点数，在JS里面，数字都是用<code>双精度的浮点数</code>，所以学习浮点数对我们理解JS的数字有帮助。</p>
+<h2 id="7-2-浮点数"><a href="#7-2-浮点数" class="headerlink" title="7.2 浮点数"></a>7.2 浮点数</h2><p>那么浮点数怎么表示呢？</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17070a5d364385ee?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>上面是<code>十进制</code>的科学计数法，从中我们需要了解几个概念，一个是<code>尾数</code>，<code>基数</code>和<code>阶码</code></p>
+<ul>
+<li><code>尾数</code>必须是纯小数，所以上图中<code>1.2345</code>不满足尾数的格式，需要改成<code>0.12345</code></li>
+<li><code>基数</code>，在二进制里面是<code>2</code></li>
+<li><code>阶码</code>就是多少次方</li>
+</ul>
+<p>所以<code>浮点数</code>的<code>通用</code>表示格式如下：</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17070ac01d4adfbe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<ul>
+<li>S代表尾数</li>
+<li>r代表基数</li>
+<li>j代表阶码</li>
+</ul>
+<p>这里需要注意的是，浮点数的加减运算，并不是像我们上面介绍的那样简单，会经过以下几个步骤完成</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/170713830fa5eb8b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>这些名词大家感兴趣的话，可以去网上查询，我们只要了解到<code>浮点数加减运算</code>很麻烦就行了，但如果你要做一个浮点数运算的库，你肯定是要完全掌握的。</p>
+<h1 id="8-局部性原理和cache"><a href="#8-局部性原理和cache" class="headerlink" title="8.局部性原理和cache"></a>8.局部性原理和cache</h1><p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec195b23428e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="缓存-主存层次和主存-辅存层次"></p>
+<p>在虚拟存储系统中，程序员的编程地址范围与虚拟存储器的地址空间相对应。例如机器指令地址码是 32 位，那么虚拟存储器的存储单元个数可达 2^32 = 4 * 1024 * 1024 * 1024 个，若存储字长为 8 位，则存储容量为 4 Gegabyte，这可能比主存实际的存储单元个数多得多。这类指令地址码称为虚拟地址或逻辑地址，主存的实际地址称为物理地址。虚拟地址到物理地址的转换由操作系统负责实现，比如 Windows 操作系统通过页目和页表来实现虚拟地址到物理地址的转换。若虚拟地址指向的内容在主存，则可被 CPU 直接使用，否则必须先传到主存，然后才能被 CPU 访问。</p>
+<p>选择下图</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17071e09c7aa0ec0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>（说明一下，<code>MDR</code>和<code>MAR</code>虽然逻辑上属于主存，但是在<code>电路实现</code>的时候，<code>MDR</code>和<code>MAR</code>离<code>CPU</code>比较近）</p>
+<p>上图是在执行一串代码,可以理解为js的for循环</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const n &#x3D; 1000;</span><br><span class="line">const a &#x3D; [1, 2, 3, 4, 5, 6, 7]</span><br><span class="line">for(let i &#x3D; 0; i &lt; n; i++) &#123;</span><br><span class="line">	a[i] &#x3D; a[i] + 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以发现</p>
+<ul>
+<li>数组的数据有时候在内存是连续存储的</li>
+<li>如果我们要取数据，比如从内存取出a[0]的数据需要1000ns(ns是纳秒的意思),那么取出a[0]到a[7]就需要1000 * 8 = 8000 ns</li>
+<li>如果我们cpu发现这是取数组数据，那么我就把就近的数据块a[0]到a[7]全部存到缓存上多好，这样只需要取一次数据，消耗1000ns</li>
+</ul>
+<p><code>cache</code>就是<code>局部性原理</code>的一个应用</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17071f8af2c754fa?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<ul>
+<li><code>空间局部性</code>：在最近的未来要用到的信息（<code>指令</code>和<code>数据</code>），很可能与现在正在使用的信息在<code>存储空间</code>上是邻近的</li>
+<li><code>时间局部性</code>：在最近的未来要用到的信息，很可能是现在<code>正在使用的信息</code></li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17071fac43ab80f6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>可以看到<code>cache</code>一次性取了<code>a[0]</code>到<code>a[9]</code>存储体上的数据，只需要<code>1000ns</code>，因为<code>cache</code>是<code>高速存储器</code>，跟<code>cpu</code>交互速度就比<code>cpu</code>跟<code>主存</code>交互速度快很多。</p>
+<h1 id="9-I-O设备的演变"><a href="#9-I-O设备的演变" class="headerlink" title="9.I/O设备的演变"></a>9.I/O设备的演变</h1><p>I/O是什么呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入&#x2F;输出（Input &#x2F;Output ,简称I&#x2F;O），指的是一切操作、程序或设备与计算机之间发生的数据传输过程。</span><br></pre></td></tr></table></figure>
+
+<p>比如文件读写操作，就是典型的<code>I/O</code>操作。接下来我们看一下I/O设备的演进过程</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/1707206ef2336a07?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>在早期的计算机里，<code>CPU</code>如何知道<code>I/O设备</code>已经完成任务呢?比如说怎么知道<code>I/O设备</code>已经读取完一个文件的数据呢?<code>CPU</code>会不断查询<code>I/O设备</code>是否已经准备好。这时，<code>CPU</code>就处于等待状态。也就是<code>CPU</code>工作的时候，<code>I/O</code>系统是不工作的，<code>I/O</code>系统工作，<code>CPU</code>是不工作。</p>
+<p>接着看第二阶段</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/17072561bbbaabd0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<ul>
+<li>为了解决第一阶段<code>CPU</code>要等待<code>I/O设备</code>，<code>串行</code>的工作方式，所有<code>I/O设备</code>通过<code>I/O总线</code>来跟<code>CPU</code>打交道，一旦某个<code>I/O设备</code>完成任务，就会以<code>中断请求</code>的方式，通过<code>I/O总线</code>，告诉<code>CPU</code>，我已经准备好了。</li>
+<li>但是对于<code>高速外设</code>，它们完成任务的速度很快，所以会频繁中断<code>CPU</code>, 为了解决这个问题，高速外设跟主存之间用一条直接数据通路，<code>DMA总线</code>连接，<code>CPU</code>只需要安排开始高速外设做什么，剩下的就不用管了，这样就可以防止频繁中断<code>CPU</code>。</li>
+</ul>
+<p>最后来看一下第三阶段</p>
+<p><img data-src="https://user-gold-cdn.xitu.io/2020/2/23/1707263d5cdbcf4b?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>第三阶段，CPU通过通道控制部件来管理I/O设备，CPU不需要帮它安排任务，只需要简单的发出启动和停止类似的命令，通道部件就会自动的安排相应的I/O设备工作</p>
+<h1 id="10-系统总线"><a href="#10-系统总线" class="headerlink" title="10.系统总线"></a>10.系统总线</h1><p>同一时刻只能有一个部件向总线发送信息，但是可以有多个部件接受信息，因为总线是各部件共享的。</p>
+<h2 id="10-1-片内总线"><a href="#10-1-片内总线" class="headerlink" title="10.1 片内总线"></a>10.1 片内总线</h2><p>芯片内部的连线，比如寄存器之间、寄存器与 ALU 之间的连线等。</p>
+<h2 id="10-2-系统总线"><a href="#10-2-系统总线" class="headerlink" title="10.2 系统总线"></a>10.2 系统总线</h2><ol>
+<li><p>数据总线：双向传输，其条数称为数据总线宽度。数据总线宽度与机器字长、存储字长有关。比如总线宽度是 8 位，指令字长为 16 位，那么 CPU 取出一条指令，就需要访问两次主存。</p>
+</li>
+<li><p>地址总线：单向传输，指出数据总线上的源数据或目的数据所在存储单元的地址。地址总线的宽度与存储单元个数有关，比如 32 位的地址总线，可编址按字节寻址的存储单元个数为 2^32 = 4 * 1024 * 1024 * 1024  ，即 4 Gigabyte。</p>
+<p>从存储器读一个字的数据时，首先由 CPU 将其地址经 MAR 通过地址总线送至主存，然后向主存发读命令。主存接到读命令后，将对应数据读出后，经数据总线送至 MDR。向存储器写一个字的数据时，CPU 先将目的地址经 MDR 通过地址总线送至主存，并将数据送至 MDR，然后向主存发写命令。主存接到写命令后，便可以将 MDR 中的数据经数据总线写至目的地址：</p>
+</li>
+</ol>
+<p><img data-src="https://user-gold-cdn.xitu.io/2019/1/2/1680ec195b3d9c27?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="主存与CPU的联系"></p>
+<ol>
+<li>控制总线：决策总线使用权，用来发出各种控制信号。I/O 设备通过控制总线向 CPU 发出总线请求，CPU 通过控制总线向 I/O 设备发出读写命令。</li>
+<li>通信总线：用于计算机系统之间或计算机系统与其它系统（如控制仪表、移动通讯等）之间通信。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/" rel="tag"><i class="fa fa-tag"></i> 计算机组成</a>
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tag"></i> 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E6%89%A7%E8%A1%8C%E6%A0%88/" rel="prev" title="深入理解JavaScript执行上下文和执行栈">
+      <i class="fa fa-chevron-left"></i> 深入理解JavaScript执行上下文和执行栈
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="next" title="操作系统">
+      操作系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">1.计算机的基本组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%86%AF%C2%B7%E8%AF%BA%E4%BE%9D%E6%9B%BC%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 冯·诺依曼计算机的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E6%A1%86%E5%9B%BE"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 计算机硬件框图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E7%BB%86%E5%8C%96%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E6%A1%86%E5%9B%BE"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 细化的计算机组成框图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-%E8%BF%90%E7%AE%97%E5%99%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1 运算器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2 控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3.3 主存储器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">1、计算机的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%8E%A7%E5%88%B6%E5%99%A8-%E2%80%94-gt-%E6%8E%A7%E5%88%B6%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87-%E2%80%94-gt-%E6%8C%87%E4%BB%A4%E6%B5%81%E5%90%91%E5%86%85%E5%AD%98"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 控制器 —&gt; 控制输入设备 —-&gt; 指令流向内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%8E%A7%E5%88%B6%E5%99%A8%E5%88%86%E6%9E%90%E6%8C%87%E4%BB%A4-%E2%80%94-gt-%E6%8E%A7%E5%88%B6%E5%AD%98%E5%82%A8%E5%99%A8-%E2%80%94-gt-%E6%8A%8A%E6%95%B0%E6%8D%AE%E9%80%81%E5%88%B0%E8%BF%90%E7%AE%97%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 控制器分析指令 —&gt; 控制存储器 —&gt; 把数据送到运算器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A7%E5%88%B6%E8%BF%90%E7%AE%97%E5%99%A8%E5%81%9A%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BF%90%E7%AE%97-%E5%B9%B6%E4%B8%94%E5%B0%86%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C%E8%BF%94%E5%9B%9E%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 控制器控制运算器做数据的运算 并且将运算结果返回存储器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A7%E5%88%B6%E5%AD%98%E5%82%A8%E5%99%A8%E5%B0%86%E7%BB%93%E6%9E%9C%E8%BF%94%E5%9B%9E%E7%BB%99%E8%BE%93%E5%87%BA%E8%AE%BE%E5%A4%87"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 控制器控制存储器将结果返回给输出设备</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">3.计算机硬件的主要技术指标</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%9C%BA%E5%99%A8%E5%AD%97%E9%95%BF"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 机器字长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%AD%98%E5%82%A8%E5%AE%B9%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 存储容量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E8%BF%90%E7%AE%97%E9%80%9F%E5%BA%A6"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 运算速度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-CPU%E5%8F%8A%E5%85%B6%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">4.CPU及其工作过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E8%BF%90%E7%AE%97%E5%99%A8%E4%B8%BB%E8%A6%81%E9%83%A8%E4%BB%B6"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 运算器主要部件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%BB%E8%A6%81%E9%83%A8%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 控制器主要部件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E4%B8%BE%E4%BE%8B-%E5%8F%96%E6%95%B0%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 举例 - 取数指令执行过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-number">5.</span> <span class="nav-text">5.计算机编程语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%9C%BA%E5%99%A8%E8%AF%AD%E8%A8%80"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 机器语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 汇编语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 高级语言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">6.</span> <span class="nav-text">6.进制转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%A6%82%E4%BD%95%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%8D%81%E8%BF%9B%E5%88%B6"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 二进制如何转化为十进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E5%8D%81%E8%BF%9B%E5%88%B6%E6%95%B4%E6%95%B0%E8%BD%AC%E4%B8%BA%E4%BA%8C%E8%BF%9B%E5%88%B6"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 十进制整数转为二进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E5%8D%81%E8%BF%9B%E5%88%B6%E5%B0%8F%E6%95%B0%E8%BD%AC%E4%B8%BA%E4%BA%8C%E8%BF%9B%E5%88%B6"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 十进制小数转为二进制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E5%AE%9A%E7%82%B9%E6%95%B0%E5%92%8C%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">7.定点数和浮点数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E5%AE%9A%E7%82%B9%E6%95%B0"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 定点数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 浮点数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86%E5%92%8Ccache"><span class="nav-number">8.</span> <span class="nav-text">8.局部性原理和cache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-I-O%E8%AE%BE%E5%A4%87%E7%9A%84%E6%BC%94%E5%8F%98"><span class="nav-number">9.</span> <span class="nav-text">9.I&#x2F;O设备的演变</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF"><span class="nav-number">10.</span> <span class="nav-text">10.系统总线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-%E7%89%87%E5%86%85%E6%80%BB%E7%BA%BF"><span class="nav-number">10.1.</span> <span class="nav-text">10.1 片内总线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%BA%BF"><span class="nav-number">10.2.</span> <span class="nav-text">10.2 系统总线</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共454.6k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

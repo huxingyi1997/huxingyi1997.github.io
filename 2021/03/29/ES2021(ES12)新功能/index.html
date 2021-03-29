@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="js又双叒叕更新了！这一版的新功能看上去真不戳，总共详细介绍了5 个新特性，replaceAll()真方便，可以不要每次都利用正则表达式里的g后缀来做替换了，剑指的替换空格又有了新的替换方法，赞美一下。Chrome浏览器已经支持了，力扣用过了也能顺利通过，[剑指 Offer 05. 替换空格 请实现一个函数，把字符串 s 中的每个空格替换成”%20”。  示例 1： 12输入：s &#x3D; &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES2021(ES12)">
+<meta property="og:url" content="https://hxy1997.xyz/2021/03/29/ES2021(ES12)%E6%96%B0%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="js又双叒叕更新了！这一版的新功能看上去真不戳，总共详细介绍了5 个新特性，replaceAll()真方便，可以不要每次都利用正则表达式里的g后缀来做替换了，剑指的替换空格又有了新的替换方法，赞美一下。Chrome浏览器已经支持了，力扣用过了也能顺利通过，[剑指 Offer 05. 替换空格 请实现一个函数，把字符串 s 中的每个空格替换成”%20”。  示例 1： 12输入：s &#x3D; &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-29T05:37:27.000Z">
+<meta property="article:modified_time" content="2021-03-29T07:36:16.220Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="ES12">
+<meta property="article:tag" content="ES2021">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/03/29/ES2021(ES12)%E6%96%B0%E5%8A%9F%E8%83%BD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ES2021(ES12) | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/29/ES2021(ES12)%E6%96%B0%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ES2021(ES12)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-29 13:37:27 / 修改时间：15:36:16" itemprop="dateCreated datePublished" datetime="2021-03-29T13:37:27+08:00">2021-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/29/ES2021(ES12)%E6%96%B0%E5%8A%9F%E8%83%BD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/29/ES2021(ES12)%E6%96%B0%E5%8A%9F%E8%83%BD/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>js又双叒叕更新了！这一版的新功能看上去真不戳，总共详细介绍了5 个新特性，replaceAll()真方便，可以不要每次都利用正则表达式里的g后缀来做替换了，剑指的替换空格又有了新的替换方法，赞美一下。Chrome浏览器已经支持了，力扣用过了也能顺利通过，[剑指 Offer 05. 替换空格</p>
+<p>请实现一个函数，把字符串 <code>s</code> 中的每个空格替换成”%20”。</p>
+<p> <strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>限制：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 &lt;&#x3D; s 的长度 &lt;&#x3D; 10000</span><br></pre></td></tr></table></figure>
+
+<p>采用replaceAll</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @param &#123;string&#125; s</span><br><span class="line"> * @return &#123;string&#125;</span><br><span class="line"> * 库函数</span><br><span class="line"> *&#x2F;</span><br><span class="line">var replaceSpace &#x3D; function(s) &#123;</span><br><span class="line">    return s.replaceAll(&#39; &#39;, &#39;%20&#39;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h1 id="1-String-prototype-replaceAll"><a href="#1-String-prototype-replaceAll" class="headerlink" title="1.String.prototype.replaceAll()"></a>1.String.prototype.replaceAll()</h1><p>在 JavaScript 中，通常会使用 <code>String.prototype.replace()</code> 方法来完成字符串的替换，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;aaaa&#x27;</span>.replace(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line"><span class="comment">// baaa</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>String.prototype.replace()</code> 方法中，当第一个参数是字符串类型时，只替换第一个匹配的字符串，相关细节可以参阅 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">MDN 文档</a>。因此，在上面的代码中，只有第一个 <code>a</code> 被替换成了 <code>b</code>，第二个 <code>a</code> 保持不变。如果要将匹配的字符串全部替换，传统方法只能通过正则表达式实现，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;aaaa&#x27;</span>.replace(<span class="regexp">/a/g</span>, <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line"><span class="comment">// bbbb</span></span><br></pre></td></tr></table></figure>
+
+<p>为了方便字符串的全局替换，ES2021 将支持 <code>String.prototype.replaceAll()</code> 方法，可以不用写正则表达式就可以完成字符串的全局替换，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;aaaa&#x27;</span>.replaceAll(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line"><span class="comment">// bbbb</span></span><br></pre></td></tr></table></figure>
+
+<p>更多阅读</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string">stackoverflow.com/questions/1…</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-string-replaceall">github.com/tc39/propos…</a></li>
+<li><a target="_blank" rel="noopener" href="https://v8.dev/features/string-replaceall">v8.dev/features/st…</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceall">developer.mozilla.org/en-US/docs/…</a></li>
+<li><a target="_blank" rel="noopener" href="https://caniuse.com/?search=replaceAll">caniuse.com/?search=rep…</a></li>
+</ul>
+<h1 id="2-Promise-any"><a href="#2-Promise-any" class="headerlink" title="2.Promise.any"></a>2.Promise.any</h1><p>ES6引入<code>Promise</code> ，当时支持<code>Promise.all</code>和<code>Promise.race</code>2种方法：</p>
+<p><code>Promise.all</code>: 只要有一个 promise 是 rejected，则立即返回一个 rejected promise；所有的 promise 都是 fulfilled 时，则返回一个 resolved promise</p>
+<ul>
+<li><pre><code class="js">Promise.all([
+  Promise.reject(1),
+  Promise.resolve(2)
+])
+.then(result =&gt; console.log(&#39;result:&#39;, result))
+.catch(error =&gt; console.error(&#39;error:&#39;, error));
+
+// error: 1
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- &#96;Promise.race&#96;: 只要有 promise 是 fulfilled 或 rejected，则立即返回一个 resolved 或 rejected的promise</span><br><span class="line"></span><br><span class="line">  &#96;&#96;&#96;js</span><br><span class="line">  Promise.race([</span><br><span class="line">    Promise.reject(1),</span><br><span class="line">    Promise.resolve(2)</span><br><span class="line">  ])</span><br><span class="line">  .then(result &#x3D;&gt; console.log(&#39;result:&#39;, result))</span><br><span class="line">  .catch(error &#x3D;&gt; console.error(&#39;error:&#39;, error));</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; error: 1</span><br></pre></td></tr></table></figure>
+
+
+</code></pre>
+</li>
+</ul>
+<p>ES2020（ES11）引入了<code>Promise.allSettled</code>方法</p>
+<ul>
+<li><p><code>Promise.allSettled</code>: 无论每一个 promise 是fulfilled 还是 rejected，返回值都是一个 resolved promise</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.allSettled([</span><br><span class="line">  <span class="built_in">Promise</span>.reject(<span class="number">1</span>),</span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="number">2</span>)</span><br><span class="line">])</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;result:&#x27;</span>, result))</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(<span class="string">&#x27;error:&#x27;</span>, error));</span><br><span class="line"></span><br><span class="line"><span class="comment">// result:</span></span><br><span class="line"><span class="comment">// [&#123; status: &quot;rejected&quot;, reason: 1 &#125;,</span></span><br><span class="line"><span class="comment">// &#123; status: &quot;fulfilled&quot;, value: 2 &#125;]</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>最新的ES2021（ES12）引入了<code>Promise.any</code>方法</p>
+<ul>
+<li><p><code>Promise.any</code>: 只要有一个 promise 是 fulfilled 时，则返回一个 resolved promise；所有的 promise 都是 rejected 时，则返回一个 rejected promise</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.any([</span><br><span class="line">  <span class="built_in">Promise</span>.reject(<span class="number">1</span>),</span><br><span class="line">  <span class="built_in">Promise</span>.resolve(<span class="number">2</span>)</span><br><span class="line">])</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;result:&#x27;</span>, result))</span><br><span class="line">.catch(<span class="function"><span class="params">error</span> =&gt;</span> <span class="built_in">console</span>.error(<span class="string">&#x27;error:&#x27;</span>, error));</span><br><span class="line"></span><br><span class="line"><span class="comment">// result: 2</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>更多阅读</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-promise-any">github.com/tc39/propos…</a></li>
+<li><a target="_blank" rel="noopener" href="https://v8.dev/features/promise-combinators">v8.dev/features/pr…</a></li>
+</ul>
+<h1 id="3-逻辑赋值运算符"><a href="#3-逻辑赋值运算符" class="headerlink" title="3.逻辑赋值运算符"></a>3.逻辑赋值运算符</h1><p>逻辑赋值运算符由逻辑运算符和赋值表达式组合而成：</p>
+<ul>
+<li><p>or or equals (||=)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a ||= b;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a ||= b 等价</span></span><br><span class="line">a || (a = b);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a ||= b 等价</span></span><br><span class="line"><span class="keyword">if</span> (!a) &#123;</span><br><span class="line">  a = b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>and and equals (&amp;&amp;=)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a &amp;&amp;= b;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a &amp;&amp;= b 等价</span></span><br><span class="line">a &amp;&amp; (a = b);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a &amp;&amp;= b 等价</span></span><br><span class="line"><span class="keyword">if</span> (a) &#123;</span><br><span class="line">  a = b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>question question equals (??=)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a ??= b;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a ??= b 等价</span></span><br><span class="line">a ?? (a = b);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 a ??= b 等价</span></span><br><span class="line"><span class="keyword">if</span> (a === <span class="literal">null</span> || a === <span class="literal">undefined</span>) &#123;</span><br><span class="line">  a = b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>用法示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">obj.x ??= <span class="number">0</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.x) <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line">obj.x ||= <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.x) <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">obj.x &amp;&amp;= <span class="number">2</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.x) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a || b; <span class="comment">// 与 a ||= b 不等价</span></span><br><span class="line">a = a &amp;&amp; b; <span class="comment">// 与 a &amp;&amp;= b 不等价</span></span><br><span class="line">a = a ?? b; <span class="comment">// 与 a ??= b 不等价</span></span><br></pre></td></tr></table></figure>
+
+<p>不等价的原因在于，无论上面的每个逻辑表达式结果如何，都会进行赋值运算；而逻辑赋值运算符只会在条件成立的情况下进行赋值，比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="keyword">get</span> <span class="title">x</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">set</span> <span class="title">x</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;setter called&#x27;</span>);</span><br><span class="line">    x = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This always logs &quot;setter called&quot;</span></span><br><span class="line">obj.x += <span class="number">1</span>;</span><br><span class="line">assert.equal(obj.x, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Logical operators do not call setters unnecessarily</span></span><br><span class="line"><span class="comment">// This will not log.</span></span><br><span class="line">obj.x ||= <span class="number">2</span>;</span><br><span class="line">assert.equal(obj.x, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// But setters are called if the operator does not short circuit</span></span><br><span class="line"><span class="comment">// &quot;setter called&quot;</span></span><br><span class="line">obj.x &amp;&amp;= <span class="number">3</span>;</span><br><span class="line">assert.equal(obj.x, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>更多阅读</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-logical-assignment">github.com/tc39/propos…</a></li>
+</ul>
+<h1 id="4-数字分隔符"><a href="#4-数字分隔符" class="headerlink" title="4.数字分隔符"></a>4.数字分隔符</h1><p>使用 <code>_</code> 对数字进行分割，提高数字的可读性，例如在日常生活中数字通常是每三位数字之间会用 <code>,</code> 分割，以方便人快速识别数字。在代码中，也需要程序员较便捷的对数字进行辨识：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1000000000 不易辨识</span></span><br><span class="line"><span class="keyword">const</span> count1 = <span class="number">1000000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1_000_000_000 很直观</span></span><br><span class="line"><span class="keyword">const</span> count2 = <span class="number">1_000_000_000</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(count1 === count2); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>更多案例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const goldstack1 &#x3D; 785_00;</span><br><span class="line">const gemstack &#x3D; 1_000_000_000;</span><br><span class="line">console.log(goldstack1);                &#x2F;&#x2F; 78500</span><br><span class="line">console.log(gemstack);                  &#x2F;&#x2F; 1000000000</span><br><span class="line">console.log(goldstack1 &#x3D;&#x3D;&#x3D; 78500);      &#x2F;&#x2F; true</span><br><span class="line">console.log(gemstack &#x3D;&#x3D;&#x3D; 1000000000);   &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+
+<p>我们通过在数字相符的组之间放置分隔符使数字值更加的可读，分隔符适用于十进制表示法的数字以及二进制或十六进制表示法的数字，以及ES2020中引入的BigInt。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const goldStack &#x3D; 0b1111_1111_1110_0101;</span><br><span class="line">console.log(goldStack);                        &#x2F;&#x2F; 65509</span><br><span class="line">console.log(goldStack &#x3D;&#x3D;&#x3D; 0b1111111111100101); &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">const goldStack &#x3D; 0xFF_AC_C1;</span><br><span class="line">console.log(goldStack);                 &#x2F;&#x2F; 16755905</span><br><span class="line">console.log(goldStack &#x3D;&#x3D;&#x3D; 0xFF_AC_C1);  &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">const goldtstack &#x3D; 1_000_000_000_000_000n;</span><br><span class="line">console.log(goldtstack);                            &#x2F;&#x2F; 1000000000000000n</span><br><span class="line">console.log(goldtstack &#x3D;&#x3D;&#x3D; BigInt(10 ** 15)); &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 分隔符不会影响<code>===</code>操作符比较两个值</p>
+<h1 id="5-WeakRefs"><a href="#5-WeakRefs" class="headerlink" title="5.WeakRefs"></a>5.WeakRefs</h1><p>ES6实现了<code>WeakSet</code>和<code>WeakMap</code>。<code>WeakSet</code>是对象的集合，<code>WeakMap</code>是键值对的集合，键必须是一个对象。它们之间的联系属于弱引用，也就是说这些对象作为垃圾回收的一部分，如果没有其他强引用，可以从内存中被移除。一个对象的弱引用是不会阻止垃圾回收器移除内存中的这个对象。相反，一个普通（强）引用的对象会保留这个对象在内存中。</p>
+<p>ES2021将可以实现人为使用<code>WeakRef</code>对象而不用<code>WeakSet</code>和<code>WeakMap</code>来创建一个对象的若引用。这个符合需要的提案警告你在使用<code>WeakRef</code>时一定要小心。总之，使用之前一定有合理理由。根本上来说，我们应该尽可能的避免使用<code>WeakRef</code>。垃圾回收器已经够复杂和系统依赖的，所以这很难去预测垃圾回收器的具体行为。</p>
+<p><code>WeakRef</code> 实例可以作为对象的弱引用，对象的弱引用是指当该对象应该被 GC 回收时不会阻止 GC 的回收行为。而与此相反的，一个普通的引用（默认是强引用）会将与之对应的对象保存在内存中。只有当该对象没有任何的强引用时，JavaScript 引擎 GC 才会销毁该对象并且回收该对象所占的内存空间。因此，访问弱引用指向的对象时，很有可能会出现该对象已经被回收，<code>WeakRef</code> 使用方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ref = <span class="keyword">new</span> WeakRef(&#123; <span class="attr">name</span>: <span class="string">&#x27;koofe&#x27;</span> &#125;);</span><br><span class="line"><span class="built_in">console</span>.log(ref.name); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">let</span> obj = ref.deref();</span><br><span class="line"><span class="keyword">if</span> (obj) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(obj.name); <span class="comment">// koofe</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于 WeakRef 对象的使用要慎重考虑，能不使用就尽量不要使用</p>
+</blockquote>
+<p>更多阅读</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-weakrefs">github.com/tc39/propos…</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-weakrefs/blob/master/reference.md">github.com/tc39/propos…</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef">developer.mozilla.org/en-US/docs/…</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/ES12/" rel="tag"><i class="fa fa-tag"></i> ES12</a>
+              <a href="/tags/ES2021/" rel="tag"><i class="fa fa-tag"></i> ES2021</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="prev" title="操作系统">
+      <i class="fa fa-chevron-left"></i> 操作系统
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-String-prototype-replaceAll"><span class="nav-number">1.</span> <span class="nav-text">1.String.prototype.replaceAll()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Promise-any"><span class="nav-number">2.</span> <span class="nav-text">2.Promise.any</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E9%80%BB%E8%BE%91%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">3.逻辑赋值运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%95%B0%E5%AD%97%E5%88%86%E9%9A%94%E7%AC%A6"><span class="nav-number">4.</span> <span class="nav-text">4.数字分隔符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-WeakRefs"><span class="nav-number">5.</span> <span class="nav-text">5.WeakRefs</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共454.6k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

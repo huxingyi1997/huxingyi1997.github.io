@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="js面试种有一个很经典的问题0.1 + 0.2≠0.3 的，该方法涉及浮点数的表示方法，以及浮点数的加减乘除运算的方法，本文力图在介绍这个问题的基础上解决这个问题，当然，别的语言的双精度浮点数也适用这一方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS中浮点数精度问题">
+<meta property="og:url" content="https://hxy1997.xyz/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="js面试种有一个很经典的问题0.1 + 0.2≠0.3 的，该方法涉及浮点数的表示方法，以及浮点数的加减乘除运算的方法，本文力图在介绍这个问题的基础上解决这个问题，当然，别的语言的双精度浮点数也适用这一方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/3/8/16205c88ea806bac?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2021-03-26T06:30:00.000Z">
+<meta property="article:modified_time" content="2021-03-31T12:54:08.375Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="计算机组成">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="浮点数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/3/8/16205c88ea806bac?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JS中浮点数精度问题 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS中浮点数精度问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-26 14:30:00" itemprop="dateCreated datePublished" datetime="2021-03-26T14:30:00+08:00">2021-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-31 20:54:08" itemprop="dateModified" datetime="2021-03-31T20:54:08+08:00">2021-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>js面试种有一个很经典的问题<code>0.1 + 0.2≠0.3</code> 的，该方法涉及<code>浮点数</code>的表示方法，以及<code>浮点数</code>的加减乘除运算的方法，本文力图在介绍这个问题的基础上解决这个问题，当然，别的语言的双精度浮点数也适用这一方法。</p>
+<span id="more"></span>
+
+<h1 id="1-问题的发现"><a href="#1-问题的发现" class="headerlink" title="1.问题的发现"></a>1.问题的发现</h1><p>在浮点数运算中出现了精度问题，想通过内置的toFixed修复问题，结果造成了新的问题，一共有2个问题</p>
+<h2 id="1-1-浮点数运算后的精度问题"><a href="#1-1-浮点数运算后的精度问题" class="headerlink" title="1.1 浮点数运算后的精度问题"></a>1.1 浮点数运算后的精度问题</h2><p>  在计算浮点数加减乘除时，会出现精度问题，一些常见的例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 加法 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">0.1 + 0.2 &#x3D; 0.30000000000000004</span><br><span class="line">0.7 + 0.1 &#x3D; 0.7999999999999999</span><br><span class="line">0.2 + 0.4 &#x3D; 0.6000000000000001</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 减法 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">1.5 - 1.2 &#x3D; 0.30000000000000004</span><br><span class="line">0.3 - 0.2 &#x3D; 0.09999999999999998</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; 乘法 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">19.9 * 100 &#x3D; 1989.9999999999998</span><br><span class="line">0.8 * 3 &#x3D; 2.4000000000000004</span><br><span class="line">35.41 * 100 &#x3D; 3540.9999999999995</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 除法 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">0.3 &#x2F; 0.1 &#x3D; 2.9999999999999996</span><br><span class="line">0.69 &#x2F; 10 &#x3D; 0.06899999999999999</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-toFixed修复产生的新问题"><a href="#1-2-toFixed修复产生的新问题" class="headerlink" title="1.2 toFixed修复产生的新问题"></a>1.2 toFixed修复产生的新问题</h2><p>  在遇到浮点数运算后出现的精度问题时，自然联想toFixed()函数来解决的，toFixed()方法可把Number四舍五入为指定小数位数的数字。</p>
+<p>  但是在chrome下测试结果不太令人满意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.35.toFixed(1) &#x2F;&#x2F; 1.4 正确</span><br><span class="line">1.335.toFixed(2) &#x2F;&#x2F; 1.33  错误</span><br><span class="line">1.3335.toFixed(3) &#x2F;&#x2F; 1.333 错误</span><br><span class="line">1.33335.toFixed(4) &#x2F;&#x2F; 1.3334 正确</span><br><span class="line">1.333335.toFixed(5)  &#x2F;&#x2F; 1.33333 错误</span><br><span class="line">1.3333335.toFixed(6) &#x2F;&#x2F; 1.333333 错误</span><br></pre></td></tr></table></figure>
+
+<p>使用IETester在IE下面测试的结果却是正确的。</p>
+<h1 id="2-为什么会产生浮点数精度问题"><a href="#2-为什么会产生浮点数精度问题" class="headerlink" title="2.为什么会产生浮点数精度问题"></a>2.为什么会产生浮点数精度问题</h1><p>  想要知道为什么会产生这样的问题，首先，让我们回到计算机组成原理的内容。</p>
+<h2 id="2-1-浮点数的存储"><a href="#2-1-浮点数的存储" class="headerlink" title="2.1 浮点数的存储"></a>2.1 浮点数的存储</h2><p>  和其它语言如Java和Python不同，JavaScript中所有数在BigInt出现之前包括整数和小数，都只有一种类型——Number。它的实现遵循 IEEE 754 标准，使用64位固定长度来表示，也就是标准的 double 双精度浮点数（相关的还有float 32位单精度浮点数）。这样的存储结构优点是可以归一化处理整数和小数，节省存储空间。</p>
+<p>  64位bit又可分为三个部分：</p>
+<ul>
+<li>符号位S：第 1 位是正负数符号位（sign），0代表正数，1代表负数</li>
+<li>指数位E：中间的 11 位存储指数（exponent），用来表示次方数</li>
+<li>尾数位M：最后的 52 位是尾数（mantissa），超出的部分自动进一舍零</li>
+</ul>
+<p><img data-src="https://user-gold-cdn.xitu.io/2018/3/8/16205c88ea806bac?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="Storage"></p>
+<h2 id="2-2-浮点数的运算"><a href="#2-2-浮点数的运算" class="headerlink" title="2.2 浮点数的运算"></a>2.2 浮点数的运算</h2><p>  以计算0.1+0.2为例，分析JavaScript在浮点数计算时到底发生了什么呢？</p>
+<p>  首先，十进制的0.1和0.2会被转换成二进制，但是由于浮点数用二进制表示时是无穷的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0.1 -&gt; 0.0001 1001 1001 1001...(1100循环)</span><br><span class="line">0.2 -&gt; 0.0011 0011 0011 0011...(0011循环)</span><br></pre></td></tr></table></figure>
+
+<p>  IEEE 754 标准的 64 位双精度浮点数的小数部分最多支持53位二进制位，所以两者相加之后得到二进制为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0100110011001100110011001100110011001100110011001100 </span><br></pre></td></tr></table></figure>
+
+<p>  因浮点数小数位的限制而截断的二进制数字，再转换为十进制，就成了0.30000000000000004。所以在进行算术计算时会产生误差。</p>
+<h1 id="3-精度问题的解决方法"><a href="#3-精度问题的解决方法" class="headerlink" title="3 精度问题的解决方法"></a>3 精度问题的解决方法</h1><p>  针对两个精度问题，有如下解决方案</p>
+<h2 id="3-1-解决toFixed的问题"><a href="#3-1-解决toFixed的问题" class="headerlink" title="3.1 解决toFixed的问题"></a>3.1 解决toFixed的问题</h2><p>  针对toFixed的兼容性问题，可以通过重写toFix函数来解决，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; toFixed兼容方法</span><br><span class="line">Number.prototype.toFixed &#x3D; function(len)&#123;</span><br><span class="line">    if(le n&gt; 20 || len &lt; 0)&#123;</span><br><span class="line">        throw new RangeError(&#39;toFixed() digits argument must be between 0 and 20&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 讲.123转为0.123</span><br><span class="line">    var number &#x3D; Number(this);</span><br><span class="line">    if (isNaN(number) || number &gt;&#x3D; Math.pow(10, 21)) &#123;</span><br><span class="line">        return number.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    if (typeof (len) &#x3D;&#x3D; &#39;undefined&#39; || len &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        return (Math.round(number)).toString();</span><br><span class="line">    &#125;</span><br><span class="line">    var result &#x3D; number.toString(),</span><br><span class="line">        numberArr &#x3D; result.split(&#39;.&#39;);</span><br><span class="line"></span><br><span class="line">    if(numberArr.length&lt;2)&#123;</span><br><span class="line">        &#x2F;&#x2F;整数的情况</span><br><span class="line">        return padNum(result);</span><br><span class="line">    &#125;</span><br><span class="line">    var intNum &#x3D; numberArr[0], &#x2F;&#x2F;整数部分</span><br><span class="line">        deciNum &#x3D; numberArr[1],&#x2F;&#x2F;小数部分</span><br><span class="line">        lastNum &#x3D; deciNum.substr(len, 1);&#x2F;&#x2F;最后一个数字</span><br><span class="line">    </span><br><span class="line">    if(deciNum.length &#x3D;&#x3D; len)&#123;</span><br><span class="line">        &#x2F;&#x2F;需要截取的长度等于当前长度</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">    if(deciNum.length &lt; len)&#123;</span><br><span class="line">        &#x2F;&#x2F;需要截取的长度大于当前长度 1.3.toFixed(2)</span><br><span class="line">        return padNum(result)</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;需要截取的长度小于当前长度，需要判断最后一位数字</span><br><span class="line">    result &#x3D; intNum + &#39;.&#39; + deciNum.substr(0, len);</span><br><span class="line">    if(parseInt(lastNum, 10)&gt;&#x3D;5)&#123;</span><br><span class="line">        &#x2F;&#x2F;最后一位数字大于5，要进位</span><br><span class="line">        var times &#x3D; Math.pow(10, len); &#x2F;&#x2F;需要放大的倍数</span><br><span class="line">        var changedInt &#x3D; Number(result.replace(&#39;.&#39;,&#39;&#39;));&#x2F;&#x2F;截取后转为整数</span><br><span class="line">        changedInt++;&#x2F;&#x2F;整数进位</span><br><span class="line">        changedInt &#x2F;&#x3D; times;&#x2F;&#x2F;整数转为小数，注：有可能还是整数</span><br><span class="line">        result &#x3D; padNum(changedInt+&#39;&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">    &#x2F;&#x2F;对数字末尾加0</span><br><span class="line">    function padNum(num)&#123;</span><br><span class="line">        var dotPos &#x3D; num.indexOf(&#39;.&#39;);</span><br><span class="line">        if(dotPos &#x3D;&#x3D;&#x3D; -1)&#123;</span><br><span class="line">            &#x2F;&#x2F;整数的情况</span><br><span class="line">            num +&#x3D; &#39;.&#39;;</span><br><span class="line">            for(var i &#x3D; 0;i&lt;len;i++)&#123;</span><br><span class="line">                num +&#x3D; &#39;0&#39;;</span><br><span class="line">            &#125;</span><br><span class="line">            return num;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F;小数的情况</span><br><span class="line">            var need &#x3D; len - (num.length - dotPos - 1);</span><br><span class="line">            for(var j &#x3D; 0;j&lt;need;j++)&#123;</span><br><span class="line">                num +&#x3D; &#39;0&#39;;</span><br><span class="line">            &#125;</span><br><span class="line">            return num;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  我们通过判断最后一位是否大于等于5来决定需不需要进位，如果需要进位先把小数乘以倍数变为整数，加1之后，再除以倍数变为小数，这样就不用一位一位的进行判断是否需要进位。</p>
+<h2 id="3-2-解决浮点数运算精度"><a href="#3-2-解决浮点数运算精度" class="headerlink" title="3.2 解决浮点数运算精度"></a>3.2 解决浮点数运算精度</h2><p>  既然我们发现了浮点数的这个问题，又不能直接让两个浮点数运算，那怎么处理呢？</p>
+<p>  我们可以把需要计算的数字升级（乘以10的n次幂）成计算机能够精确识别的整数，等计算完成后再进行降级（除以10的n次幂），这是大部分变成语言处理精度问题常用的方法。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0.1 + 0.2 &#x3D;&#x3D; 0.3 &#x2F;&#x2F; false</span><br><span class="line">(0.1 * 10 + 0.2 * 10) &#x2F; 10 &#x3D;&#x3D; 0.3 &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+
+<p>  但是这样就能完美解决上述问题么？细心的读者可能在上面的例子里已经发现了问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35.41 * 100 &#x3D; 3540.9999999999995</span><br></pre></td></tr></table></figure>
+
+<p>  看来进行数字升级也不是完全的可靠啊。</p>
+<p>  但是魔高一尺道高一丈，这样就能难住我们么，我们可以将浮点数toString后indexOf(‘.’)，记录一下小数位的长度，然后将小数点抹掉，完整的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;*** method **</span><br><span class="line"> *  add &#x2F; subtract &#x2F; multiply &#x2F;divide</span><br><span class="line"> * floatObj.add(0.1, 0.2) &gt;&gt; 0.3</span><br><span class="line"> * floatObj.multiply(19.9, 100) &gt;&gt; 1990</span><br><span class="line"> *</span><br><span class="line"> *&#x2F;</span><br><span class="line">var floatObj &#x3D; function() &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;*</span><br><span class="line">     * 判断obj是否为一个整数</span><br><span class="line">     *&#x2F;</span><br><span class="line">    function isInteger(obj) &#123;</span><br><span class="line">        return Math.floor(obj) &#x3D;&#x3D;&#x3D; obj</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;*</span><br><span class="line">     * 将一个浮点数转成整数，返回整数和倍数。如 3.14 &gt;&gt; 314，倍数是 100</span><br><span class="line">     * @param floatNum &#123;number&#125; 小数</span><br><span class="line">     * @return &#123;object&#125;</span><br><span class="line">     *   &#123;times:100, num: 314&#125;</span><br><span class="line">     *&#x2F;</span><br><span class="line">    function toInteger(floatNum) &#123;</span><br><span class="line">        var ret &#x3D; &#123;times: 1, num: 0&#125;</span><br><span class="line">        if (isInteger(floatNum)) &#123;</span><br><span class="line">            ret.num &#x3D; floatNum</span><br><span class="line">            return ret</span><br><span class="line">        &#125;</span><br><span class="line">        var strfi  &#x3D; floatNum + &#39;&#39;</span><br><span class="line">        var dotPos &#x3D; strfi.indexOf(&#39;.&#39;)</span><br><span class="line">        var len    &#x3D; strfi.substr(dotPos+1).length</span><br><span class="line">        var times  &#x3D; Math.pow(10, len)</span><br><span class="line">        var intNum &#x3D; Number(floatNum.toString().replace(&#39;.&#39;,&#39;&#39;))</span><br><span class="line">        ret.times  &#x3D; times</span><br><span class="line">        ret.num    &#x3D; intNum</span><br><span class="line">        return ret</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;*</span><br><span class="line">     * 核心方法，实现加减乘除运算，确保不丢失精度</span><br><span class="line">     * 思路：把小数放大为整数（乘），进行算术运算，再缩小为小数（除）</span><br><span class="line">     *</span><br><span class="line">     * @param a &#123;number&#125; 运算数1</span><br><span class="line">     * @param b &#123;number&#125; 运算数2</span><br><span class="line">     * @param digits &#123;number&#125; 精度，保留的小数点数，比如 2, 即保留为两位小数</span><br><span class="line">     * @param op &#123;string&#125; 运算类型，有加减乘除（add&#x2F;subtract&#x2F;multiply&#x2F;divide）</span><br><span class="line">     *</span><br><span class="line">     *&#x2F;</span><br><span class="line">    function operation(a, b, digits, op) &#123;</span><br><span class="line">        var o1 &#x3D; toInteger(a)</span><br><span class="line">        var o2 &#x3D; toInteger(b)</span><br><span class="line">        var n1 &#x3D; o1.num</span><br><span class="line">        var n2 &#x3D; o2.num</span><br><span class="line">        var t1 &#x3D; o1.times</span><br><span class="line">        var t2 &#x3D; o2.times</span><br><span class="line">        var max &#x3D; t1 &gt; t2 ? t1 : t2</span><br><span class="line">        var result &#x3D; null</span><br><span class="line">        switch (op) &#123;</span><br><span class="line">            case &#39;add&#39;:</span><br><span class="line">                if (t1 &#x3D;&#x3D;&#x3D; t2) &#123; &#x2F;&#x2F; 两个小数位数相同</span><br><span class="line">                    result &#x3D; n1 + n2</span><br><span class="line">                &#125; else if (t1 &gt; t2) &#123; &#x2F;&#x2F; o1 小数位 大于 o2</span><br><span class="line">                    result &#x3D; n1 + n2 * (t1 &#x2F; t2)</span><br><span class="line">                &#125; else &#123; &#x2F;&#x2F; o1 小数位 小于 o2</span><br><span class="line">                    result &#x3D; n1 * (t2 &#x2F; t1) + n2</span><br><span class="line">                &#125;</span><br><span class="line">                return result &#x2F; max</span><br><span class="line">            case &#39;subtract&#39;:</span><br><span class="line">                if (t1 &#x3D;&#x3D;&#x3D; t2) &#123;</span><br><span class="line">                    result &#x3D; n1 - n2</span><br><span class="line">                &#125; else if (t1 &gt; t2) &#123;</span><br><span class="line">                    result &#x3D; n1 - n2 * (t1 &#x2F; t2)</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    result &#x3D; n1 * (t2 &#x2F; t1) - n2</span><br><span class="line">                &#125;</span><br><span class="line">                return result &#x2F; max</span><br><span class="line">            case &#39;multiply&#39;:</span><br><span class="line">                result &#x3D; (n1 * n2) &#x2F; (t1 * t2)</span><br><span class="line">                return result</span><br><span class="line">            case &#39;divide&#39;:</span><br><span class="line">                result &#x3D; (n1 &#x2F; n2) * (t2 &#x2F; t1)</span><br><span class="line">                return result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 加减乘除的四个接口</span><br><span class="line">    function add(a, b, digits) &#123;</span><br><span class="line">        return operation(a, b, digits, &#39;add&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">    function subtract(a, b, digits) &#123;</span><br><span class="line">        return operation(a, b, digits, &#39;subtract&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">    function multiply(a, b, digits) &#123;</span><br><span class="line">        return operation(a, b, digits, &#39;multiply&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">    function divide(a, b, digits) &#123;</span><br><span class="line">        return operation(a, b, digits, &#39;divide&#39;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; exports</span><br><span class="line">    return &#123;</span><br><span class="line">        add: add,</span><br><span class="line">        subtract: subtract,</span><br><span class="line">        multiply: multiply,</span><br><span class="line">        divide: divide</span><br><span class="line">    &#125;</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
+
+<p>  如果觉得floatObj调用麻烦，我们可以在Number.prototype上添加对应的运算方法floatObj。</p>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/" rel="tag"><i class="fa fa-tag"></i> 计算机组成</a>
+              <a href="/tags/JavaScript/" rel="tag"><i class="fa fa-tag"></i> JavaScript</a>
+              <a href="/tags/%E6%B5%AE%E7%82%B9%E6%95%B0/" rel="tag"><i class="fa fa-tag"></i> 浮点数</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/" rel="prev" title="计算机组成">
+      <i class="fa fa-chevron-left"></i> 计算机组成
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="next" title="操作系统">
+      操作系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E9%97%AE%E9%A2%98%E7%9A%84%E5%8F%91%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">1.问题的发现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BF%90%E7%AE%97%E5%90%8E%E7%9A%84%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 浮点数运算后的精度问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-toFixed%E4%BF%AE%E5%A4%8D%E4%BA%A7%E7%94%9F%E7%9A%84%E6%96%B0%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 toFixed修复产生的新问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2.为什么会产生浮点数精度问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 浮点数的存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%B5%AE%E7%82%B9%E6%95%B0%E7%9A%84%E8%BF%90%E7%AE%97"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 浮点数的运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">3 精度问题的解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%A7%A3%E5%86%B3toFixed%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 解决toFixed的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E8%A7%A3%E5%86%B3%E6%B5%AE%E7%82%B9%E6%95%B0%E8%BF%90%E7%AE%97%E7%B2%BE%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 解决浮点数运算精度</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共461.5k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

@@ -29,21 +29,21 @@
 <meta property="og:site_name" content="hxy的博客">
 <meta property="og:description" content="懒加载等到用户滚动页面，当图片滚动到视区时才发出对应的网络请求，达到节省带宽的目的，使得网页加载更快。其实懒加载有很常规的实现方案，先通过data-src存放真正需要显示的图片路径，而img自带的src放一张占位图片。监听鼠标滚动事件，通过 el.getBoundingClientRect() 获取到当前元素与视口的位置关系，确定图片是否加载。在加载完成之后为了性能考虑，删除 data-src ，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/6/1616a6b89c877c6f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/11/30/16eba34127aac31a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/11/30/16eba341276e160c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/6/1616a6c75d415c12?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/25/16b8d8fdd043b259?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/6/1616a6d09b7dbe74?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/2/6/1616a6db59896838?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203027.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203034.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203043.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203055.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203105.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203114.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203122.webp">
 <meta property="article:published_time" content="2021-04-01T12:40:00.000Z">
-<meta property="article:modified_time" content="2021-04-02T02:05:34.847Z">
+<meta property="article:modified_time" content="2021-04-18T12:31:35.579Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="懒加载">
 <meta property="article:tag" content="IntersectionObserver">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/2/6/1616a6b89c877c6f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203027.webp">
 
 <link rel="canonical" href="https://hxy1997.xyz/2021/04/01/IntersectionObserver%E5%AE%9E%E7%8E%B0%E6%87%92%E5%8A%A0%E8%BD%BD/">
 
@@ -241,7 +241,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-02 10:05:34" itemprop="dateModified" datetime="2021-04-02T10:05:34+08:00">2021-04-02</time>
+                <time title="修改时间：2021-04-18 20:31:35" itemprop="dateModified" datetime="2021-04-18T20:31:35+08:00">2021-04-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,9 +293,9 @@
 </blockquote>
 <p>这是MDN上给的官方概念，不用去管它，我粘出来只是为了显得专业点嘛…</p>
 <p>重点看这里<strong>监听目标元素与其祖先或视窗交叉状态的手段</strong>，其实就是观察一个元素是否在视窗可见。</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2018/2/6/1616a6b89c877c6f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="是否可见"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203027.webp" alt="是否可见"></p>
 <p>可以看到，交叉了就是说明当前元素在视窗里，当前就是可见的了。</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2019/11/30/16eba34127aac31a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="示意图"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203034.webp" alt="示意图"></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/IntersectionObserver">MDN IntersectionObserver</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html">阮一峰 IntersectionObserver API 使用教程</a></li>
@@ -305,7 +305,7 @@
 <p>当一个 <code>IntersectionObserver</code> 对象被创建时，其被配置为监听根中一段给定比例的可见区域。一旦 <code>IntersectionObserver</code> 被创建，则无法更改其配置，所以一个给定的观察者对象只能用来监听可见区域的特定变化值；然而，你可以在同一个观察者对象中配置监听多个目标元素。</p>
 <h2 id="1-2-浏览器支持"><a href="#1-2-浏览器支持" class="headerlink" title="1.2 浏览器支持"></a>1.2 浏览器支持</h2><p>此时此刻，你也许想知道关于这项特性的浏览器支持情况。</p>
 <p><a target="_blank" rel="noopener" href="https://caniuse.com/#search=IntersectionObserver">caniuse</a> 兼容性报告目前支持率是 90.12%，还不推荐用于大众化的场景中，但是它的能力和性能非常的好。</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2019/11/30/16eba341276e160c?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="IntersectionObserver"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203043.webp" alt="IntersectionObserver"></p>
 <p>Intersection Observer 现在已被 <a target="_blank" rel="noopener" href="http://caniuse.com/#feat=intersectionobserver">Edge、Firefox、Chrome 和 Opera</a> 支持，这是一个好消息。</p>
 <h1 id="2-IntersectionObserver的API"><a href="#2-IntersectionObserver的API" class="headerlink" title="2.IntersectionObserver的API"></a>2.IntersectionObserver的API</h1><h2 id="2-1-使用方法"><a href="#2-1-使用方法" class="headerlink" title="2.1 使用方法"></a>2.1 使用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var io &#x3D; new IntersectionObserver(callback, options)</span><br></pre></td></tr></table></figure>
 
@@ -345,7 +345,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const options &#x3D; &#123;</span><br><span class="line">	root: document.querySelector(&#39;.box&#39;),</span><br><span class="line">	threshold: [0, 0.5, 1],</span><br><span class="line">	rootMargin: &#39;30px 100px 20px&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>为了方便理解，我画了张图，如下</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2018/2/6/1616a6c75d415c12?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="options"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203055.webp" alt="options"></p>
 <p>首先我们来看下图上的问题，蓝线是什么呢？他就是咱们定义的root元素，我们添加了<code>rootMargin</code>属性，将视窗的增大了，虚线就是现在的视窗，所以元素现在也就在视窗里面了。</p>
 <p>由此可见，root元素只有在<code>rootMargin</code>为空的时候才是绝对的视窗。</p>
 <p>说了简单的options，接下来我们看下<code>callback</code>。</p>
@@ -387,14 +387,14 @@
 </tr>
 </tbody></table>
 <p>表格中加粗的两个属性是比较常用的判断条件：<strong>isIntersecting</strong>和<strong>intersectionRatio</strong></p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2019/6/25/16b8d8fdd043b259?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="IntersectionObserverEntry打印的值"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203105.webp" alt="IntersectionObserverEntry打印的值"></p>
 <p>上面我们说到，当元素的可见性变化时，就会触发callback函数。</p>
 <p>callback函数会触发两次，元素进入视窗（开始可见时）和元素离开视窗（开始不可见时）都会触发</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var io &#x3D; new IntersectionObserver((entries)&#x3D;&gt;&#123;</span><br><span class="line">	console.log(entries)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">io.observe($0)</span><br></pre></td></tr></table></figure>
 
 <p>以上代码，请在chrome控制台进行调试，这里我使用了<code>$0</code>选择了上一次我审查元素的选择的节点</p>
 <p>运行结果如下</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2018/2/6/1616a6d09b7dbe74?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="运行结果"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203114.webp" alt="运行结果"></p>
 <p>我们可以看到callback函数有个<code>entries</code>参数，它是个<code>IntersectionObserverEntry</code>对象数组，</p>
 <h2 id="2-4-方法"><a href="#2-4-方法" class="headerlink" title="2.4 方法"></a>2.4 方法</h2><p>介绍了这么多配置项及参数，差点忘了最重要的，IntersectionObserver有哪些方法？ 如果要监听某些元素，则必须要对该元素执行一下observe</p>
 <table>
@@ -433,7 +433,7 @@
 <p>time                返回一个记录从<code>IntersectionObserver</code>的时间到交叉被触发的时间的时间戳</p>
 </blockquote>
 <p>上面几个矩形信息的关系如下</p>
-<p><img data-src="https://user-gold-cdn.xitu.io/2018/2/6/1616a6db59896838?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="关系"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210418203122.webp" alt="关系"></p>
 <p>👇 划重点</p>
 <p><strong>intersectionRatio</strong>和<strong>isIntersecting</strong>是用来判断元素是否可见的，押题咯…</p>
 <p>详细示例如下</p>

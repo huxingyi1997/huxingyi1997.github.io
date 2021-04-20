@@ -30,7 +30,7 @@
 <meta property="og:description" content="this指针是JavaScript的一大特色，对于this的理解很考验一个人对于JavaScript这门语言的理解，增改自【建议👍】再来40道this面试题酸爽继续(1.2w字用手整理) 通过阅读本篇文章你可以学习到：  this的默认绑定 隐式绑定 隐式绑定的隐式丢失问题 显式绑定 显式绑定的其它用法 new绑定 箭头函数绑定 综合题 手写new,call,apply,bind">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-13T07:30:00.000Z">
-<meta property="article:modified_time" content="2021-04-16T11:04:27.018Z">
+<meta property="article:modified_time" content="2021-04-20T06:54:40.700Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="面试">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-16 19:04:27" itemprop="dateModified" datetime="2021-04-16T19:04:27+08:00">2021-04-16</time>
+                <time title="修改时间：2021-04-20 14:54:40" itemprop="dateModified" datetime="2021-04-20T14:54:40+08:00">2021-04-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -356,7 +356,7 @@
 <p>其实大佬  <a target="_blank" rel="noopener" href="https://juejin.im/user/1538971967685032">sunshine小小倩</a> 教了我们一个简单的规则，<strong>this 永远指向最后调用它的那个对象</strong>。</p>
 <p>谁最后调用的函数，函数内的<code>this</code>指向的就是谁(不考虑箭头函数)。</p>
 <p>下面你可以用这个规则来做题。</p>
-<h4 id="2-1-题目一"><a href="#2-1-题目一" class="headerlink" title="2.1 题目一"></a>2.1 题目一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo () &#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var obj &#x3D; &#123;</span><br><span class="line">	a: 1,</span><br><span class="line">	foo</span><br><span class="line">&#125;;</span><br><span class="line">var a &#x3D; 2;</span><br><span class="line">obj.foo();</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-题目一"><a href="#2-1-题目一" class="headerlink" title="2.1 题目一"></a>2.1 题目一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo () &#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var obj &#x3D; &#123;</span><br><span class="line">    a: 1,</span><br><span class="line">    foo</span><br><span class="line">&#125;;</span><br><span class="line">var a &#x3D; 2;</span><br><span class="line">obj.foo();</span><br></pre></td></tr></table></figure>
 
 <p><code>var obj = &#123; foo &#125;</code>就相当于是<code>var obj = &#123; foo: foo &#125;</code></p>
 <p>在这道题中，函数<code>foo()</code>虽然是定义在<code>window</code>下，但是在<code>obj</code>对象中引用了它，并将它重新赋值到<code>obj.foo</code>上。</p>
@@ -829,7 +829,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function myNew() &#123;</span><br><span class="line">    &#x2F;&#x2F; 1. 获取构造函数，并且删除 arguments 中的第一项</span><br><span class="line">    var fn &#x3D; [].shift.call(arguments);</span><br><span class="line">    &#x2F;&#x2F; 2. 创建一个空的对象并链接到构造函数的原型，使它能访问原型中的属性</span><br><span class="line">    var obj &#x3D; Object.create(fn.prototype);</span><br><span class="line">    &#x2F;&#x2F; 3. 使用apply改变构造函数中this的指向实现继承，使obj能访问到构造函数中的属性</span><br><span class="line">    var res &#x3D; fn.apply(obj, arguments);</span><br><span class="line">    &#x2F;&#x2F; 4. 优先返回构造函数返回的对象</span><br><span class="line">    return res instanceof Object ? res : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以简化写作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function myNew(fn, ...args) &#123;</span><br><span class="line">    var obj &#x3D; Object.create(fn.prototype);</span><br><span class="line">    var res &#x3D; fn.apply(instance, args);</span><br><span class="line">    return typeof res &#x3D;&#x3D;&#x3D; &#39;object&#39; ? res: obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function myNew(fn, ...args) &#123;</span><br><span class="line">    var obj &#x3D; Object.create(fn.prototype);</span><br><span class="line">    var res &#x3D; fn.apply(obj, args);</span><br><span class="line">    return typeof res &#x3D;&#x3D;&#x3D; &#39;object&#39; ? res: obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这里要提一嘴，第四步中为什么要做这么一个判断呢？</p>
 <p>主要是你要考虑构造函数它有没有返回值。</p>
@@ -1016,7 +1016,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1029,7 +1029,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1073,7 +1073,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共536.7k字</span>
+  <span class="post-count">博客全站共546.1k字</span>
 </div>
 
         

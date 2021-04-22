@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="检查博客发现好多图无法访问，主要原因是一些网站上的图不支持跨域访问，本地看没事，博客上看图片就炸了。于是乎决定自己动手，丰衣足食，自己搭一个图床，当然找了找，网上有现成的教程，都大差不差。当然，使用了Github托管图片，自然要考虑国内的链接速度，使用Jsdelivr利用CDN实现加速访问。我就顺着Typora+PicGo+Github+Jsdelivr实现高效图文写作进行，只保留关键部分，方便阅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Typora+PicGo+Github+Jsdelivr搭建属于自己的图床">
+<meta property="og:url" content="https://hxy1997.xyz/2021/04/21/%E5%88%A9%E7%94%A8Typora+PicGo+Github+Jsdelivr%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9B%BE%E5%BA%8A/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="检查博客发现好多图无法访问，主要原因是一些网站上的图不支持跨域访问，本地看没事，博客上看图片就炸了。于是乎决定自己动手，丰衣足食，自己搭一个图床，当然找了找，网上有现成的教程，都大差不差。当然，使用了Github托管图片，自然要考虑国内的链接速度，使用Jsdelivr利用CDN实现加速访问。我就顺着Typora+PicGo+Github+Jsdelivr实现高效图文写作进行，只保留关键部分，方便阅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191535.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191713.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191741.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191812.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191835.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191854.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191908.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191922.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191935.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191952.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192018.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192032.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192045.webp">
+<meta property="article:published_time" content="2021-04-21T11:02:41.000Z">
+<meta property="article:modified_time" content="2021-04-21T11:23:57.887Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="Github">
+<meta property="article:tag" content="PicGo">
+<meta property="article:tag" content="Typora">
+<meta property="article:tag" content="图床">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191535.webp">
+
+<link rel="canonical" href="https://hxy1997.xyz/2021/04/21/%E5%88%A9%E7%94%A8Typora+PicGo+Github+Jsdelivr%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9B%BE%E5%BA%8A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>利用Typora+PicGo+Github+Jsdelivr搭建属于自己的图床 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/04/21/%E5%88%A9%E7%94%A8Typora+PicGo+Github+Jsdelivr%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9B%BE%E5%BA%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用Typora+PicGo+Github+Jsdelivr搭建属于自己的图床
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-21 19:02:41 / 修改时间：19:23:57" itemprop="dateCreated datePublished" datetime="2021-04-21T19:02:41+08:00">2021-04-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">实际应用</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/04/21/%E5%88%A9%E7%94%A8Typora+PicGo+Github+Jsdelivr%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9B%BE%E5%BA%8A/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/04/21/%E5%88%A9%E7%94%A8Typora+PicGo+Github+Jsdelivr%E6%90%AD%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9B%BE%E5%BA%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>检查博客发现好多图无法访问，主要原因是一些网站上的图不支持跨域访问，本地看没事，博客上看图片就炸了。于是乎决定自己动手，丰衣足食，自己搭一个图床，当然找了找，网上有现成的教程，都大差不差。当然，使用了Github托管图片，自然要考虑国内的链接速度，使用Jsdelivr利用CDN实现加速访问。我就顺着<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904170290413581">Typora+PicGo+Github+Jsdelivr实现高效图文写作</a>进行，只保留关键部分，方便阅读。</p>
+<span id="more"></span>
+
+<h2 id="1-工具简介"><a href="#1-工具简介" class="headerlink" title="1.工具简介"></a>1.工具简介</h2><h3 id="1-1-typora"><a href="#1-1-typora" class="headerlink" title="1.1 typora"></a>1.1 typora</h3><p>我现在自己写文章、文档什么的基本都使用<code>markdown</code>，这是一种比较好的文本标记语言，特别是相对于编程的同学来说，这里我个人使用的<code>Typora</code>，这个我很早就接触这个东西了，更早的时候是使用<code>vscode</code>自带的markdown 或者<code>HBuildX</code>去写的，后来偶然看到了<code>typora</code>就去使用这个了，经过多个版本的迭代，之前用的不爽的地方基本都改的差不多了，现在使用起来已经很流畅了（除了每次更新的时候有点慢。。）,至于<code>markdown</code>怎么用，这个我就不写了，网上教程大把，自己去找吧，界面长这样子</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191535.webp" alt="image-20200527191211267"></p>
+<h3 id="1-2-PicGo"><a href="#1-2-PicGo" class="headerlink" title="1.2 PicGo"></a>1.2 PicGo</h3><p><code>PicGo</code>就是一个图片上传工具，目前支持<code>SM.MS图床</code>、<code>腾讯云COS</code>、<code>GitHub</code>（待会儿我们用到的）、<code>七牛图床</code>、<code>Imgur图床</code>、<code>阿里云OSS</code>、<code>又拍云图床</code>，用法也很简单，在配置页面配置好各个图床的参数，如下图：</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191713.webp" alt="image-20200527191846033"></p>
+<p>然后就可以使用这个工具将图片上传到你配置的那个图床上面去，上传方式目前有三种：</p>
+<ul>
+<li>拖拽上传</li>
+<li>快捷键上传（需要剪切板里面有图片，也就是你要先复制一张图片）</li>
+<li>命令行上传</li>
+</ul>
+<h3 id="1-3-Github"><a href="#1-3-Github" class="headerlink" title="1.3 Github"></a>1.3 Github</h3><p>emmm，这个我就不说了吧，能看到这篇文章的应该没有不知道的，万一真不知道也没关系。</p>
+<h3 id="1-4-Jsdelivr"><a href="#1-4-Jsdelivr" class="headerlink" title="1.4 Jsdelivr"></a>1.4 Jsdelivr</h3><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191741.webp" alt="image-20200527192400115"></p>
+<p>如图所示，就是 开源的免费<code>CDN</code>，快速、可靠、自动化。他能够让我们快速的访问我们<code>github</code>、<code>npm</code>、<code>wordpress</code>上开放的资源。</p>
+<h2 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法"></a>2.使用方法</h2><h3 id="2-1-下载安装typora-PicGo"><a href="#2-1-下载安装typora-PicGo" class="headerlink" title="2.1 下载安装typora +PicGo"></a>2.1 下载安装<code>typora +PicGo</code></h3><p><code>Typora</code>下载地址：<a target="_blank" rel="noopener" href="https://www.typora.io/">www.typora.io/</a></p>
+<p><code>PicGo</code>下载地址：<a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases">github.com/Molunerfinn…</a> 找到图片所示位置</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191812.webp" alt="image-20200527193219825"></p>
+<h3 id="2-2-申请github令牌"><a href="#2-2-申请github令牌" class="headerlink" title="2.2 申请github令牌"></a>2.2 申请github令牌</h3><p>如果你已经有<code>github</code>账号，直接登录，没有的话就注册在登录，怎么注册，我就不写了，登陆进去鼠标点击头像，找到<code>Settings</code>，点击</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191835.webp" alt="image-20200527193744232"></p>
+<p>找到<code>Developer settings</code>，点击</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191854.webp" alt="image-20200527193918319"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191908.webp" alt="image-20200527194130744"></p>
+<p>期间会让你输入密码，直接输入你的<code>github</code>账号密码就行，然后填写名字，名字随便写（尽量让自己知道是什么意思），下面红框里面的必须勾上，其他的不用管</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191922.webp" alt="image-20200527194321556"></p>
+<p>完成后点击页面左下方的绿色按钮，然后成功以后会回到之前的页面，显示令牌</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191935.webp" alt="image-20200527194516074"></p>
+<p>这个令牌只显示一次，要复制令牌，自己找个地方保存起来，后面步骤要用到这个令牌</p>
+<h3 id="2-3-配置PicGo"><a href="#2-3-配置PicGo" class="headerlink" title="2.3 配置PicGo"></a>2.3 配置PicGo</h3><p>打开<code>PicGo</code>，找到 图床设置&gt;<code>Github</code>图床</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421191952.webp" alt="image-20200527195543276"></p>
+<ul>
+<li>仓库名填写，你的<code>github</code>上面你要放图片的那个仓库，必须要要是公有库；</li>
+<li>分支名，填写你要上传图片的仓库的那个分支，一般填写<code>master</code></li>
+<li><code>Token</code>填写刚刚让你复制下来找个地方的保存的那串字符</li>
+<li>储存路径，这个是相对于你的仓库根路径来说的，切记前面不能加斜杠，后面必须要加斜杠。如<code>bg/</code></li>
+<li>自定义域名：<code>https://cdn.jsdelivr.net/gh/你的github用户名/你设置的仓库名@分支名</code>，这个主要是用来上传以后，他用来拼接路径存在你的剪切板里面，返回图片的路径给你（这里的分支名这个位置，除了填写分支名以外，还可以填写release名称和commit tag，这个专业人士请自行研究，非专业人事就直接用分支名就可以）</li>
+</ul>
+<p>填写完成以后，点击确认，设置为默认图床，然后就可以切换到上传区，上传一张图片试试，上传完成以后会返回路径给你，这个路径格式也是可以设置的</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192018.webp" alt="image-20200527200833855"></p>
+<h3 id="2-4-配置Typora"><a href="#2-4-配置Typora" class="headerlink" title="2.4 配置Typora"></a>2.4 配置Typora</h3><p>打开<code>Typora</code> 找到设置里面的 图像</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192032.webp" alt="image-20200527194826427"></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210421192045.webp" alt="image-20200527194911887"></p>
+<p><code>PicGo</code>路径选你安装的位置的路径，然后点击验证图片上传选项，如果提示成功就大功告成，如果失败，请重复上述步骤。</p>
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Github/" rel="tag"><i class="fa fa-tag"></i> Github</a>
+              <a href="/tags/PicGo/" rel="tag"><i class="fa fa-tag"></i> PicGo</a>
+              <a href="/tags/Typora/" rel="tag"><i class="fa fa-tag"></i> Typora</a>
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/" rel="tag"><i class="fa fa-tag"></i> 图床</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/20/%E9%B2%9C%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84JavaScript%E5%8A%9F%E8%83%BD/" rel="prev" title="鲜为人知的JavaScript功能">
+      <i class="fa fa-chevron-left"></i> 鲜为人知的JavaScript功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/25/%E5%88%86%E4%BA%AB%E4%B8%80%E4%BA%9B%20Chrome%20%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%89%8D%E7%AB%AF%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/" rel="next" title="分享一些 Chrome 浏览器的前端调试技巧">
+      分享一些 Chrome 浏览器的前端调试技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%B7%A5%E5%85%B7%E7%AE%80%E4%BB%8B"><span class="nav-text">1.工具简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-typora"><span class="nav-text">1.1 typora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-PicGo"><span class="nav-text">1.2 PicGo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Github"><span class="nav-text">1.3 Github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Jsdelivr"><span class="nav-text">1.4 Jsdelivr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">2.使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85typora-PicGo"><span class="nav-text">2.1 下载安装typora +PicGo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%94%B3%E8%AF%B7github%E4%BB%A4%E7%89%8C"><span class="nav-text">2.2 申请github令牌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E9%85%8D%E7%BD%AEPicGo"><span class="nav-text">2.3 配置PicGo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E9%85%8D%E7%BD%AETypora"><span class="nav-text">2.4 配置Typora</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共560.9k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

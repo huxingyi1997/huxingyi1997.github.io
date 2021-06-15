@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210518220134.webp">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210518220027.webp">
 <meta property="article:published_time" content="2021-03-14T12:35:39.000Z">
-<meta property="article:modified_time" content="2021-05-18T14:21:28.348Z">
+<meta property="article:modified_time" content="2021-06-14T09:27:44.934Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="面试">
 <meta property="article:tag" content="计算机网络">
@@ -315,7 +315,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-18 22:21:28" itemprop="dateModified" datetime="2021-05-18T22:21:28+08:00">2021-05-18</time>
+                <time title="修改时间：2021-06-14 17:27:44" itemprop="dateModified" datetime="2021-06-14T17:27:44+08:00">2021-06-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -822,7 +822,7 @@
 <p>websocket 报文细节，这里由于client 和 server 端的 ip 都是127.0.0.1 ：</p>
 <p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210518215411.png" alt="img"></p>
 <h3 id="6-2-Nginx-支持WebSocket-配置"><a href="#6-2-Nginx-支持WebSocket-配置" class="headerlink" title="6.2 Nginx 支持WebSocket 配置"></a>6.2 Nginx 支持WebSocket 配置</h3><p>由于HTTP请求 涉及 反向代理 所以就涉及 Nginx 配置需要支持WebSocket 需要做一些特殊的配置；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 配置Nginx支持WebSocket开始</span><br><span class="line">proxy_set_header Host $http_host;</span><br><span class="line">proxy_http_version 1.1;</span><br><span class="line">proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">proxy_set_header Connection &quot;upgrade&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置Nginx支持WebSocket开始</span></span><br><span class="line">proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line">proxy_http_version 1.1;</span><br><span class="line">proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">proxy_set_header Connection <span class="string">&quot;upgrade&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210518215202.png" alt="img"></p>
 <p>其他通过代码模拟WebSocket 的代码可以查阅其他博客内容，这里就不赘述；</p>
@@ -917,7 +917,7 @@
 
 <h5 id="示例二，网络延误"><a href="#示例二，网络延误" class="headerlink" title="示例二，网络延误"></a>示例二，网络延误</h5><p>下面的示例中，网络包（1000-1499）被网络给延误了，导致发送方没有收到ACK，而后面到达的三个包触发了“Fast Retransmit算法”，所以重传，但重传时，被延误的包又到了，所以，回了一个SACK=1000-1500，因为ACK已到了3000，所以，这个SACK是D-SACK——标识收到了重复的包。</p>
 <p>这个案例下，发送端知道之前因为“Fast Retransmit算法”触发的重传不是因为发出去的包丢了，也不是因为回应的ACK包丢了，而是因为网络延时了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    Transmitted    Received    ACK Sent</span><br><span class="line"></span><br><span class="line">​    Segment        Segment     (Including SACK Blocks)</span><br><span class="line"></span><br><span class="line">​    500-999        500-999     1000</span><br><span class="line"></span><br><span class="line">​    1000-1499      (delayed)</span><br><span class="line"></span><br><span class="line">​    1500-1999      1500-1999   1000, SACK&#x3D;1500-2000</span><br><span class="line"></span><br><span class="line">​    2000-2499      2000-2499   1000, SACK&#x3D;1500-2500</span><br><span class="line"></span><br><span class="line">​    2500-2999      2500-2999   1000, SACK&#x3D;1500-3000</span><br><span class="line"></span><br><span class="line">​    1000-1499      1000-1499   3000</span><br><span class="line"></span><br><span class="line">​                   1000-1499   3000, SACK&#x3D;1000-1500</span><br><span class="line"></span><br><span class="line">​                                          \---------</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Transmitted    Received    ACK Sent</span><br><span class="line"></span><br><span class="line">Segment        Segment     (Including SACK Blocks)</span><br><span class="line"></span><br><span class="line">500-999        500-999     1000</span><br><span class="line"></span><br><span class="line">1000-1499      (delayed)</span><br><span class="line"></span><br><span class="line">1500-1999      1500-1999   1000, SACK&#x3D;1500-2000</span><br><span class="line"></span><br><span class="line">2000-2499      2000-2499   1000, SACK&#x3D;1500-2500</span><br><span class="line"></span><br><span class="line">2500-2999      2500-2999   1000, SACK&#x3D;1500-3000</span><br><span class="line"></span><br><span class="line">1000-1499      1000-1499   3000</span><br><span class="line"></span><br><span class="line">               1000-1499   3000, SACK&#x3D;1000-1500</span><br><span class="line"></span><br><span class="line">                                      \---------</span><br></pre></td></tr></table></figure>
 
 <p> 可见，引入了D-SACK，有这么几个好处：</p>
 <p>1）可以让发送方知道，是发出去的包丢了，还是回来的ACK包丢了。</p>
@@ -1006,7 +1006,10 @@
 </li>
 </ul>
 <p>另外，Nagle算法默认是打开的，所以，对于一些需要小包场景的程序——<strong>比如像telnet或ssh这样的交互性比较强的程序，你需要关闭这个算法</strong>。你可以在Socket设置TCP_NODELAY选项来关闭这个算法（关闭Nagle算法没有全局参数，需要根据每个应用自己的特点来关闭）</p>
-<p>setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, (<strong>char</strong> *)&amp;value,sizeof(<strong>int</strong>));</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, (**char** *)&amp;value,sizeof(**int**));</span><br></pre></td></tr></table></figure>
+
+
+
 <p>另外，网上有些文章说TCP_CORK的socket option是也关闭Nagle算法，这不对。<strong>TCP_CORK其实是更新激进的Nagle算法，完全禁止小包发送，而Nagle算法没有禁止小包发送，只是禁止了大量的小包发送</strong>。最好不要两个选项都设置。</p>
 <h3 id="7-7-TCP的拥塞处理-–-Congestion-Handling"><a href="#7-7-TCP的拥塞处理-–-Congestion-Handling" class="headerlink" title="7.7 TCP的拥塞处理 – Congestion Handling"></a>7.7 TCP的拥塞处理 – Congestion Handling</h3><p>上面我们知道了，TCP通过Sliding Window来做流控（Flow Control），但是TCP觉得这还不够，因为Sliding Window需要依赖于连接的发送端和接收端，其并不知道网络中间发生了什么。TCP的设计者觉得，一个伟大而牛逼的协议仅仅做到流控并不够，因为流控只是网络模型4层以上的事，TCP的还应该更聪明地知道整个网络上的事。</p>
 <p>具体一点，我们知道TCP通过一个timer采样了RTT并计算RTO，但是，<strong>如果网络上的延时突然增加，那么，TCP对这个事做出的应对只有重传数据，但是，重传会导致网络的负担更重，于是会导致更大的延迟以及更多的丢包，于是，这个情况就会进入恶性循环被不断地放大。试想一下，如果一个网络内有成千上万的TCP连接都这么行事，那么马上就会形成“网络风暴”，TCP这个协议就会拖垮整个网络。</strong>这是一个灾难。</p>
@@ -1297,7 +1300,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共743.4k字</span>
+  <span class="post-count">博客全站共744.1k字</span>
 </div>
 
         

@@ -62,7 +62,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210508104849.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210508104909.png">
 <meta property="article:published_time" content="2021-02-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-07-04T15:59:13.943Z">
+<meta property="article:modified_time" content="2021-07-05T00:37:39.327Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="javascript">
 <meta property="article:tag" content="函数手写">
@@ -265,7 +265,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-04 23:59:13" itemprop="dateModified" datetime="2021-07-04T23:59:13+08:00">2021-07-04</time>
+                <time title="修改时间：2021-07-05 08:37:39" itemprop="dateModified" datetime="2021-07-05T08:37:39+08:00">2021-07-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1489,13 +1489,13 @@
 <h3 id="暴力解"><a href="#暴力解" class="headerlink" title="暴力解"></a>暴力解</h3><p><strong>思路及算法</strong></p>
 <p>我们可以让字符串 needle 与字符串 haystack 的所有长度为 m 的子串均匹配一次。</p>
 <p>为了减少不必要的匹配，我们每次匹配失败即立刻停止当前子串的匹配，对下一个子串继续匹配。如果当前子串匹配成功，我们返回当前子串的开始位置即可。如果所有子串都匹配失败，则返回 -1。</p>
-<p><strong>时间复杂度</strong>：O(n×m)，其中 nn 是字符串 haystack 的长度，m 是字符串 needle 的长度。最坏情况下我们需要将字符串 needle 与字符串haystack 的所有长度为 m 的子串均匹配一次。</p>
-<p><strong>空间复杂度</strong>：O(1)。我们只需要常数的空间保存若干变量。</p>
+<p><strong>时间复杂度</strong>：$O(n×m)$，其中 n 是字符串 haystack 的长度，m 是字符串 needle 的长度。最坏情况下我们需要将字符串 needle 与字符串haystack 的所有长度为 m 的子串均匹配一次。</p>
+<p><strong>空间复杂度</strong>：$O(1)$。我们只需要常数的空间保存若干变量。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> strStr = <span class="function"><span class="keyword">function</span>(<span class="params">haystack, needle</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> m =  haystack.length;</span><br><span class="line">    <span class="keyword">let</span> n = needle.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= m - n; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (needle[j] !== haystack[i + j]) <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// needle子串全都匹配了</span></span><br><span class="line">        <span class="keyword">if</span> (j === n) <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// haystack中不存在needle</span></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>KMP 算法是一个快速查找匹配串的算法，它的作用其实就是本题问题：如何快速在「原字符串」中找到「匹配字符串」。</p>
-<p>上述的朴素解法，不考虑剪枝的话复杂度是 O(m∗n) 的，而 KMP 算法的复杂度为 O(m+n)。</p>
-<p>KMP 之所以能够在O(m+n) 复杂度内完成查找，是因为其能在「非完全匹配」的过程中提取到有效信息进行复用，以减少「重复匹配」的消耗。</p>
+<p>上述的朴素解法，不考虑剪枝的话复杂度是 $O(m∗n)$ 的，而 KMP 算法的复杂度为 $O(m+n)$。</p>
+<p>KMP 之所以能够在$O(m+n)$ 复杂度内完成查找，是因为其能在「非完全匹配」的过程中提取到有效信息进行复用，以减少「重复匹配」的消耗。</p>
 <ol>
 <li>匹配过程<br>在模拟 KMP 匹配过程之前，我们先建立两个概念：</li>
 </ol>
@@ -1533,7 +1533,7 @@
 <li>分析实现</li>
 </ol>
 <p>到这里，就结束了吗？要开始动手实现上述匹配过程了吗？</p>
-<p>我们可以先分析一下复杂度。如果严格按照上述解法的话，最坏情况下我们需要扫描整个原串，复杂度为 O(n)O(n)。同时在每一次匹配失败时，去检查已匹配部分的相同「前缀」和「后缀」，跳转到相应的位置，如果不匹配则再检查前面部分是否有相同「前缀」和「后缀」，再跳转到相应的位置 … 这部分的复杂度是 $O(m^2)$ ，因此整体的复杂度是 $O(n * m^2)$，而我们的朴素解法是 $O(m * n)$ 的。</p>
+<p>我们可以先分析一下复杂度。如果严格按照上述解法的话，最坏情况下我们需要扫描整个原串，复杂度为 $O(n)$。同时在每一次匹配失败时，去检查已匹配部分的相同「前缀」和「后缀」，跳转到相应的位置，如果不匹配则再检查前面部分是否有相同「前缀」和「后缀」，再跳转到相应的位置 … 这部分的复杂度是 $O(m^2)$ ，因此整体的复杂度是 $O(n * m^2)$，而我们的朴素解法是 $O(m * n)$ 的。</p>
 <p>说明还有一些性质我们没有利用到。</p>
 <p>显然，扫描完整原串操作这一操作是不可避免的，我们可以优化的只能是「检查已匹配部分的相同前缀和后缀」这一过程。</p>
 <p>再进一步，我们检查「前缀」和「后缀」的目的其实是「为了确定匹配串中的下一段开始匹配的位置」。</p>
@@ -2240,7 +2240,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共797.1k字</span>
+  <span class="post-count">博客全站共803.2k字</span>
 </div>
 
         

@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/02/10/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Robben.gif">
@@ -209,7 +209,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/10/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/" class="post-title-link" itemprop="url">js函数手写</a>
+            <a href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">BFS、DFS 回溯法刷题</a>
         </h2>
 
         <div class="post-meta">
@@ -219,14 +219,774 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-10 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-10T00:00:00+08:00">2021-02-10</time>
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-11 19:43:04" itemprop="dateModified" datetime="2021-07-11T19:43:04+08:00">2021-07-11</time>
+                <time title="修改时间：2021-07-13 23:59:54" itemprop="dateModified" datetime="2021-07-13T23:59:54+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是BFS、DFS 回溯法</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">二叉树刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-14 08:29:49" itemprop="dateModified" datetime="2021-07-14T08:29:49+08:00">2021-07-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是二叉树</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">二分查找刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-13 23:32:55" itemprop="dateModified" datetime="2021-07-13T23:32:55+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是二分查找</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E5%93%88%E5%B8%8C%E5%A0%86%E6%A0%88%E9%98%9F%E5%88%97%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E5%93%88%E5%B8%8C%E5%A0%86%E6%A0%88%E9%98%9F%E5%88%97%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">哈希堆栈队列刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-13 23:52:17" itemprop="dateModified" datetime="2021-07-13T23:52:17+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E5%93%88%E5%B8%8C%E5%A0%86%E6%A0%88%E9%98%9F%E5%88%97%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E5%93%88%E5%B8%8C%E5%A0%86%E6%A0%88%E9%98%9F%E5%88%97%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是哈希堆栈队列</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E5%93%88%E5%B8%8C%E5%A0%86%E6%A0%88%E9%98%9F%E5%88%97%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">动态规划刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-13 23:35:50" itemprop="dateModified" datetime="2021-07-13T23:35:50+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是动态规划</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">数学计算刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-13 23:58:10" itemprop="dateModified" datetime="2021-07-13T23:58:10+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是数学计算</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">剑指offer刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-13 23:33:10" itemprop="dateModified" datetime="2021-07-13T23:33:10+08:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是剑指offer部分</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/%E5%85%B6%E4%BB%96%E5%88%B7%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/09/%E5%85%B6%E4%BB%96%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">其他刷题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-14 00:02:30" itemprop="dateModified" datetime="2021-07-14T00:02:30+08:00">2021-07-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/09/%E5%85%B6%E4%BB%96%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/%E5%85%B6%E4%BB%96%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是其他</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/09/%E5%85%B6%E4%BB%96%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">css面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-06 12:02:39" itemprop="dateCreated datePublished" datetime="2021-03-06T12:02:39+08:00">2021-03-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-18 17:00:47" itemprop="dateModified" datetime="2021-04-18T17:00:47+08:00">2021-04-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,8 +1007,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/02/10/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/10/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -263,75 +1023,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>手写常见js函数，面试必备，多练几遍，争取手撕成功，按照顺序补充，加油啊，除了算法题这种题也很关键，总算重新整理了一遍，以该版本为作为自己最终收藏的版本更新了。</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>1.<a href="#1.%E6%89%8B%E5%86%99call">手写 call</a>✅</p>
-<p>2.<a href="#2.%E6%89%8B%E5%86%99apply">手写apply</a>✅</p>
-<p>3.<a href="#3.%E6%89%8B%E5%86%99bind">手写bind</a>✅️</p>
-<p>4.<a href="#4.%E6%89%8B%E5%86%99new">手写new</a>✅</p>
-<p>5.<a href="#5.%E6%89%8B%E5%86%99Object.create">手写Object.create</a>✅</p>
-<p>6.<a href="#6.%E6%89%8B%E5%86%99ES5%E7%BB%A7%E6%89%BF">手写ES5继承</a>✅</p>
-<p>7.<a href="#7.%E6%89%8B%E5%8A%A8%E5%AE%9E%E7%8E%B0instanceof">手动实现instanceof</a>✅</p>
-<p>8.<a href="#8.%E6%89%8B%E5%86%99Array.isArray">手写Array.isArray</a>✅</p>
-<p>9.<a href="#9.%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%88%A4%E6%96%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">实现一个函数判断数据类型</a>✅</p>
-<p>10.<a href="#10.%E6%89%8B%E5%86%99%E6%B7%B1%E6%8B%B7%E8%B4%9D">手写深拷贝</a>✅</p>
-<p>11.<a href="#11.%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96">数组扁平化</a>✅</p>
-<p>12.<a href="#12.%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D">数组去重</a>✅</p>
-<p>13.<a href="#13.%E6%89%8B%E5%86%99%E6%95%B0%E7%BB%84ES5%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95">手写数组ES5常见方法</a>✅</p>
-<p>14.<a href="#14.%E5%AE%9E%E7%8E%B0%E6%95%B0%E7%BB%84%E5%8E%9F%E5%9C%B0%E5%8F%8D%E8%BD%AC">实现数组原地反转</a>✅</p>
-<p>15.<a href="#15.reduce%E7%9A%84%E5%BA%94%E7%94%A8%E6%B1%87%E6%80%BB">reduce的应用汇总</a>✅</p>
-<p>16.<a href="#16.%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95">洗牌算法</a>✅</p>
-<p>17.<a href="#17.%E5%AF%B9%E8%B1%A1%E6%89%81%E5%B9%B3%E5%8C%96">对象扁平化</a>✅</p>
-<p>18.<a href="#18.%E6%89%8B%E5%86%99%E5%81%8F%E5%87%BD%E6%95%B0">手写偏函数</a>✅</p>
-<p>19.<a href="#19.%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96">函数柯里化</a>✅</p>
-<p>20.<a href="#20.%E6%89%8B%E5%86%99compose%E5%87%BD%E6%95%B0">手写compose函数</a>✅</p>
-<p>21.[实现 (5).add(3).minus(2) 功能](#21.实现 (5).add(3).minus(2) 功能)✅</p>
-<p>22.[实现一个 add 函数](#22.实现一个 add 函数)✅</p>
-<p>23.<a href="#23.%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86">计算两个数组的交集</a>✅</p>
-<p>24.<a href="#24.%E6%89%8B%E5%86%99%E5%AF%B9%E8%B1%A1%E6%B7%B1%E5%BA%A6%E6%AF%94%E8%BE%83">手写对象深度比较</a>✅</p>
-<p>25.<a href="#25.%E6%89%81%E5%B9%B3%E6%95%B0%E7%BB%84%E8%BD%AC%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84">扁平数组转树状结构</a>✅</p>
-<p>26.<a href="#26.%E9%98%B2%E6%8A%96(debounce)">防抖(debounce)</a>✅</p>
-<p>27.<a href="#27.%E8%8A%82%E6%B5%81(throttle)">节流(throttle)</a>✅</p>
-<p>28.<a href="#28.%E6%89%8B%E5%86%99const">手写const</a>✅</p>
-<p>29.<a href="#29.%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A">手写双向绑定</a>✅</p>
-<p>30.<a href="#30.%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD">图片懒加载</a>✅</p>
-<p>31.<a href="#31.%E5%8C%BA%E9%97%B4%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E5%99%A8">区间随机数生成器</a>✅</p>
-<p>32.<a href="#32.%E6%89%93%E5%8D%B0%E8%8F%B1%E5%BD%A2">打印菱形</a>✅</p>
-<p>33.<a href="#33.%E6%89%8B%E5%86%99parseInt">手写parseInt</a>✅</p>
-<p>34.<a href="#34.%E6%89%8B%E5%86%99JSON.stringify">手写JSON.stringify</a>✅</p>
-<p>35.<a href="#35.%E6%89%8B%E5%86%99JSON.parse">手写JSON.parse</a>✅</p>
-<p>36.[解析 URL Params 为对象](#36.解析 URL Params 为对象)✅</p>
-<p>37.<a href="#37.%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E5%AE%9E%E7%8E%B0">模板引擎实现</a>✅</p>
-<p>38.<a href="#38.%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D-%E4%B8%AD%E5%88%92%E7%BA%BF%E8%BD%AC%E6%8D%A2">驼峰命名-中划线转换</a>✅</p>
-<p>39.<a href="#39.%E6%9F%A5%E6%89%BE%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E5%AD%97%E7%AC%A6%E5%92%8C%E4%B8%AA%E6%95%B0">查找字符串中出现最多的字符和个数</a>✅</p>
-<p>40.<a href="#40.%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE">字符串查找</a>✅</p>
-<p>41.<a href="#41.%E5%AE%9E%E7%8E%B0%E5%8D%83%E4%BD%8D%E5%88%86%E9%9A%94%E7%AC%A6">实现千位分隔符</a>✅</p>
-<p>42.<a href="#42.%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%94%A8">正则表达式的基本运用</a>✅</p>
-<p>43.<a href="#43.%E6%89%8B%E5%86%99trim">手写trim</a>✅</p>
-<p>44.<a href="#44.%E7%89%88%E6%9C%AC%E5%8F%B7%E6%AF%94%E8%BE%83">版本号比较</a>✅</p>
-<p>45.<a href="#45.%E6%89%8B%E5%86%99Object.freeze">手写Object.freeze</a>✅</p>
-<p>46.<a href="#46.%E5%AE%9E%E7%8E%B0ES6%E7%9A%84extends">实现ES6的extends</a>✅</p>
-<p>47.<a href="#47.%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0Set">手写实现Set</a>✅</p>
-<p>48.<a href="#48.%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0Map">手写实现Map</a>✅</p>
-<p>49.<a href="#49.%E6%A3%80%E6%B5%8B%E5%AF%B9%E8%B1%A1%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8">检测对象循环引用</a>✅</p>
-<p>50.<a href="#50.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F">单例模式</a>✅</p>
-<p>51.<a href="#51.%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F">观察者模式</a>✅</p>
-<p>52.<a href="#52.%E5%8F%91%E5%B8%83/%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F" title="EventBus/EventEmitter">发布/订阅模式 (EventBus/EventEmitter)</a>✅</p>
-<p>53.<a href="#53.%E6%89%8B%E5%86%99%E4%BA%8B%E4%BB%B6%E4%BB%A3%E7%90%86">手写事件代理</a>✅</p>
-<p>54.<a href="#54.%E6%89%8B%E5%86%99JSONP%E8%B7%A8%E5%9F%9F">手写JSONP跨域</a>✅</p>
-<p>55.<a href="#55.%E6%89%8B%E5%86%99Promise">手写Promise</a>✅</p>
-<p>56.<a href="#56.%E6%89%8B%E5%86%99ajax%E5%B0%81%E8%A3%85">手写ajax封装</a>✅</p>
-<p>57.<a href="#57.%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0sleep">手写实现sleep</a>✅</p>
-<p>58.<a href="#58.%E6%89%8B%E5%86%99promisify">手写promisify</a>✅</p>
-<p>59.<a href="#59.%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E6%89%A7%E8%A1%8C%E9%98%9F%E5%88%97">实现延时执行队列</a>✅</p>
-<p>60.<a href="#60.setTimeout%E5%AE%9E%E7%8E%B0setInterval">setTimeout实现setInterval</a>✅</p>
-<p>61.<a href="#61.%E6%89%8B%E5%86%99fetch">手写fetch</a>✅</p>
-<p>62.<a href="#62.%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0Generator">手写实现Generator</a>✅</p>
-<p>63.<a href="#63.%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0async/await">手写实现async/await</a>✅</p>
-<p>64.<a href="#64.%E6%89%8B%E5%86%99%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C%E5%92%8C%E5%BC%82%E6%AD%A5%E5%B9%B6%E8%A1%8C">手写异步串行和异步并行</a>✅</p>
-<p>65.<a href="#65.%E5%BC%82%E6%AD%A5%E5%B9%B6%E5%8F%91%E6%95%B0%E9%99%90%E5%88%B6">异步并发数限制</a>✅</p>
+          <p>CSS样式基本布局也是前端的基本功课，相比JS，自己这方面并没有做足功课，只能根据常见的面试题反向逼迫自己尽快复习了，实习春招和秋招加油吧</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/02/10/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99/#more" rel="contents">
+              <a class="btn" href="/2021/03/06/css%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -355,7 +1050,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/30/Promise%20async%20Generator%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Robben.gif">
@@ -369,7 +1064,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/10/30/Promise%20async%20Generator%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">Promise async Generator实现原理解析</a>
+            <a href="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" class="post-title-link" itemprop="url">前端性能</a>
         </h2>
 
         <div class="post-meta">
@@ -379,14 +1074,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-10-30 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-30T00:00:00+08:00">2020-10-30</time>
+              <time title="创建时间：2021-02-25 00:02:39" itemprop="dateCreated datePublished" datetime="2021-02-25T00:02:39+08:00">2021-02-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-18 22:31:54" itemprop="dateModified" datetime="2021-05-18T22:31:54+08:00">2021-05-18</time>
+                <time title="修改时间：2021-05-24 22:39:19" itemprop="dateModified" datetime="2021-05-24T22:39:19+08:00">2021-05-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -407,8 +1102,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/10/30/Promise%20async%20Generator%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/30/Promise%20async%20Generator%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -423,502 +1118,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>转自 <a target="_blank" rel="noopener" href="https://juejin.im/post/6844904096525189128">https://juejin.im/post/6844904096525189128</a> </p>
-<p>笔者刚接触<code>async/await</code>时，就被其暂停执行的特性吸引了，心想在没有原生API支持的情况下，await居然能挂起当前方法，实现暂停执行，我感到十分好奇。好奇心驱使我一层一层剥开有关JS异步编程的一切。阅读完本文，读者应该能够了解：</p>
-<ol>
-<li><p><code>Promise</code>的实现原理</p>
-</li>
-<li><p><code>async/await</code>的实现原理</p>
-</li>
-<li><p><code>Generator</code>的实现原理</p>
-</li>
-</ol>
+          <p>前端性能优化的相关内容，好好掌握消化，其实这一部分实用性远高于应试性，很考验各位前端仔的实战水平的</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/10/30/Promise%20async%20Generator%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/25/hexo%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/25/hexo%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">hexo搭建博客</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-25 00:02:39" itemprop="dateCreated datePublished" datetime="2020-10-25T00:02:39+08:00">2020-10-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-21 19:08:03" itemprop="dateModified" datetime="2021-04-21T19:08:03+08:00">2021-04-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">实际应用</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/25/hexo%E5%8D%9A%E5%AE%A2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/25/hexo%E5%8D%9A%E5%AE%A2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>搭建一个博客不难，但是网上资料好多坑。我也是一个刚入门小白，可能有些会写错，请在评论指出。但是有经过实战测试的。 我用的博客框架是 hexo，采用 NexT 主题 ，使用 Github 托管项目，使用Github Pages实现页面搭建。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/25/hexo%E5%8D%9A%E5%AE%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/21/Vue%E7%94%B5%E5%95%86%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/21/Vue%E7%94%B5%E5%95%86%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">Vue电商管理后台项目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-21 12:02:39" itemprop="dateCreated datePublished" datetime="2020-10-21T12:02:39+08:00">2020-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-18 14:58:27" itemprop="dateModified" datetime="2021-04-18T14:58:27+08:00">2021-04-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/21/Vue%E7%94%B5%E5%95%86%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/21/Vue%E7%94%B5%E5%95%86%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用 Vue搭建的电商管理后台项目，手把手地指引新人每一步的过程，项目调用了别人提供的后端接口。笔记我是重新梳理了一遍，只有动手做才能发现自己踩过的坑，加以改进。为了方便，我最终选择将自己学习搭建的Vue电商项目托管至Gitee Pages和GitHub Pages，实现项目的正式上线 <a target="_blank" rel="noopener" href="https://hxy1997.gitee.io/vue_shops/">Vue电商项目(Gitee Pages)</a>和<a href="https://hxy1997.xyz/vue_shops/">Vue电商项目(GitHub Pages)</a>，其中GitHub Pages采用的是我自己在阿里云配置的域名，所以和博客是同一个域名。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/21/Vue%E7%94%B5%E5%95%86%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-20T00:00:00+08:00">2020-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-25 14:02:29" itemprop="dateModified" datetime="2020-10-25T14:02:29+08:00">2020-10-25</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="常见设计模式"><a href="#常见设计模式" class="headerlink" title="常见设计模式"></a>常见设计模式</h1><h2 id="1-为什么要学习设计模式？"><a href="#1-为什么要学习设计模式？" class="headerlink" title="1.为什么要学习设计模式？"></a>1.为什么要学习设计模式？</h2><p>在许多访谈中，你可能会遇到很多面向对象编程中的接口，抽象类，代理和以及其他与设计模式相关的问题。 一旦了解了设计模式，它会让你轻松应对任何访谈，并可以在你的项目中应用这些特性。在应用程序中实现设计模式已经得到验证和测试。</p>
-<p>为了使应用程序具有可扩展性，可靠性和易维护性，应该编写符合设计模式的代码。</p>
-<h2 id="2-什么是设计模式。"><a href="#2-什么是设计模式。" class="headerlink" title="2.什么是设计模式。"></a>2.什么是设计模式。</h2><p>设计模式是我们每天编程遇到的问题的可重用解决方案。</p>
-<p>设计模式主要是为了解决对象的生成和整合问题。</p>
-<p>换句话说，设计模式可以作为可应用于现实世界编程问题的模板。</p>
-<h2 id="3-设计模式的发展历史"><a href="#3-设计模式的发展历史" class="headerlink" title="3.设计模式的发展历史"></a>3.设计模式的发展历史</h2><p>设计模式的概念是由四人帮（《设计模式（可复用面向对象软件的基础）》的四位作者）提出。</p>
-<p>四人帮把这本书分成两部分：</p>
-<p>第一部分解释面向对象编程的优缺点。</p>
-<p>第二部分是关于 23 个经典设计模式的演变。</p>
-<p>自提出设计模式概念后，四人帮设计模式在软件开发生命周期中发挥了重要作用。</p>
-<h2 id="4-设计模式分类"><a href="#4-设计模式分类" class="headerlink" title="4.设计模式分类"></a>4.设计模式分类</h2><p>根据实际应用中遇到的不同问题，四人帮将设计模式分为三种类型。</p>
-<ul>
-<li>创建型模式</li>
-<li>结构型模式</li>
-<li>行为型模式</li>
-</ul>
-<p>接下来将概述属于这三种类型的 23 种设计模式的主要概念。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/20/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/20/Webpack%E9%9D%A2%E8%AF%95%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/20/Webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">Weppack面试题整理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-20T00:00:00+08:00">2020-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-02 21:14:58" itemprop="dateModified" datetime="2021-06-02T21:14:58+08:00">2021-06-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/20/Webpack%E9%9D%A2%E8%AF%95%E9%A2%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/20/Webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这一块知识是我的盲区（话说我的盲区也太多了吧，根本就是眼瞎😭）直接复制人家整理好的吧 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">「吐血整理」再来一打Webpack面试题</a>，感觉自己啥也不会，就知道它是用来打包的工具</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/20/Webpack%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2020/10/18/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99%EF%BC%88%E6%97%A7%E7%89%88%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/18/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99%EF%BC%88%E6%97%A7%E7%89%88%EF%BC%89/" class="post-title-link" itemprop="url">js函数手写（旧版）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-18T00:00:00+08:00">2020-10-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-14 22:48:06" itemprop="dateModified" datetime="2021-05-14T22:48:06+08:00">2021-05-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/10/18/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99%EF%BC%88%E6%97%A7%E7%89%88%EF%BC%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/18/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99%EF%BC%88%E6%97%A7%E7%89%88%EF%BC%89/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>去看新版本吧，这一版本不折腾了，好多抄的，自己都没有整明白。</p>
-<p>手写常见js函数，面试必备，多练几遍，争取手撕。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/18/js%E5%87%BD%E6%95%B0%E6%89%8B%E5%86%99%EF%BC%88%E6%97%A7%E7%89%88%EF%BC%89/#more" rel="contents">
+              <a class="btn" href="/2021/02/25/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -941,7 +1144,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1009,20 +1212,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">82</span>
+        <span class="site-state-item-count">94</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1066,7 +1269,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共813.3k字</span>
+  <span class="post-count">博客全站共819.8k字</span>
 </div>
 
         

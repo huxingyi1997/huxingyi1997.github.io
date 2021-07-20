@@ -41,8 +41,16 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210718235748.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719000005.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719000300.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719082200.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719090348.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210524221312.png">
+<meta property="og:image" content="http://blog.sohu.com/manage/entry.do?m=deleted&id=156714243">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720000350.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720084817.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720090139.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720091212.png">
 <meta property="article:published_time" content="2021-07-18T09:35:40.000Z">
-<meta property="article:modified_time" content="2021-07-18T16:06:35.300Z">
+<meta property="article:modified_time" content="2021-07-20T01:12:14.076Z">
 <meta property="article:author" content="hxy">
 <meta property="article:tag" content="综合">
 <meta property="article:tag" content="鲨鱼哥">
@@ -246,7 +254,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-19 00:06:35" itemprop="dateModified" datetime="2021-07-19T00:06:35+08:00">2021-07-19</time>
+                <time title="修改时间：2021-07-20 09:12:14" itemprop="dateModified" datetime="2021-07-20T09:12:14+08:00">2021-07-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -581,7 +589,7 @@
 
 
 
-<h2 id="4-HTTP协议相关"><a href="#4-HTTP协议相关" class="headerlink" title="4.HTTP协议相关"></a>4.HTTP协议相关</h2><p>HTTP(Hyper Text Transfer Protocol)&lt;超文本传输协议&gt;的缩写.是用于从WWW服务器传输超文本到本地浏览器的传输协议.HTTP是一个应用层协议,由请求和响应构成,是一个标准的个客户端和服务器模型</p>
+<h2 id="4-HTTP协议相关"><a href="#4-HTTP协议相关" class="headerlink" title="4. HTTP协议相关"></a>4. HTTP协议相关</h2><p>HTTP(Hyper Text Transfer Protocol)&lt;超文本传输协议&gt;的缩写.是用于从WWW服务器传输超文本到本地浏览器的传输协议.HTTP是一个应用层协议,由请求和响应构成,是一个标准的个客户端和服务器模型</p>
 <h3 id="4-1-特点"><a href="#4-1-特点" class="headerlink" title="4.1 特点"></a>4.1 特点</h3><ol>
 <li>基于请求/响应模型的协议</li>
 <li>简单快速</li>
@@ -595,18 +603,249 @@
 <p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719000005.png" alt="响应报文"></p>
 <h3 id="4-3-HTTP方法"><a href="#4-3-HTTP方法" class="headerlink" title="4.3 HTTP方法"></a>4.3 HTTP方法</h3><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719000300.png" alt="HTTP请求方法"></p>
 <p>get和post区别：</p>
-<blockquote>
-<p>GET请求会被浏览器主动cache，而POST不会，除非手动设置</p>
-<p>get把请求的参数放在url上，即HTTP协议头上 post把参数放在HTTP的包体内</p>
-<p>Get 方式传输的数据量非常小，一般限制在 2 KB 左右，但是执行效率却比 &gt;Post 方法好；而 Post<br>方式传递的数据量相对较大，它是等待服务器来读取数&gt;据，不过也有字节限制（实际上IIS4中最大量为80KB，IIS5中为100KB），这是为&gt;了避免对服务器用大量数据进行恶意攻击</p>
-<p>GET请求只能进行url编码，而POST支持多种编码方式</p>
-<p>GET产生的URL地址可以加入书签，而POST不可以</p>
-<p>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留</p>
-<p>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息</p>
-</blockquote>
+<ul>
+<li><p>GET请求会被浏览器主动cache，而POST不会，除非手动设置</p>
+</li>
+<li><p>get把请求的参数放在url上，即HTTP协议头上 post把参数放在HTTP的包体内</p>
+</li>
+<li><p>Get 方式传输的数据量非常小，一般限制在 2 KB 左右，但是执行效率却比 &gt;Post 方法好；而 Post<br>方式传递的数据量相对较大，它是等待服务器来读取数&gt;据，不过也有字节限制（实际上IIS4中最大量为80KB，IIS5中为100KB），这是为&gt;了避免对服务器用大量数据进行恶意攻击</p>
+</li>
+<li><p>GET请求只能进行url编码，而POST支持多种编码方式</p>
+</li>
+<li><p>GET产生的URL地址可以加入书签，而POST不可以</p>
+</li>
+<li><p>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留</p>
+</li>
+<li><p>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息</p>
+</li>
+</ul>
 <h3 id="4-4-HTTP状态码"><a href="#4-4-HTTP状态码" class="headerlink" title="4.4 HTTP状态码"></a>4.4 HTTP状态码</h3><p>状态码：由3位数字组成，第一个数字定义了响应的类别</p>
 <p>1xx：指示信息，表示请求已接收，继续处理</p>
 <p>2xx：成功，表示请求已被成功接受，处理。</p>
+<ul>
+<li>200 OK：客户端请求成功</li>
+<li>204 No Content：无内容。服务器成功处理，但未返回内容。一般用在只是客户端向服务器发送信息，而服务器不用向客户端返回什么信息的情况。不会刷新页面。</li>
+<li>206 Partial Content：服务器已经完成了部分GET请求（客户端进行了范围请求）。响应报文中包含Content-Range指定范围的实体内容</li>
+</ul>
+<p>3xx：重定向</p>
+<ul>
+<li><p>301 Moved Permanently：永久重定向，表示请求的资源已经永久的搬到了其他位置。</p>
+</li>
+<li><p>302 Found：临时重定向，表示请求的资源临时搬到了其他位置</p>
+</li>
+<li><p>303 See Other：临时重定向，应使用GET定向获取请求资源。303功能与302一样，区别只是303明确客户端应该使用GET访问</p>
+</li>
+<li><p>307 Temporary Redirect：临时重定向，和302有着相同含义。POST不会变成GET</p>
+</li>
+<li><p>304 Not Modified：表示客户端发送附带条件的请求（GET方法请求报文中的IF…）时，条件不满足。返回304时，不包含任何响应主体。虽然304被划分在3XX，但和重定向一毛钱关系都没有</p>
+</li>
+</ul>
+<p>4xx：客户端错误</p>
+<ul>
+<li>400 Bad Request：客户端请求有语法错误，服务器无法理解。</li>
+<li>401 Unauthorized：请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用。</li>
+<li>403 Forbidden：服务器收到请求，但是拒绝提供服务</li>
+<li>404 Not Found：请求资源不存在。比如，输入了错误的url</li>
+<li>415 Unsupported media type：不支持的媒体类型</li>
+</ul>
+<p>5xx：服务器端错误，服务器未能实现合法的请求。</p>
+<ul>
+<li>500 Internal Server Error：服务器发生不可预期的错误。</li>
+<li>503 Server Unavailable：服务器当前不能处理客户端的请求，一段时间后可能恢复正常。</li>
+</ul>
+<h3 id="4-5-HTTP持久化连接与管道化"><a href="#4-5-HTTP持久化连接与管道化" class="headerlink" title="4.5 HTTP持久化连接与管道化"></a>4.5 HTTP持久化连接与管道化</h3><p>在HTTP1.0中，默认的是<strong>短连接</strong>，没有正式规定 Connection:Keep-alive 操作；</p>
+<p>HTTP/1.1所有连接都是Keep-alive的，也就是默认都是持续连接的。在事务处理结束之后仍然保持在打开状态的TCP连接称之为<strong>持久连接</strong>。</p>
+<p>持久连接详解：</p>
+<blockquote>
+<p>持久连接会在不同事务之间保持打开状态，直到客户端或服务器决定其关闭为止。重用已对目标服务器打开的空闲持久连接，就可以避开缓慢的连接建立阶段。而且，已经打开的连接还可以避免慢启动的拥塞适应阶段，以便更快速地进行数据传输。所以，持久连接降低了时延和连接建立的开销，将连接保持在已调谐状态，而且减少了打开连接的潜在数量</p>
+</blockquote>
+<p>HTTP/1.1允许在持久连接上可选的使用<strong>请求管道</strong>，是相对于keep-alive连接的又一性能优化。在响应到达之前，可以将多条请求放入队列，当第一条请求通过网络流向服务器时，第二条和第三条请求也可以开始发送了。在高时延网络条件下，这样做可以降低网络的环回时间，提高性能</p>
+<p>管道连接注意点：</p>
+<ol>
+<li>如果HTTP客户端无法确认连接是持久的，就不应该使用管道</li>
+<li>必须按照与请求相同的顺序回送HTTP响应。</li>
+<li>HTTP客户端必须做好连接会在任意时刻关闭的准备，还要准备好重发所有未完成管道化的请求。</li>
+<li>出错的时候，管道连接会阻碍客户端了解服务器执行的是一些列管道化请求中的哪一些。由于无法安全地重试POST这样的非幂请求，所以出错时，就存在某些方法永远不会被执行的风险。</li>
+</ol>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719082200.png" alt="HTTP连接"></p>
+<h2 id="5-前端通信"><a href="#5-前端通信" class="headerlink" title="5. 前端通信"></a>5. 前端通信</h2><h3 id="5-1-同源策略"><a href="#5-1-同源策略" class="headerlink" title="5.1 同源策略"></a>5.1 同源策略</h3><p>同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键安全机制。</p>
+<p>什么是源：协议、域名与端口。这三者任何一个不一样的话，就算是跨域</p>
+<p>什么是限制：不是一个源的文档，没有权限去操作另一个源的文档，包括以下内容</p>
+<ul>
+<li>Cookie、LocalStorage 和 IndexDB无法读取。</li>
+<li>DOM无法获得</li>
+<li>Ajax请求不能发送</li>
+</ul>
+<h3 id="5-2-前后端通信方式"><a href="#5-2-前后端通信方式" class="headerlink" title="5.2 前后端通信方式"></a>5.2 前后端通信方式</h3><ol>
+<li>Ajax 支持同源通信</li>
+<li>WebSocket 不受同源策略影响</li>
+<li>CORS 既支持同源通信也支持跨域通信</li>
+</ol>
+<h3 id="5-3-如何创建Ajax"><a href="#5-3-如何创建Ajax" class="headerlink" title="5.3 如何创建Ajax"></a>5.3 如何创建Ajax</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">util.json = <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> opt = &#123;</span><br><span class="line">        url: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        type: <span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">        data: &#123;&#125;,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    util.extend(opt, options);</span><br><span class="line">    <span class="keyword">if</span> (opt.url) &#123;</span><br><span class="line">        <span class="keyword">var</span> xhr = XMLHttpRequest ? <span class="keyword">new</span> XMLHttpRequest() : <span class="keyword">new</span> ActiveXObject(<span class="string">&#x27;Microsoft.XMLHTTP&#x27;</span>);</span><br><span class="line">        <span class="keyword">var</span> data = opt.data,</span><br><span class="line">            url = opt.url,</span><br><span class="line">            type = opt.type.toUpperCase(),</span><br><span class="line">            dataArr = [];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> data) &#123;</span><br><span class="line">            dataArr.push(k + <span class="string">&#x27;=&#x27;</span> + data[k]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&#x27;GET&#x27;</span>) &#123;</span><br><span class="line">            url = url + <span class="string">&#x27;?&#x27;</span> + dataArr.join(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">            xhr.open(type, url.replace(<span class="regexp">/\?$/g</span>, <span class="string">&#x27;&#x27;</span>), <span class="literal">true</span>);</span><br><span class="line">            xhr.send();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line">            xhr.open(type, url, <span class="literal">true</span>);</span><br><span class="line">            xmlhttp.setRequestHeader(<span class="string">&#x27;Content-type&#x27;</span>, <span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>);</span><br><span class="line">            xhr.send(dataArr.join(<span class="string">&#x27;&amp;&#x27;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xhr.status === <span class="number">200</span> || xhr.status === <span class="number">304</span>) &#123;</span><br><span class="line">                <span class="keyword">var</span> res;</span><br><span class="line">                <span class="keyword">if</span> (opt.success &amp;&amp; opt.success <span class="keyword">instanceof</span> <span class="built_in">Function</span>) &#123;</span><br><span class="line">                    res = xhr.responseText;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">typeof</span> res === <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">                        res = <span class="built_in">JSON</span>.parse(res);</span><br><span class="line">                        opt.success.call(xhr, res);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (opt.error &amp;&amp; opt.error <span class="keyword">instanceof</span> <span class="built_in">Function</span>) &#123;</span><br><span class="line">                    opt.error.call(xhr, res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-4-跨域通信的几种方式"><a href="#5-4-跨域通信的几种方式" class="headerlink" title="5.4 跨域通信的几种方式"></a>5.4 跨域通信的几种方式</h3><h4 id="5-4-1-JSONP-只支持GET请求"><a href="#5-4-1-JSONP-只支持GET请求" class="headerlink" title="5.4.1 JSONP(只支持GET请求)"></a>5.4.1 JSONP(只支持GET请求)</h4><p>通过 <em>script</em> 标签的异步加载来实现的。利用script标签不受同源策略的限制，天然可以跨域的特性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span></span><br><span class="line"><span class="javascript">    script.type = <span class="string">&#x27;text/javascript&#x27;</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    script.src = <span class="string">&#x27;https://api.asilu.com/geo/&amp;callback=jsonp&#x27;</span>; <span class="comment">// 这个是获取当前经纬度的接口</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.head.appendChild(script); <span class="comment">// 创建并添加script标签到&lt;head&gt;下</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 回调执行函数</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">jsonp</span>(<span class="params">res</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(res); <span class="comment">// 打印jsonp返回的信息</span></span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-4-2-Hash"><a href="#5-4-2-Hash" class="headerlink" title="5.4.2 Hash"></a>5.4.2 Hash</h4><p>url的#后面的内容就叫Hash。Hash的改变，页面不会刷新。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在A中伪代码如下：</span></span><br><span class="line"><span class="keyword">var</span> B = <span class="built_in">document</span>.getElementsByTagName(<span class="string">&#x27;iframe&#x27;</span>);</span><br><span class="line">B.src = B.src + <span class="string">&#x27;#&#x27;</span> + <span class="string">&#x27;data&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在B中的伪代码如下</span></span><br><span class="line"><span class="built_in">window</span>.onhashchange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> data = <span class="built_in">window</span>.location.hash;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-4-3-postMessage"><a href="#5-4-3-postMessage" class="headerlink" title="5.4.3 postMessage"></a>5.4.3 postMessage</h4><p>H5中新增的postMessage()方法，可以用来做跨域通信</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在A窗口中操作如下：向B窗口发送数据</span></span><br><span class="line">Bwindow.postMessage(<span class="string">&#x27;data&#x27;</span>, <span class="string">&#x27;http://B.com&#x27;</span>); <span class="comment">// 这里强调的是B窗口里的window对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在窗口B中监听 message 事件</span></span><br><span class="line">Awindow.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;   <span class="comment">// 这里强调的是A窗口里的window对象</span></span><br><span class="line">    <span class="built_in">console</span>.log(event.origin);  <span class="comment">// 获取 ：A窗口url</span></span><br><span class="line">    <span class="built_in">console</span>.log(event.source);  <span class="comment">// 获取：A window对象</span></span><br><span class="line">    <span class="built_in">console</span>.log(event.data);    <span class="comment">// 获取传过来的数据</span></span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-4-4-WebSocket"><a href="#5-4-4-WebSocket" class="headerlink" title="5.4.4 WebSocket"></a>5.4.4 WebSocket</h4><p>WebSocket protocol是HTML5一种新的协议。它实现了浏览器与服务器全双工通信，同时允许跨域通讯，是server push技术的一种很好的实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;wss://echo.websocket.org&#x27;</span>);</span><br><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span> (<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Connection open ...&#x27;</span>);</span><br><span class="line">    ws.send(<span class="string">&#x27;Hello WebSockets!&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Received Message: &#x27;</span>, evt.data);</span><br><span class="line">    ws.close();</span><br><span class="line">&#125;;</span><br><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span> (<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Connection closed.&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-4-5-CORS-现代浏览器普遍跨域解决方案"><a href="#5-4-5-CORS-现代浏览器普遍跨域解决方案" class="headerlink" title="5.4.5 CORS(现代浏览器普遍跨域解决方案)"></a>5.4.5 CORS(现代浏览器普遍跨域解决方案)</h4><p>整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信</p>
+<h2 id="6-前端安全"><a href="#6-前端安全" class="headerlink" title="6. 前端安全"></a>6. 前端安全</h2><h3 id="6-1-XSS攻击-跨站脚本攻击"><a href="#6-1-XSS攻击-跨站脚本攻击" class="headerlink" title="6.1 XSS攻击(跨站脚本攻击)"></a>6.1 XSS攻击(跨站脚本攻击)</h3><blockquote>
+<p>英文全称：Cross Site Script，XSS攻击，通常指黑客通过“HTML注入”篡改了网页，插入了恶意的脚本，从而在用户浏览网页时，控制用户浏览器的一种攻击</p>
+</blockquote>
+<h4 id="6-1-1-XSS的分类"><a href="#6-1-1-XSS的分类" class="headerlink" title="6.1.1 XSS的分类"></a>6.1.1 XSS的分类</h4><ol>
+<li>反射型 XSS</li>
+</ol>
+<p>原理： 反射型XSS，也叫非持久型XSS，是指发生请求时，XSS代码出现在请求URL中，作为参数提交到服务器，服务器解析并响应。响应结果中包含XSS代码，最后浏览器解析并执行</p>
+<p>实现： 攻击者通过给用户发送带有恶意脚本代码参数的URL，当URL地址被打开时，特有的恶意代码参数被HTML解析、执行。<br><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210719090348.png" alt="反射性XSS攻击"></p>
+<ol start="2">
+<li>存储型XSS</li>
+</ol>
+<p>原理： 一般是攻击者输入的恶意代码“存储”在服务器端，主要是将XSS代码发送到服务器（不管是数据库、内存还是文件系统等。），只要受害者浏览包含此恶意代码的页面就会执行恶意代码。</p>
+<p>实现： 存储型 XSS 一般出现在网站留言、评论、博客日志等交互处。 例如：黑客提交了一条包含XSS代码的留言到数据库。当目标用户查询留言时，那些留言的内容会从服务器解析之后加载出来。浏览器发现有XSS代码，就当做正常的HTML和JS解析执行。XSS攻击就发生了</p>
+<h4 id="6-1-2-XSS的防御"><a href="#6-1-2-XSS的防御" class="headerlink" title="6.1.2 XSS的防御"></a>6.1.2 XSS的防御</h4><ul>
+<li><p>HttpOnly<br>浏览器禁止页面的Javascript访问带有HttpOnly属性的cookie。（实质解决的是：XSS后的cookie劫持攻击）如今已成为一种“标准”的做法</p>
+</li>
+<li><p>输入检查（XSS Filter）<br>让一些基于特殊字符的攻击失效。（常见的Web漏洞如XSS、SQLInjection等，都要求攻击者构造一些特殊字符）</p>
+</li>
+<li><p>输出检查<br>在变量输出到HTML页面时，使用编码或转义的方式来防御XSS攻击</p>
+</li>
+</ul>
+<h3 id="6-2-CSRF-跨站请求伪造"><a href="#6-2-CSRF-跨站请求伪造" class="headerlink" title="6.2 CSRF(跨站请求伪造)"></a>6.2 CSRF(跨站请求伪造)</h3><blockquote>
+<p>CSRF就是利用你所在网站的登录的状态，以你的名义向网站发送恶意请求。CSRF能做的事情包括利用你的身份发邮件、发短信、进行交易转账等，盗取你的账号，甚至购买商品，虚拟货币转账……造成的问题包括：个人隐私泄露以及财产安全</p>
+</blockquote>
+<p>原理图：</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210524221312.png"></p>
+<p>例子：</p>
+<p>用户登录自己的博客网站（本地cookie已经保存了登录信息）</p>
+<p>攻击者构造一个页面：<a target="_blank" rel="noopener" href="http://www.a.com/csrf.html">http://www.a.com/csrf.html</a></p>
+<p>其内容为<img data-src="http://blog.sohu.com/manage/entry.do?m=deleted&id=156714243" /></p>
+<p>使用了一个img标签，其地址指向了删除Iid为156714243的博客文章</p>
+<p>然后攻击者诱使用户访问这个页面</p>
+<p>用户进去看到一张无法显示的图片，这时自己的那篇博客文章已经被删除了</p>
+<p>关键点：</p>
+<ol>
+<li>用户登录受信任网站A，并且在本地生成Cookie</li>
+<li>在不登出网站A的情况下，访问危险网站B</li>
+</ol>
+<p><strong>CSRF的防御</strong></p>
+<ul>
+<li>增加token</li>
+</ul>
+<p>在请求中放入攻击者所不能伪造的信息，并且该信总不存在于cookie之中。鉴于此，系统开发人员可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务端进行token校验，如果请求中没有token或者token内容不正确，则认为是CSRF攻击而拒绝该请求</p>
+<ul>
+<li>通过Referer识别</li>
+</ul>
+<p>根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面的请求都来自于同一个网站</p>
+<ul>
+<li>网站重要操作增加验证码</li>
+</ul>
+<p>CSRF攻击过程中，用户在不知情的情况下构造了网络请求，添加验证码后，强制用户必须与应用进行交互</p>
+<h2 id="7-渲染机制"><a href="#7-渲染机制" class="headerlink" title="7. 渲染机制"></a>7. 渲染机制</h2><h3 id="7-1-DOCTYPE作用"><a href="#7-1-DOCTYPE作用" class="headerlink" title="7.1 DOCTYPE作用"></a>7.1 DOCTYPE作用</h3><p>DTD（document type define，文档类型定义）是一系列的语法规则，用来定义XML或(X)HTML的文件类型。浏览器会使用它来判断文档类型，决定使用何种协议来解析，以及切换浏览器模式</p>
+<p>DOCTYPE是用来声明文档类型和DTD规范的，一个主要的用途是文件的合法性验证。如果文件代码不合法，那么浏览器解析时便会出一些差错</p>
+<h3 id="7-2-浏览器渲染过程"><a href="#7-2-浏览器渲染过程" class="headerlink" title="7.2 浏览器渲染过程"></a>7.2 浏览器渲染过程</h3><h4 id="7-2-1-具体过程"><a href="#7-2-1-具体过程" class="headerlink" title="7.2.1 具体过程"></a>7.2.1 具体过程</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720000350.webp" alt="img"></p>
+<ol>
+<li>解析HTML，生成DOM树（DOM）</li>
+<li>解析CSS，生成CSSOM树（CSSOM）</li>
+<li>将DOM和CSSOM合并，生成渲染树（Render-Tree）</li>
+<li>计算渲染树的布局（Layout）</li>
+<li>将布局渲染到屏幕上（Paint）</li>
+</ol>
+<h4 id="7-2-2-几个关键概念"><a href="#7-2-2-几个关键概念" class="headerlink" title="7.2.2 几个关键概念"></a>7.2.2 几个关键概念</h4><p><em>CSS阻塞渲染</em>：由于CSSOM负责存储渲染信息，浏览器就必须保证在合成渲染树之前，CSSOM是完备的，这种完备是指所有的CSS（内联、内部和外部）都已经下载完，并解析完，只有CSSOM和DOM的解析完全结束，浏览器才会进入下一步的渲染。CSS阻塞渲染意味着，在CSSOM完备前，页面将一直处理白屏状态，这就是为什么样式放在head中，仅仅是为了更快的解析CSS，保证更快的首次渲染。</p>
+<p><em>JS阻塞页面</em>：JS可以操作DOM来修改DOM结构，可以操作CSSOM来修改节点样式，这就导致了浏览器在解析HTML时，一旦碰到script，就会立即停止HTML的解析，也阻塞了其后的CSS解析，整个解析进程必须等待JS的执行完成才能够继续。从性能角度上讲，将script放在页面底部，也就合情合理了</p>
+<p><em>重排（Reflow）</em>：DOM结构中的各个元素都有自己的盒子（模型），这些都需要浏览器根据各种样式来计算并根据计算结果将元素放到它该出现的位置，这个过程称之为reflow</p>
+<p>触发重排（reflow）：</p>
+<ul>
+<li>1、当增加、删除、修改DOM节点时，会导致reflow或repaint</li>
+<li>2、当移动DOM的位置，或是插入动画的时候</li>
+<li>3、当修改CSS样式的时候</li>
+<li>4、当Resize窗口的时候，或是滚动的时候</li>
+<li>5、当修改网页的默认字体时</li>
+</ul>
+<p><em>重绘（Repaint）</em>：当各种盒子的位置、大小以及其他属性，例如颜色、字体大小等都确定下来后，浏览器便把这些元素都按照各自的特性绘制了一遍，于是页面的内容出现了，这个过程称之为repaint。</p>
+<p>触发重绘（Repaint）：</p>
+<ul>
+<li>1、DOM改动</li>
+<li>2、CSS改动</li>
+</ul>
+<p><em>最小化重绘和重排</em> 1.一次性修改样式：减少内联样式使用 样式合并写法 2.批量修改DOM：使用文档片段创建一个子树，然后再拷贝到文档中（document.fragment） 3.缓存布局信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每次需要查询div.offsetLeft 浪费性能</span></span><br><span class="line">div.style.left = <span class="number">1</span> + div.offsetLeft + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">div.style.top = <span class="number">1</span> + div.offsetTop + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将这个值保存下来，避免重复取值 性能优化</span></span><br><span class="line">current = div.offsetLeft;</span><br><span class="line">div.style.left = <span class="number">1</span> + ++current + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">div.style.top = <span class="number">1</span> + ++current + <span class="string">&#x27;px&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-性能优化"><a href="#8-性能优化" class="headerlink" title="8. 性能优化"></a>8. 性能优化</h2><p>Yahoo Developer Network–包含 7 个类别共 35 条前端性能优化最佳实践</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720084817.png" alt="性能优化"></p>
+<p><strong>前端常用方法：</strong></p>
+<h3 id="8-1-资源合并压缩-减少HTTP请求"><a href="#8-1-资源合并压缩-减少HTTP请求" class="headerlink" title="8.1 资源合并压缩 减少HTTP请求"></a>8.1 资源合并压缩 减少HTTP请求</h3><ul>
+<li>尽量合并和压缩html css和js文件 借助前端工具 例如 webpack gulp grunt… </li>
+<li>开启gzip压缩</li>
+</ul>
+<h3 id="8-2-图片优化"><a href="#8-2-图片优化" class="headerlink" title="8.2 图片优化"></a>8.2 图片优化</h3><p>雪碧图 图片压缩 svg base64</p>
+<h3 id="8-3-懒加载-预加载"><a href="#8-3-懒加载-预加载" class="headerlink" title="8.3 懒加载 / 预加载"></a>8.3 懒加载 / 预加载</h3><ul>
+<li>懒加载：图片进入可视区域之后请求图片资源 对于电商等图片很多，页面很长的业务场景适用 并发加载的资源过多会阻塞 js 的加载，影响网站的正常使用</li>
+<li>预加载：图片等静态资源在使用之前的提前请求 资源使用到时能从缓存中加载，提升用户体验</li>
+</ul>
+<h3 id="8-4-浏览器存储-localStorage"><a href="#8-4-浏览器存储-localStorage" class="headerlink" title="8.4 浏览器存储 localStorage"></a>8.4 浏览器存储 localStorage</h3><p>大小为 5M 左右仅在客户端使用，不和服务端进行通信 浏览器本地缓存方案 indexedDB：用于客户端存储大量结构化数据 为应用创建离线版本</p>
+<h3 id="8-5-浏览器缓存"><a href="#8-5-浏览器缓存" class="headerlink" title="8.5 浏览器缓存"></a>8.5 浏览器缓存</h3><h4 id="8-5-1-强缓存"><a href="#8-5-1-强缓存" class="headerlink" title="8.5.1 强缓存"></a>8.5.1 强缓存</h4><ul>
+<li>expires：</li>
+</ul>
+<p>缓存过期时间，用来指定资源到期的时间，是服务器端的绝对时间 告诉浏览器在过期时间前浏览器可以直接从浏览器缓存取数据，而无需再次请求</p>
+<ul>
+<li>cache-control：max-age = xxx</li>
+</ul>
+<p>声明该资源在加载后的xxx秒内都直接使用缓存 使用的是相对时间 即加载文件本机的时间</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720090139.png" alt="强缓存cache-control"></p>
+<p>如果在Cache-Control响应头设置了 “max-age” 或者 “s-max-age” 指令，那么 Expires 头会被忽略。</p>
+<h4 id="8-5-2-协商缓存"><a href="#8-5-2-协商缓存" class="headerlink" title="8.5.2 协商缓存"></a>8.5.2 协商缓存</h4><blockquote>
+<p>触发条件</p>
+<ol>
+<li>Cache-Control 的值为 no-cache （不强缓存）</li>
+<li>max-age 过期了 （强缓存，但总有过期的时候）</li>
+</ol>
+</blockquote>
+<ul>
+<li>Last-Modified / If-Modified-Since</li>
+</ul>
+<p>Last-Modified ——- response header</p>
+<p>If-Modified-Since ——- request header</p>
+<p>缺点：某些服务端不能获取精确的修改时间；文件修改时间改了，但文件内容却没有变</p>
+<ul>
+<li>Etag / If-None-Match</li>
+</ul>
+<p>文件内容的 hash 值</p>
+<p>etag ——- response header</p>
+<p>if-none-match ——- request header</p>
+<h3 id="8-6-CDN-内容分发网络"><a href="#8-6-CDN-内容分发网络" class="headerlink" title="8.6 CDN 内容分发网络"></a>8.6 CDN 内容分发网络</h3><h2 id="9-前端错误监控以及上报"><a href="#9-前端错误监控以及上报" class="headerlink" title="9. 前端错误监控以及上报"></a>9. 前端错误监控以及上报</h2><h3 id="9-1-前端错误分类"><a href="#9-1-前端错误分类" class="headerlink" title="9.1 前端错误分类"></a>9.1 前端错误分类</h3><ul>
+<li>即时运行错误：代码错误</li>
+<li>资源加载错误</li>
+<li>对于跨域的代码运行错误会显示 Script error. 对于这种情况我们需要给 script 标签添加 crossorigin 属性，并且服务器添加Access-Control-Allow-Origin</li>
+</ul>
+<h3 id="9-2-即时运行错误捕获"><a href="#9-2-即时运行错误捕获" class="headerlink" title="9.2 即时运行错误捕获"></a>9.2 即时运行错误捕获</h3><ul>
+<li>try ….catch</li>
+<li>window.onerror 或者 window.addEventListener 记住事件捕获阶段获得，不是冒泡阶段</li>
+</ul>
+<h3 id="9-3-资源加载错误"><a href="#9-3-资源加载错误" class="headerlink" title="9.3 资源加载错误"></a>9.3 资源加载错误</h3><ul>
+<li>object.onerror，如img.onerror </li>
+<li>erformance.getEntries （getEntries api返回一个资源加载完成数组，假设为img，再查询页面中一共有多少个img，二者的差就是没有加载上的资源）</li>
+<li>Error事件捕获</li>
+</ul>
+<h3 id="9-4-错误如何上报"><a href="#9-4-错误如何上报" class="headerlink" title="9.4 错误如何上报"></a>9.4 错误如何上报</h3><h4 id="9-4-1-ajax"><a href="#9-4-1-ajax" class="headerlink" title="9.4.1 ajax"></a>9.4.1 ajax</h4><h4 id="9-4-2-image的src上报"><a href="#9-4-2-image的src上报" class="headerlink" title="9.4.2 image的src上报"></a>9.4.2 image的src上报</h4><blockquote>
+<p>(new Image()).src = ‘错误上报的请求地址’</p>
+</blockquote>
+<p>一般来说，大厂都是采用利用image对象的方式上报错误的；使用图片发送get请求，上报信息，由于浏览器对图片有缓存，同样的请求，图片只会发送一次，避免重复上报</p>
+<h2 id="10-前端模块化"><a href="#10-前端模块化" class="headerlink" title="10. 前端模块化"></a>10. 前端模块化</h2><p>模块化就是将一个复杂的系统分解成多个独立的模块的代码组织方式。</p>
+<p>在很长的一段时间里，前端只能通过一系列的script标签来维护我们的代码关系，但是一旦我们的项目复杂度提高的时候，这种简陋的代码组织方式便是如噩梦般使得我们的代码变得混乱不堪。所以，在开发大型Javascript应用程序的时候，就必须引入模块化机制。</p>
+<p>由于早期官方并没有提供统一的模块化解决方案，所以在群雄争霸的年代，各种前端模块化方案层出不穷。</p>
+<p>前端模块化发展之路： IIFE（自执行函数）&gt;&gt;AMD(RequireJS实现)&gt;&gt;CMD(SeaJS实现)&gt;&gt;CommonJS(NodeJs)&gt;&gt;ES6 Modules(模块化直接成为了Javascript语言规范中的一部分)</p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20210720091212.png" alt="模块化"></p>
 
     </div>
 
@@ -713,7 +952,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-CSS%E5%9F%BA%E7%A1%80"><span class="nav-text">1. CSS基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%B8%89%E6%A0%8F%E5%B8%83%E5%B1%80%E9%97%AE%E9%A2%98%EF%BC%88%E5%B7%A6%E5%8F%B3%E5%9B%BA%E5%AE%9A%E5%AE%BD%E5%BA%A6-%E4%B8%AD%E9%97%B4%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%89"><span class="nav-text">1.1 三栏布局问题（左右固定宽度 中间自适应）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-float-margin%EF%BC%88%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.1 float + margin（浮动布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-position%EF%BC%88%E7%BB%9D%E5%AF%B9%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.2 position（绝对布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-flex%EF%BC%88%E5%BC%B9%E6%80%A7%E7%9B%92%E5%AD%90%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.3 flex（弹性盒子布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-table-%E8%A1%A8%E6%A0%BC%E5%B8%83%E5%B1%80"><span class="nav-text">1.1.4 table(表格布局)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-Grid-%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80"><span class="nav-text">1.1.5 Grid(网格布局)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-CSS-%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="nav-text">1.2 CSS 盒模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-BFC"><span class="nav-text">1.3 BFC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-BFC-%E5%BD%A2%E6%88%90%E6%9D%A1%E4%BB%B6"><span class="nav-text">1.3.1 BFC 形成条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-BFC-%E7%89%B9%E6%80%A7"><span class="nav-text">1.3.2 BFC 特性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DOM%E4%BA%8B%E4%BB%B6"><span class="nav-text">2. DOM事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BA%8B%E4%BB%B6%E7%BA%A7%E5%88%AB"><span class="nav-text">2.1 事件级别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-DOM-0%E7%BA%A7"><span class="nav-text">2.1.1 DOM 0级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-DOM-1%E7%BA%A7"><span class="nav-text">2.1.2 DOM 1级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-DOM-2%E7%BA%A7"><span class="nav-text">2.1.3 DOM 2级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-DOM-3%E7%BA%A7"><span class="nav-text">2.1.4 DOM 3级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-DOM%E4%BA%8B%E4%BB%B6%E6%A8%A1%E5%9E%8B-%E4%BA%8B%E4%BB%B6%E6%B5%81"><span class="nav-text">2.2 DOM事件模型 事件流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%EF%BC%88%E4%BB%A3%E7%90%86%EF%BC%89"><span class="nav-text">2.3 事件委托（代理）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Event%E5%AF%B9%E8%B1%A1%E4%BD%BF%E7%94%A8"><span class="nav-text">2.4 Event对象使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA"><span class="nav-text">2.4.1 阻止默认行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E9%98%BB%E6%AD%A2%E5%86%92%E6%B3%A1"><span class="nav-text">2.4.2 阻止冒泡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-event-target-amp-event-currentTarget"><span class="nav-text">2.4.3 event.target &amp; event.currentTarget</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6"><span class="nav-text">2.5 自定义事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E6%89%8B%E5%86%99EventEmitter-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E2%80%93%E7%AE%80%E5%8D%95%E7%89%88"><span class="nav-text">2.6 手写EventEmitter(发布订阅模式–简单版)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-JS%E7%9B%B8%E5%85%B3"><span class="nav-text">3. JS相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F"><span class="nav-text">3.1 创建对象方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-text">3.2 原型链示意图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-instanceof-%E5%8E%9F%E7%90%86"><span class="nav-text">3.3 instanceof 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-new%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8E%9F%E7%90%86"><span class="nav-text">3.4 new运算符原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-JS%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">3.5 JS实现继承的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.1 原型链继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-%E6%9E%84%E9%80%A0%E7%BB%A7%E6%89%BF%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.2 构造继承继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3-%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.3 组合继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-4-%E5%AE%9E%E4%BE%8B%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.4 实例继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-5-%E6%8B%B7%E8%B4%9D%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.5 拷贝继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-6-%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.6 寄生组合继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-7-es6%E2%80%93Class%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.7 es6–Class继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-JS%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">3.6 JS防抖与节流(性能优化)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-JS%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-text">3.7 JS运行机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-1-JS%E4%B8%BA%E5%95%A5%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-text">3.7.1 JS为啥是单线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-2-JS%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-text">3.7.2 JS同步任务和异步任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-3-%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%EF%BC%88%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%89"><span class="nav-text">3.7.3 任务队列（消息队列）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-4-%E5%AE%8F%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="nav-text">3.7.4 宏任务与微任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-5-Event-Loop-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-text">3.7.5 Event Loop(事件循环)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-6-%E4%B8%80%E5%9B%BE%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E3%80%81%E6%89%A7%E8%A1%8C%E6%A0%88%E3%80%81%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E3%80%81%E5%AE%8F%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%EF%BC%89"><span class="nav-text">3.7.6 一图总结（事件循环、执行栈、任务队列、宏任务、微任务）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-7-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-text">3.7.7 经典面试题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E5%A6%82%E4%BD%95%E5%8F%96%E6%B6%88promise"><span class="nav-text">3.8 如何取消promise</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-HTTP%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3"><span class="nav-text">4.HTTP协议相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E7%89%B9%E7%82%B9"><span class="nav-text">4.1 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-HTTP%E6%8A%A5%E6%96%87"><span class="nav-text">4.2 HTTP报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-HTTP%E6%96%B9%E6%B3%95"><span class="nav-text">4.3 HTTP方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-text">4.4 HTTP状态码</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-CSS%E5%9F%BA%E7%A1%80"><span class="nav-text">1. CSS基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E4%B8%89%E6%A0%8F%E5%B8%83%E5%B1%80%E9%97%AE%E9%A2%98%EF%BC%88%E5%B7%A6%E5%8F%B3%E5%9B%BA%E5%AE%9A%E5%AE%BD%E5%BA%A6-%E4%B8%AD%E9%97%B4%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%89"><span class="nav-text">1.1 三栏布局问题（左右固定宽度 中间自适应）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-float-margin%EF%BC%88%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.1 float + margin（浮动布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-position%EF%BC%88%E7%BB%9D%E5%AF%B9%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.2 position（绝对布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-flex%EF%BC%88%E5%BC%B9%E6%80%A7%E7%9B%92%E5%AD%90%E5%B8%83%E5%B1%80%EF%BC%89"><span class="nav-text">1.1.3 flex（弹性盒子布局）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-table-%E8%A1%A8%E6%A0%BC%E5%B8%83%E5%B1%80"><span class="nav-text">1.1.4 table(表格布局)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-5-Grid-%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80"><span class="nav-text">1.1.5 Grid(网格布局)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-CSS-%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="nav-text">1.2 CSS 盒模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-BFC"><span class="nav-text">1.3 BFC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-BFC-%E5%BD%A2%E6%88%90%E6%9D%A1%E4%BB%B6"><span class="nav-text">1.3.1 BFC 形成条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-BFC-%E7%89%B9%E6%80%A7"><span class="nav-text">1.3.2 BFC 特性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DOM%E4%BA%8B%E4%BB%B6"><span class="nav-text">2. DOM事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BA%8B%E4%BB%B6%E7%BA%A7%E5%88%AB"><span class="nav-text">2.1 事件级别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-DOM-0%E7%BA%A7"><span class="nav-text">2.1.1 DOM 0级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-DOM-1%E7%BA%A7"><span class="nav-text">2.1.2 DOM 1级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-DOM-2%E7%BA%A7"><span class="nav-text">2.1.3 DOM 2级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-DOM-3%E7%BA%A7"><span class="nav-text">2.1.4 DOM 3级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-DOM%E4%BA%8B%E4%BB%B6%E6%A8%A1%E5%9E%8B-%E4%BA%8B%E4%BB%B6%E6%B5%81"><span class="nav-text">2.2 DOM事件模型 事件流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%EF%BC%88%E4%BB%A3%E7%90%86%EF%BC%89"><span class="nav-text">2.3 事件委托（代理）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Event%E5%AF%B9%E8%B1%A1%E4%BD%BF%E7%94%A8"><span class="nav-text">2.4 Event对象使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA"><span class="nav-text">2.4.1 阻止默认行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E9%98%BB%E6%AD%A2%E5%86%92%E6%B3%A1"><span class="nav-text">2.4.2 阻止冒泡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-event-target-amp-event-currentTarget"><span class="nav-text">2.4.3 event.target &amp; event.currentTarget</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6"><span class="nav-text">2.5 自定义事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E6%89%8B%E5%86%99EventEmitter-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E2%80%93%E7%AE%80%E5%8D%95%E7%89%88"><span class="nav-text">2.6 手写EventEmitter(发布订阅模式–简单版)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-JS%E7%9B%B8%E5%85%B3"><span class="nav-text">3. JS相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F"><span class="nav-text">3.1 创建对象方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-text">3.2 原型链示意图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-instanceof-%E5%8E%9F%E7%90%86"><span class="nav-text">3.3 instanceof 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-new%E8%BF%90%E7%AE%97%E7%AC%A6%E5%8E%9F%E7%90%86"><span class="nav-text">3.4 new运算符原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-JS%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-text">3.5 JS实现继承的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.1 原型链继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-%E6%9E%84%E9%80%A0%E7%BB%A7%E6%89%BF%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.2 构造继承继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3-%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.3 组合继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-4-%E5%AE%9E%E4%BE%8B%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.4 实例继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-5-%E6%8B%B7%E8%B4%9D%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.5 拷贝继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-6-%E5%AF%84%E7%94%9F%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.6 寄生组合继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-7-es6%E2%80%93Class%E7%BB%A7%E6%89%BF"><span class="nav-text">3.5.7 es6–Class继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-JS%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">3.6 JS防抖与节流(性能优化)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-JS%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-text">3.7 JS运行机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-1-JS%E4%B8%BA%E5%95%A5%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-text">3.7.1 JS为啥是单线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-2-JS%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-text">3.7.2 JS同步任务和异步任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-3-%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%EF%BC%88%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%89"><span class="nav-text">3.7.3 任务队列（消息队列）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-4-%E5%AE%8F%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="nav-text">3.7.4 宏任务与微任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-5-Event-Loop-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-text">3.7.5 Event Loop(事件循环)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-6-%E4%B8%80%E5%9B%BE%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E3%80%81%E6%89%A7%E8%A1%8C%E6%A0%88%E3%80%81%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97%E3%80%81%E5%AE%8F%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BE%AE%E4%BB%BB%E5%8A%A1%EF%BC%89"><span class="nav-text">3.7.6 一图总结（事件循环、执行栈、任务队列、宏任务、微任务）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-7-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-text">3.7.7 经典面试题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E5%A6%82%E4%BD%95%E5%8F%96%E6%B6%88promise"><span class="nav-text">3.8 如何取消promise</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-HTTP%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3"><span class="nav-text">4. HTTP协议相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E7%89%B9%E7%82%B9"><span class="nav-text">4.1 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-HTTP%E6%8A%A5%E6%96%87"><span class="nav-text">4.2 HTTP报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-HTTP%E6%96%B9%E6%B3%95"><span class="nav-text">4.3 HTTP方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-text">4.4 HTTP状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-HTTP%E6%8C%81%E4%B9%85%E5%8C%96%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%AE%A1%E9%81%93%E5%8C%96"><span class="nav-text">4.5 HTTP持久化连接与管道化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1"><span class="nav-text">5. 前端通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5"><span class="nav-text">5.1 同源策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%89%8D%E5%90%8E%E7%AB%AF%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="nav-text">5.2 前后端通信方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAAjax"><span class="nav-text">5.3 如何创建Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E8%B7%A8%E5%9F%9F%E9%80%9A%E4%BF%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-text">5.4 跨域通信的几种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-1-JSONP-%E5%8F%AA%E6%94%AF%E6%8C%81GET%E8%AF%B7%E6%B1%82"><span class="nav-text">5.4.1 JSONP(只支持GET请求)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-2-Hash"><span class="nav-text">5.4.2 Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-3-postMessage"><span class="nav-text">5.4.3 postMessage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-4-WebSocket"><span class="nav-text">5.4.4 WebSocket</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-5-CORS-%E7%8E%B0%E4%BB%A3%E6%B5%8F%E8%A7%88%E5%99%A8%E6%99%AE%E9%81%8D%E8%B7%A8%E5%9F%9F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">5.4.5 CORS(现代浏览器普遍跨域解决方案)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8"><span class="nav-text">6. 前端安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-XSS%E6%94%BB%E5%87%BB-%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB"><span class="nav-text">6.1 XSS攻击(跨站脚本攻击)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-1-XSS%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">6.1.1 XSS的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-2-XSS%E7%9A%84%E9%98%B2%E5%BE%A1"><span class="nav-text">6.1.2 XSS的防御</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-CSRF-%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0"><span class="nav-text">6.2 CSRF(跨站请求伪造)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6"><span class="nav-text">7. 渲染机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-DOCTYPE%E4%BD%9C%E7%94%A8"><span class="nav-text">7.1 DOCTYPE作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B"><span class="nav-text">7.2 浏览器渲染过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-1-%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="nav-text">7.2.1 具体过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-2-%E5%87%A0%E4%B8%AA%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5"><span class="nav-text">7.2.2 几个关键概念</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">8. 性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E8%B5%84%E6%BA%90%E5%90%88%E5%B9%B6%E5%8E%8B%E7%BC%A9-%E5%87%8F%E5%B0%91HTTP%E8%AF%B7%E6%B1%82"><span class="nav-text">8.1 资源合并压缩 减少HTTP请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96"><span class="nav-text">8.2 图片优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-%E6%87%92%E5%8A%A0%E8%BD%BD-%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="nav-text">8.3 懒加载 &#x2F; 预加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8-localStorage"><span class="nav-text">8.4 浏览器存储 localStorage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98"><span class="nav-text">8.5 浏览器缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-5-1-%E5%BC%BA%E7%BC%93%E5%AD%98"><span class="nav-text">8.5.1 强缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-5-2-%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="nav-text">8.5.2 协商缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-6-CDN-%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C"><span class="nav-text">8.6 CDN 内容分发网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7%E4%BB%A5%E5%8F%8A%E4%B8%8A%E6%8A%A5"><span class="nav-text">9. 前端错误监控以及上报</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E5%88%86%E7%B1%BB"><span class="nav-text">9.1 前端错误分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-%E5%8D%B3%E6%97%B6%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AF%E6%8D%95%E8%8E%B7"><span class="nav-text">9.2 即时运行错误捕获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD%E9%94%99%E8%AF%AF"><span class="nav-text">9.3 资源加载错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4-%E9%94%99%E8%AF%AF%E5%A6%82%E4%BD%95%E4%B8%8A%E6%8A%A5"><span class="nav-text">9.4 错误如何上报</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-4-1-ajax"><span class="nav-text">9.4.1 ajax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-4-2-image%E7%9A%84src%E4%B8%8A%E6%8A%A5"><span class="nav-text">9.4.2 image的src上报</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="nav-text">10. 前端模块化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -786,7 +1025,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共850k字</span>
+  <span class="post-count">博客全站共854.7k字</span>
 </div>
 
         

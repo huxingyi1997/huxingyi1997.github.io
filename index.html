@@ -195,6 +195,200 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/08/28/TypeScript%20%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/28/TypeScript%20%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/" class="post-title-link" itemprop="url">TypeScript 中的协变与逆变</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-28 00:00:00 / 修改时间：10:29:21" itemprop="dateCreated datePublished" datetime="2021-08-28T00:00:00+08:00">2021-08-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/08/28/TypeScript%20%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/28/TypeScript%20%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>看Minifish源码中看到的疑惑，组里大佬给我看了一遍，觉得还是有点云里雾里，必须结合例子重新看。</p>
+<p>对类型兼容性来说，变体是一个利于理解和重要的概念。</p>
+<p>对一个简单类型 <code>Base</code> 和 <code>Child</code> 来说，如果 <code>Child</code> 是 <code>Base</code> 的子类，<code>Child</code> 的实例能被赋值给 <code>Base</code> 类型的变量。</p>
+<p>在由 <code>Base</code> 和 <code>Child</code> 组合的复杂类型的类型兼容性中，它取决于相同场景下的 <code>Base</code> 与 <code>Child</code> 的变体：</p>
+<ul>
+<li>协变（Covariant）：只在同一个方向；</li>
+<li>逆变（Contravariant）：只在相反的方向；</li>
+<li>双向协变（Bivariant）：包括同一个方向和不同方向；（这个）</li>
+<li>不变（Invariant）：如果类型不完全相同，则它们是不兼容的。</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://jkchao.github.io/typescript-book-chinese/tips/covarianceAndContravariance.html">协变与逆变</a>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/28/TypeScript%20%E4%B8%AD%E7%9A%84%E5%8D%8F%E5%8F%98%E4%B8%8E%E9%80%86%E5%8F%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/08/28/TypeScript%E5%AE%9E%E7%94%A8%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/28/TypeScript%E5%AE%9E%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">TypeScript实用类型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-28 00:00:00" itemprop="dateCreated datePublished" datetime="2021-08-28T00:00:00+08:00">2021-08-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-29 13:00:45" itemprop="dateModified" datetime="2021-08-29T13:00:45+08:00">2021-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/08/28/TypeScript%E5%AE%9E%E7%94%A8%E7%B1%BB%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/28/TypeScript%E5%AE%9E%E7%94%A8%E7%B1%BB%E5%9E%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>面试被问到partial，一脸懵逼。<code>TypeScript</code>标准库自带了一些实用类型。这些实用类都是方便接口<code>Interface</code>使用。这里只列举几个常用的，更多实用类型<a href="https://link.juejin.cn/?target=https://www.typescriptlang.org/docs/handbook/utility-types.html">官网</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/28/TypeScript%E5%AE%9E%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/08/22/TypeScript%20%E4%B8%AD%E7%B1%BB%E5%9E%8B%20any%EF%BC%8Cvoid%EF%BC%8Cunknown%EF%BC%8Cnever%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -952,190 +1146,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/06/02/%E5%B8%B8%E7%94%A8%E7%9A%84webpack%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/02/%E5%B8%B8%E7%94%A8%E7%9A%84webpack%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">常用的webpack优化方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-06-02 13:30:00 / 修改时间：20:53:18" itemprop="dateCreated datePublished" datetime="2021-06-02T13:30:00+08:00">2021-06-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/06/02/%E5%B8%B8%E7%94%A8%E7%9A%84webpack%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/06/02/%E5%B8%B8%E7%94%A8%E7%9A%84webpack%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>要实习了，临时抱佛脚，自己自作多情写了ts-axios库，结果不是让我写轮子的，又是重新再来过，赶紧多学点webpack的技巧</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/06/02/%E5%B8%B8%E7%94%A8%E7%9A%84webpack%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/05/30/%E5%89%8D%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/30/%E5%89%8D%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">前端与编译原理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-30 20:35:39" itemprop="dateCreated datePublished" datetime="2021-05-30T20:35:39+08:00">2021-05-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-01 15:58:42" itemprop="dateModified" datetime="2021-06-01T15:58:42+08:00">2021-06-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">计算机基础知识</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/05/30/%E5%89%8D%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/30/%E5%89%8D%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实习前临时抱佛脚研究下编译原理，其实前端近些年不少重要的新技术其实是跟编译原理关系非常大。React在实现上有两个亮点：JSX、Virtual Dom，其中JSX就跟编译原理息息相关。想要提高自己的层次，未来定会好好补补基础。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/30/%E5%89%8D%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1207,7 +1217,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1220,7 +1230,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-count">103</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1264,7 +1274,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共863.9k字</span>
+  <span class="post-count">博客全站共865.8k字</span>
 </div>
 
         

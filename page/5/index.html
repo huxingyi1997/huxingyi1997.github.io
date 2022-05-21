@@ -195,6 +195,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">操作系统</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-27 21:49:00" itemprop="dateCreated datePublished" datetime="2021-03-27T21:49:00+08:00">2021-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 10:26:21" itemprop="dateModified" datetime="2021-08-01T10:26:21+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">计算机基础知识</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个部分用来介绍操作系统，作为非科班同学，这一块应该好好学习，不仅仅是应付面试，之前就突击了线程、进程、死锁的知识，别的就是一窍不通了，这次尽可能了解完整的操作系统知识体系。一个简单的例子：</p>
+<ul>
+<li>在我们的JS代码里，只需要输入 <code>console.log(1 + 1)</code>; 就可以在浏览器面板中看到<code>2</code>，这其中发生了什么事情呢?</li>
+<li>首先键盘输入代码<code>1 + 1</code>到显示器输出<code>2</code>, 需要<code>CPU</code>控制键盘（输入设备），将获取的<code>1 + 1</code>指令放入内存</li>
+<li>然后CPU的控制器从内存中取出指令，并分析出指令是让计算机做一个<code>1 + 1</code>的加法运算</li>
+<li>此时CPU的控制将控制CPU的运算器做<code>1 + 1</code>的加法运算，并得出结果<code>2</code></li>
+<li>最后CPU控制器控制运算器将结果返给内存，内存也在CPU控制器的控制下，将结果<code>2</code>返回给屏幕（输出设备）</li>
+</ul>
+<p>好了，这里问题是，如果没有操作系统，一个简单的1+1运算，你的js代码还需要考虑这些硬件的协调工作，比如你的代码要协调CPU资源什么时候读取你的代码，什么时候把进程切换到别的进程。。。这些脏活累活都是操作系统帮你屏蔽了，要不这代码可咋写啊。。。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/26/JS%E4%B8%AD%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1040,101 +1143,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">BFS、DFS 回溯法刷题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-09 00:02:39" itemprop="dateCreated datePublished" datetime="2021-03-09T00:02:39+08:00">2021-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-03 08:47:23" itemprop="dateModified" datetime="2021-08-03T08:47:23+08:00">2021-08-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">刷题</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>按照算法和数据结构进行分类，一起来刷题，用于自己在面试前查漏补缺。我的意向岗位是前端，选择用javascript来刷题，优点是动态语言，语法简单，缺点是遇见复杂数据结构会出现较难的写法，如堆、并查集，每题对应leetcode的题号。本篇是BFS、DFS 回溯法</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/09/BFS%E3%80%81DFS%20%E5%9B%9E%E6%BA%AF%E6%B3%95%E5%88%B7%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1206,7 +1214,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1219,7 +1227,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">110</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1263,7 +1271,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共927.3k字</span>
+  <span class="post-count">博客全站共948.5k字</span>
 </div>
 
         

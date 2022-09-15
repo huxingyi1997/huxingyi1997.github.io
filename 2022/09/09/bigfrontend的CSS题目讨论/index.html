@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Frog_32px_1177822_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Frog_16px_1177822_easyicon.net.ico">
+  <link rel="mask-icon" href="/images/Frog_32px_1177822_easyicon.net.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hxy1997.xyz","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":true,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"输入关键字","hits_empty":"没有找到与「${query}」相关搜索","hits_stats":"${hits} 条相关记录，共耗时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="国外前端会考察哪些问题，其实CSS才是我的最大弱点，我的感觉是吃力不讨好。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bigfrontend的TS题目讨论">
+<meta property="og:url" content="https://hxy1997.xyz/2022/09/09/bigfrontend%E7%9A%84CSS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/index.html">
+<meta property="og:site_name" content="hxy的博客">
+<meta property="og:description" content="国外前端会考察哪些问题，其实CSS才是我的最大弱点，我的感觉是吃力不讨好。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909220750.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909220758.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909222124.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909222151.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163603.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163627.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163713.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910164550.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170029.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170037.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170043.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170519.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170536.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170720.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171201.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171904.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171924.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175729.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175759.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175810.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222225.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222302.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222311.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222327.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222353.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222848.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222958.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910223011.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912105148.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113029.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113039.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113056.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114022.svg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114031.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114040.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114046.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114052.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114059.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114108.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114116.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115042.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115111.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115117.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912141421.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912141428.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912142529.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144427.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144434.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144441.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152353.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152400.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152406.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152412.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153111.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153117.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153121.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171016.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171022.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171823.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172849.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172900.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172910.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174051.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174107.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174118.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912225051.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085648.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085659.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085704.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085710.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090844.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090858.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090902.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090908.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090914.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090920.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090930.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913091102.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913091130.png">
+<meta property="article:published_time" content="2022-09-09T14:00:00.000Z">
+<meta property="article:modified_time" content="2022-09-13T01:12:24.738Z">
+<meta property="article:author" content="hxy">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="bigfrontend">
+<meta property="article:tag" content="题库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909220750.png">
+
+<link rel="canonical" href="https://hxy1997.xyz/2022/09/09/bigfrontend%E7%9A%84CSS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>bigfrontend的TS题目讨论 | hxy的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="hxy的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hxy的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Mia san Mia!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/huxingyi1997" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2022/09/09/bigfrontend%E7%9A%84CSS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          bigfrontend的TS题目讨论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-09 22:00:00" itemprop="dateCreated datePublished" datetime="2022-09-09T22:00:00+08:00">2022-09-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-13 09:12:24" itemprop="dateModified" datetime="2022-09-13T09:12:24+08:00">2022-09-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="热度" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/09/bigfrontend%E7%9A%84CSS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/09/bigfrontend%E7%9A%84CSS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>国外前端会考察哪些问题，其实CSS才是我的最大弱点，我的感觉是吃力不讨好。</p>
+<span id="more"></span>
+
+<h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/typescript">CSS</a></h1><h2 id="1-center-an-element-vertically"><a href="#1-center-an-element-vertically" class="headerlink" title="1. center an element vertically"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/center-an-element-vertically">1. center an element vertically</a></h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>This is a very basic question and good to be the first CSS problem on BFE.dev.</p>
+<p>Suppose you have an HTML structure as below</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Please center the inner div vertically without changing their dimensions and colors.</p>
+<h4 id="1-Should-be-centered-vertically"><a href="#1-Should-be-centered-vertically" class="headerlink" title="1.Should be centered vertically"></a>1.Should be centered vertically</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909220750.png"></p>
+<h4 id="2-even-if-container-size-changes"><a href="#2-even-if-container-size-changes" class="headerlink" title="2.even if container size changes"></a>2.even if container size changes</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909220758.png"></p>
+<h3 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* // position relative and absolute </span></span><br><span class="line"><span class="comment">// transform: translate so it moves back 50% of its height and width</span></span><br><span class="line"><span class="comment">.outer &#123;</span></span><br><span class="line"><span class="comment">  width: 100%;</span></span><br><span class="line"><span class="comment">  height: 100%;</span></span><br><span class="line"><span class="comment">  background-color: #efefef;</span></span><br><span class="line"><span class="comment">  position: relative;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">.inner &#123;</span></span><br><span class="line"><span class="comment">  width: 100px;</span></span><br><span class="line"><span class="comment">  height: 100px;</span></span><br><span class="line"><span class="comment">  background-color: #f44336;</span></span><br><span class="line"><span class="comment">  position: absolute;</span></span><br><span class="line"><span class="comment">  top: 50%;</span></span><br><span class="line"><span class="comment">  left: 50%;</span></span><br><span class="line"><span class="comment">  transform: translate(-50%, -50%);</span></span><br><span class="line"><span class="comment">&#125; */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* // display flex</span></span><br><span class="line"><span class="comment">// transform: translate so it moves back 50% of its height and width </span></span><br><span class="line"><span class="comment">.outer &#123;</span></span><br><span class="line"><span class="comment">  width: 100%;</span></span><br><span class="line"><span class="comment">  height: 100%;</span></span><br><span class="line"><span class="comment">  background-color: #efefef;</span></span><br><span class="line"><span class="comment">  display: flex;</span></span><br><span class="line"><span class="comment">  justify-content: center;</span></span><br><span class="line"><span class="comment">  align-items: center</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">.inner &#123;</span></span><br><span class="line"><span class="comment">  width: 100px;</span></span><br><span class="line"><span class="comment">  height: 100px;</span></span><br><span class="line"><span class="comment">  background-color: #f44336;</span></span><br><span class="line"><span class="comment">&#125; </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* // display flex</span></span><br><span class="line"><span class="comment">// transform: translate so it moves back 50% of its height and width */</span></span><br><span class="line"><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#efefef</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.inner</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f44336</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-truncate-text-in-one-line-with-ellipsis"><a href="#2-truncate-text-in-one-line-with-ellipsis" class="headerlink" title="2. truncate text in one line(with ellipsis)"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/truncate-text-with-ellipsis-in-one-line">2. truncate text in one line(with ellipsis)</a></h2><h3 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h3><p>Truncate text in one line, if needed add ellipsis.</p>
+<h4 id="1-When-no-overflow"><a href="#1-When-no-overflow" class="headerlink" title="1.When no overflow"></a>1.When no overflow</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909222124.png"></p>
+<h4 id="2-when-there-is-need-to-truncate-add-ellipsis"><a href="#2-when-there-is-need-to-truncate-add-ellipsis" class="headerlink" title="2.when there is need to truncate, add ellipsis"></a>2.when there is need to truncate, add ellipsis</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220909222151.png"></p>
+<h3 id="答案-1"><a href="#答案-1" class="headerlink" title="答案"></a>答案</h3><p>See : <a target="_blank" rel="noopener" href="https://www.w3schools.com/cssref/css3_pr_text-overflow.asp">https://www.w3schools.com/cssref/css3_pr_text-overflow.asp</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.one-line</span> &#123;</span><br><span class="line">  <span class="comment">/* 设置文本强制在一行显示 */</span></span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">  <span class="comment">/* 容器溢出隐藏 */</span></span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="comment">/* 文本溢出显示省略号 */</span></span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-truncate-text-in-multiple-lines-with-ellipsis"><a href="#3-truncate-text-in-multiple-lines-with-ellipsis" class="headerlink" title="3. truncate text in multiple lines(with ellipsis)"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/truncate-text-in-multiple-lines-with-ellipsis">3. truncate text in multiple lines(with ellipsis)</a></h2><h3 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h3><p>Just like <a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/truncate-text-with-ellipsis-in-one-line">2. truncate text in one line(with ellipsis)</a>, please do the same for max 3 lines.</p>
+<h4 id="1-short-text-1-line"><a href="#1-short-text-1-line" class="headerlink" title="1.short text(1 line)"></a>1.short text(1 line)</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163603.png" alt="1"></p>
+<h4 id="2-short-text-2-lines"><a href="#2-short-text-2-lines" class="headerlink" title="2.short text (2 lines)"></a>2.short text (2 lines)</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163627.png" alt="2"></p>
+<h4 id="3-lines-no-overflow"><a href="#3-lines-no-overflow" class="headerlink" title="3. lines(no overflow)"></a>3. lines(no overflow)</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910163713.png" alt="3"></p>
+<h4 id="4-more-than-3-lines"><a href="#4-more-than-3-lines" class="headerlink" title="4. more than 3 lines"></a>4. more than 3 lines</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910164550.png" alt="4"></p>
+<h3 id="答案-2"><a href="#答案-2" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://css-tricks.com/almanac/properties/l/line-clamp/">https://css-tricks.com/almanac/properties/l/line-clamp/</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. webkit-line-clamp will allow you to clamp text to 3 lines,</span></span><br><span class="line"><span class="comment">   2. It must be used in combination with either display:-webkit-box or display-webkit-inline-box and  </span></span><br><span class="line"><span class="comment"> webkit-box-orient set to vertical</span></span><br><span class="line"><span class="comment">   3. In most cases you&#x27;ll also need overflow set to hidden because otherwise remaining text will be visible</span></span><br><span class="line"><span class="comment">   More: https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-line-clamp</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="selector-class">.max-three-lines</span> &#123;</span><br><span class="line">  <span class="comment">/* 适用范围：Webkit浏览器及移动端*/</span></span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">  <span class="attribute">display</span>: -webkit-box;</span><br><span class="line">  <span class="comment">/* 限制块元素中文本的显示行数，这里是3行 */</span></span><br><span class="line">  -webkit-line-clamp: <span class="number">3</span>;</span><br><span class="line">  <span class="comment">/* 指定子元素按垂直方向排列 */</span></span><br><span class="line">  -webkit-box-orient: vertical;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-two-column-layout"><a href="#4-two-column-layout" class="headerlink" title="4. two-column layout"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/two-column-layout">4. two-column layout</a></h2><h3 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h3><p>Implement a basic two-column layout, in which left column takes up 25% width of the container with minimum width of 100px and right column fills up the rest.</p>
+<h4 id="1-400x300"><a href="#1-400x300" class="headerlink" title="1.400x300"></a>1.400x300</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170029.png" alt="1"></p>
+<h4 id="2-600x300"><a href="#2-600x300" class="headerlink" title="2.600x300"></a>2.600x300</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170037.png" alt="2"></p>
+<h4 id="3-300x300"><a href="#3-300x300" class="headerlink" title="3.300x300"></a>3.300x300</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170043.png" alt="3"></p>
+<h3 id="答案-3"><a href="#答案-3" class="headerlink" title="答案"></a>答案</h3><p>flex布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f44336</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#2973af</span>;</span><br><span class="line">  <span class="comment">/* your code here */</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">75%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>grid布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="built_in">minmax</span>(<span class="number">100px</span>, <span class="number">25%</span>) auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f44336</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#2973af</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-modal-with-max-height"><a href="#5-modal-with-max-height" class="headerlink" title="5. modal with max height"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/modal-with-max-height">5. modal with max height</a></h2><h3 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h3><p>Let’s create a modal</p>
+<ol>
+<li>it has header(fixed height: 50px) and stretching body</li>
+<li>width of 300px and total max height 300px</li>
+<li>centered in viewport</li>
+<li>need mininum space of 30px to viewport top and bottom.</li>
+</ol>
+<p>The HTML structure is something like</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modals&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-header&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;modal-body&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-400x150"><a href="#1-400x150" class="headerlink" title="1.400x150"></a>1.400x150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170519.png" alt="1"></p>
+<h4 id="2-400x300"><a href="#2-400x300" class="headerlink" title="2.400x300"></a>2.400x300</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170536.png" alt="2"></p>
+<h4 id="3-400x400"><a href="#3-400x400" class="headerlink" title="3.400x400"></a>3.400x400</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910170720.png" alt="3"></p>
+<h4 id="4-400x600"><a href="#4-400x600" class="headerlink" title="4.400x600"></a>4.400x600</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171201.png" alt="4"></p>
+<h3 id="答案-4"><a href="#答案-4" class="headerlink" title="答案"></a>答案</h3><p>flex布局</p>
+<p>Most discussions here are not providing context; so hopefully this will help beginners (like myself) to learn. Feel free to ask any questions</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.modals</span> &#123;</span><br><span class="line">  <span class="comment">/* req 3: modal is centered in viewport */</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="comment">/* req 4: min 30px space to viewport top &amp; bottom. */</span></span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">30px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">300px</span>; <span class="comment">/* provided by question */</span></span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="comment">/* req 2: max height 300px */</span></span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">max-height</span>: <span class="number">300px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal-header</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f44336</span>; <span class="comment">/* provided by question */</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="comment">/* req 1: fixed height basis of 50px header (flex-dir of container is &quot;column&quot;) */</span></span><br><span class="line">  <span class="comment">/* alternatively, can set height:50px, flex-grow: 0, flex-shrink: 0 */</span></span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">50px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal-body</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#2973af</span>; <span class="comment">/* provided by question */</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="comment">/* req 1: stretching height body */</span></span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>grid布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.modals</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  place-items: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">max-height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-rows: <span class="number">50px</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal-header</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f44336</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.modal-body</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#2973af</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-different-checkbox-style"><a href="#6-different-checkbox-style" class="headerlink" title="6. different checkbox style"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/checkbox-style">6. different checkbox style</a></h2><h3 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h3><p>The default checkbox style might not be what you want for most of the time, in this problem you are asked to create a different checkbox style.</p>
+<ol>
+<li>when unchecked, show a gray circle (<code>&#39;color: gray&#39;</code>)</li>
+<li>when checked, show a green circle (<code>&#39;color: green&#39;</code>)</li>
+</ol>
+<p>Set the circle with radius of 5px and don’t add extra padding, the HTML structure is</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">&quot;my-checkbox&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>a checkbox<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-unchecked"><a href="#1-unchecked" class="headerlink" title="1.unchecked"></a>1.unchecked</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171904.png" alt="1"></p>
+<h4 id="2-checked"><a href="#2-checked" class="headerlink" title="2.checked"></a>2.checked</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910171924.png" alt="2"></p>
+<h3 id="答案-5"><a href="#答案-5" class="headerlink" title="答案"></a>答案</h3><p>Most solutions proposed here are either:</p>
+<ol>
+<li>using the <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/appearance">unreliable appearance property</a>, or</li>
+<li>hiding the native input element completely from DOM tree with display:none or visibility:hidden (<a target="_blank" rel="noopener" href="https://webaim.org/techniques/css/invisiblecontent/">It reduces a11y support for visually impaired users who rely on keyboard and audio</a>)</li>
+</ol>
+<p>Here is the common practice to override native element without losing a11y support, reliably across browsers. Feel free to ask me any questions.</p>
+<p>All credits go to Aditya Bhandari, I stumbled upon <a target="_blank" rel="noopener" href="https://medium.com/claritydesignsystem/pure-css-accessible-checkboxes-and-radios-buttons-54063e759bb3">his excellent article</a> while learning about this challenge.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.my-checkbox</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.my-checkbox</span> <span class="selector-tag">input</span> &#123;</span><br><span class="line">  <span class="comment">/* refer to https://webaim.org/techniques/css/invisiblecontent/ */</span></span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: -<span class="number">99999px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.my-checkbox</span> <span class="selector-tag">span</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: gray;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>; <span class="comment">/* &quot;content&quot; prop has to be set to render something */</span></span><br><span class="line">  <span class="attribute">display</span>: inline-block;</span><br><span class="line">  <span class="comment">/* circle with radius 5px */</span></span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.my-checkbox</span> <span class="selector-tag">input</span><span class="selector-pseudo">:checked</span> + <span class="selector-tag">span</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: green;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-a-row"><a href="#7-a-row" class="headerlink" title="7. a row"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/nth-child">7. a row</a></h2><h3 id="题目-6"><a href="#题目-6" class="headerlink" title="题目"></a>题目</h3><p>Suppose we have a row structured as below:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;row&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Please complete the CSS according to following requirements:</p>
+<ol>
+<li>height 50px</li>
+<li>set background to <code>#eee</code>, but if there are adjacent rows, set even rows’ background to <code>#ddd</code></li>
+<li>set 1px border on top &amp; bottom with color <code>#ccc</code>, but if there are adjacent rows, adjacent borders should be collapsed into one</li>
+</ol>
+<blockquote>
+<p>if you have to decide which row to dispplay both top and bottom border, add it to first row, <a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/7/discuss/8065?focus=8082">ref</a></p>
+</blockquote>
+<h4 id="1-one-row"><a href="#1-one-row" class="headerlink" title="1.one row"></a>1.one row</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175729.png" alt="1"></p>
+<h4 id="2-two-rows"><a href="#2-two-rows" class="headerlink" title="2.two rows"></a>2.two rows</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175759.png" alt="2"></p>
+<h4 id="3-three-rows"><a href="#3-three-rows" class="headerlink" title="3.three rows"></a>3.three rows</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910175810.png" alt="3"></p>
+<h3 id="答案-6"><a href="#答案-6" class="headerlink" title="答案"></a>答案</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.row</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.row</span><span class="selector-pseudo">:nth-of-type</span>(even) &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#ddd</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.row</span><span class="selector-pseudo">:nth-of-type</span>(odd) &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#eee</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.row</span><span class="selector-pseudo">:first</span>-of-type &#123;</span><br><span class="line">  <span class="attribute">border-top</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="8-Twitter’s-website-layout"><a href="#8-Twitter’s-website-layout" class="headerlink" title="8. Twitter’s website layout"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/twitter-layout">8. Twitter’s website layout</a></h2><h3 id="题目-7"><a href="#题目-7" class="headerlink" title="题目"></a>题目</h3><p>Open Twitter’s website and change the window size, you’ll notice that layout changes responsively.</p>
+<p>Let’s do something similar in this problem, suppose we have HTML structure as below.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;middle&quot;</span>&gt;</span>middle<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Now please complete the CSS to satisfy following requirement</p>
+<ol>
+<li>when viewport width is not enough, set left column to 40px wide and middle column to stretching.</li>
+<li>middle column has maximum width of 240px</li>
+<li>when there is enough space, show right column which has width of 120px</li>
+<li>if there is more space, set left column to 80px</li>
+<li>when right column is visible, set minimum 10px space horizontally to the viewport border</li>
+</ol>
+<p>It is a bit hard to explain clearly, but following screenshots might be easier to understand.</p>
+<h4 id="1-100-x-150"><a href="#1-100-x-150" class="headerlink" title="1.100 x 150"></a>1.100 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222225.png" alt="1"></p>
+<h4 id="2-200-x-150"><a href="#2-200-x-150" class="headerlink" title="2.200 x 150"></a>2.200 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222302.png" alt="2"></p>
+<h4 id="3-300-x-150"><a href="#3-300-x-150" class="headerlink" title="3.300 x 150"></a>3.300 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222311.png" alt="3"></p>
+<h4 id="4-360-x-150"><a href="#4-360-x-150" class="headerlink" title="4.360 x 150"></a>4.360 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222327.png" alt="4"></p>
+<h4 id="5-400-x-150"><a href="#5-400-x-150" class="headerlink" title="5.400 x 150"></a>5.400 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222353.png" alt="5"></p>
+<h4 id="6-420-x-150"><a href="#6-420-x-150" class="headerlink" title="6.420 x 150"></a>6.420 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222848.png" alt="6"></p>
+<h4 id="7-460-x-150"><a href="#7-460-x-150" class="headerlink" title="7.460 x 150"></a>7.460 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910222958.png" alt="7"></p>
+<h4 id="8-500-x-150"><a href="#8-500-x-150" class="headerlink" title="8.500 x 150"></a>8.500 x 150</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220910223011.png" alt="8"></p>
+<h3 id="答案-7"><a href="#答案-7" class="headerlink" title="答案"></a>答案</h3><p>媒体查询</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="comment">/* Req 1: the left column is 40px by default */</span></span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">40px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.middle</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: inline-flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ddd</span>;</span><br><span class="line">  <span class="comment">/* Req 2: Allow middle to grow until 240px */</span></span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="number">240px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">420px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.right</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">min-width</span>: <span class="number">420px</span>) &#123;</span><br><span class="line">  <span class="comment">/* Req 3: When there is enough space, the right container will come into view */</span></span><br><span class="line">  <span class="selector-class">.right</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="comment">/* Important property for determining when container should be shown */</span></span><br><span class="line">    <span class="attribute">min-width</span>: <span class="number">120px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Req 5: set margins of the container */</span></span><br><span class="line">  <span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">margin-right</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Req 4: allow the column to grow up to 80px */</span></span><br><span class="line">  <span class="selector-class">.left</span> &#123;</span><br><span class="line">    <span class="attribute">flex-grow</span>: <span class="number">1</span>;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">80px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="9-multi-column-text"><a href="#9-multi-column-text" class="headerlink" title="9. multi-column text"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/multi-column-text">9. multi-column text</a></h2><h3 id="题目-8"><a href="#题目-8" class="headerlink" title="题目"></a>题目</h3><p>It is very common to see text in multiple columns on newspaper, please achieve something similar in this problem.</p>
+<p>Suppose you have HTML structure like below.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;three-column-text&quot;</span>&gt;</span></span><br><span class="line">  some very very long text</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Complete the CSS code according to following requirements</p>
+<ol>
+<li>divide into 3 columns</li>
+<li>use 1px line of <code>#ddd</code> as separator</li>
+<li>adding 10px space around each column, to container border and to the separator</li>
+</ol>
+<blockquote>
+<p>The text used in test doesn’t contain space but has forced line break to show padding/margin clearly.</p>
+</blockquote>
+<h4 id="text-in-3-columns"><a href="#text-in-3-columns" class="headerlink" title="text in 3 columns"></a>text in 3 columns</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912105148.png" alt="1"></p>
+<h3 id="答案-8"><a href="#答案-8" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://css-tricks.com/almanac/properties/c/columns/">https://css-tricks.com/almanac/properties/c/columns/</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.three-column-text</span> &#123;</span><br><span class="line">  <span class="attribute">columns</span>: <span class="number">3</span> auto;</span><br><span class="line">  <span class="attribute">column-rule</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">  <span class="attribute">column-gap</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="10-golden-ratio-rectangle"><a href="#10-golden-ratio-rectangle" class="headerlink" title="10. golden-ratio rectangle"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/golden-ratio-rectangle">10. golden-ratio rectangle</a></h2><h3 id="题目-9"><a href="#题目-9" class="headerlink" title="题目"></a>题目</h3><p>Let’s create a golden-ratio rectangle, which means width/height = 1.618.</p>
+<p>This rectangle should have the fixed ratio even when width changes.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;golden-ratio&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-width-50px"><a href="#1-width-50px" class="headerlink" title="1.width: 50px"></a>1.width: 50px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113029.png" alt="1"></p>
+<h4 id="2-width-100px"><a href="#2-width-100px" class="headerlink" title="2.width: 100px"></a>2.width: 100px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113039.png" alt="2"></p>
+<h4 id="3-width-200px"><a href="#3-width-200px" class="headerlink" title="3.width: 200px"></a>3.width: 200px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912113056.png" alt="3"></p>
+<h3 id="答案-9"><a href="#答案-9" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio">https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*   Aspect-ratio</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">The CSS property aspect-ratio lets you create boxes </span></span><br><span class="line"><span class="comment">that maintain proportional dimensions where the height</span></span><br><span class="line"><span class="comment"> and width of a box are calculated automatically as a ratio. </span></span><br><span class="line"><span class="comment"> It’s a little math-y, but the idea is that you can divide one </span></span><br><span class="line"><span class="comment"> value by another on this property and the calculated value </span></span><br><span class="line"><span class="comment"> ensures a box stays in that proportion.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-class">.golden-ratio</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">  <span class="comment">/* 为box容器规定了一个期待的纵横比, 此处为width/height = 1.618 */</span></span><br><span class="line">  aspect-ratio: <span class="number">1.618</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="11-fit-the-image"><a href="#11-fit-the-image" class="headerlink" title="11. fit the image"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/fit-the-image">11. fit the image</a></h2><h3 id="题目-10"><a href="#题目-10" class="headerlink" title="题目"></a>题目</h3><p>Suppose we have following image of ratio <code>1:4</code></p>
+<p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114022.svg" alt="1"></p>
+<p>Now in an HTML structure like below, please fit the image to the container div, just as if it is used as container’s background-image with <code>background-size:cover</code>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">class</span>=<span class="string">&quot;image&quot;</span> <span class="attr">src</span>=<span class="string">&quot;...&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-50x50"><a href="#1-50x50" class="headerlink" title="1.50x50"></a>1.50x50</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114031.png" alt="1"></p>
+<h4 id="2-100x100"><a href="#2-100x100" class="headerlink" title="2.100x100"></a>2.100x100</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114040.png" alt="2"></p>
+<h4 id="3-200x100"><a href="#3-200x100" class="headerlink" title="3.200x100"></a>3.200x100</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114046.png" alt="3"></p>
+<h4 id="4-100x200"><a href="#4-100x200" class="headerlink" title="4.100x200"></a>4.100x200</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114052.png" alt="4"></p>
+<h4 id="5-300x100"><a href="#5-300x100" class="headerlink" title="5.300x100"></a>5.300x100</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114059.png" alt="5"></p>
+<h4 id="6-100x300"><a href="#6-100x300" class="headerlink" title="6.100x300"></a>6.100x300</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114108.png" alt="6"></p>
+<h4 id="7-700x100"><a href="#7-700x100" class="headerlink" title="7.700x100"></a>7.700x100</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912114116.png" alt="7"></p>
+<h3 id="答案-10"><a href="#答案-10" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit">https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit</a></p>
+<p>The object-fit CSS property sets how the content of a replaced element, such as an <img data-src="" alt="img"> or <video>, should be resized to fit its container.</video></p>
+<p>You can alter the alignment of the replaced element’s content object within the element’s box using the object-position property.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.image</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="comment">/* 被替换的内容在保持其宽高比的同时填充元素的整个内容框 */</span></span><br><span class="line">  <span class="comment">/* 如果对象的宽高比与内容框不相匹配，该对象将被剪裁以适应内容框 */</span></span><br><span class="line">  <span class="attribute">object-fit</span>: cover;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="12-close-button-in-CSS"><a href="#12-close-button-in-CSS" class="headerlink" title="12. close button in CSS"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/css-cross-button">12. close button in CSS</a></h2><h3 id="题目-11"><a href="#题目-11" class="headerlink" title="题目"></a>题目</h3><p>Create a close button in CSS.</p>
+<p>Lines for the cross should have</p>
+<ol>
+<li>length : 3/4 of button width</li>
+<li>thickness: 2px</li>
+<li>color: <code>#aaa</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;close&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-20x20"><a href="#1-20x20" class="headerlink" title="1.20x20"></a>1.20x20</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115042.png" alt="1"></p>
+<h4 id="2-40x40"><a href="#2-40x40" class="headerlink" title="2.40x40"></a>2.40x40</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115111.png" alt="2"></p>
+<h4 id="3-60x60"><a href="#3-60x60" class="headerlink" title="3.60x60"></a>3.60x60</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912115117.png" alt="3"></p>
+<h3 id="答案-11"><a href="#答案-11" class="headerlink" title="答案"></a>答案</h3><p>伪元素</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.close</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#aaa</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.close</span><span class="selector-pseudo">::before</span>,</span><br><span class="line"><span class="selector-class">.close</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#aaa</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">calc</span>(<span class="number">100%</span> * <span class="number">3</span> / <span class="number">4</span>);</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.close</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>) <span class="built_in">rotate</span>(<span class="number">45deg</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.close</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>) <span class="built_in">rotate</span>(-<span class="number">45deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="13-list-numbering"><a href="#13-list-numbering" class="headerlink" title="13. list numbering"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/list-numbering">13. list numbering</a></h2><h3 id="题目-12"><a href="#题目-12" class="headerlink" title="题目"></a>题目</h3><p>Suppose we have some lists, they could be simple as</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>BFE.dev<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>JavaScript<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>CSS<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>System Design<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>or nested.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>BFE.dev<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span></span><br><span class="line">    JavaScript</span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>TypeScript<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>Quiz<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span></span><br><span class="line">        Framework</span><br><span class="line">        <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">li</span>&gt;</span>React<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">li</span>&gt;</span>Vue.js<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>CSS<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>System Design<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>please number the list as below, with color <code>#f44336</code> and one space between the number and content.</p>
+<h4 id="1-simple-list"><a href="#1-simple-list" class="headerlink" title="1.simple list"></a>1.simple list</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912141421.png" alt="1"></p>
+<h4 id="2-nested"><a href="#2-nested" class="headerlink" title="2.nested"></a>2.nested</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912141428.png" alt="2"></p>
+<h3 id="答案-12"><a href="#答案-12" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Counter_Styles/Using_CSS_counters">https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Counter_Styles/Using_CSS_counters</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ol</span> &gt; <span class="selector-tag">li</span><span class="selector-pseudo">::marker</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f44336</span>;</span><br><span class="line">  <span class="attribute">content</span>: <span class="built_in">counters</span>(list-item, <span class="string">&quot;.&quot;</span>) <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="14-0-5px-border"><a href="#14-0-5px-border" class="headerlink" title="14. 0.5px border"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/hairline">14. 0.5px border</a></h2><h3 id="题目-13"><a href="#题目-13" class="headerlink" title="题目"></a>题目</h3><p>When we set 0.5px in CSS, usually it will be rounded by browsers. But with better and better display like Retina display, 1px would sometimes looks thick.</p>
+<p>Please add 0.5px top border of black for the following div.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;hairline&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="should-be-thin-enough"><a href="#should-be-thin-enough" class="headerlink" title="should be thin enough"></a>should be thin enough</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912142529.png" alt="1"></p>
+<h3 id="答案-13"><a href="#答案-13" class="headerlink" title="答案"></a>答案</h3><p>利用trasform减低宽度</p>
+<p>About scale: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/scale()">https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-function/scale()</a></p>
+<p>About transform-origin: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin">https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.hairline</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">border-top</span>: <span class="number">1px</span> solid black;</span><br><span class="line">  <span class="comment">/* 通过向量形式定义的缩放值来放大或缩小元素 此处只操作Y轴*/</span></span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">scaleY</span>(<span class="number">0.5</span>);</span><br><span class="line">  <span class="comment">/* 定义变形中心为(0, 0)，及原点 (默认为元素的中心)*/</span></span><br><span class="line">  <span class="attribute">transform-origin</span>: <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="15-doughnut-chart"><a href="#15-doughnut-chart" class="headerlink" title="15. doughnut chart"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/doughnut-chart">15. doughnut chart</a></h2><h3 id="题目-14"><a href="#题目-14" class="headerlink" title="题目"></a>题目</h3><p>Let’s create a doughnut chart in CSS.</p>
+<ol>
+<li>radius: 50px</li>
+<li>thickness: 10px</li>
+<li>color: <code>#f44336</code></li>
+</ol>
+<p>The percentage should be able to set by CSS variable <code>--percentage</code>.</p>
+<p>For example, to create a doughnut chart with 20%:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;piechart&quot;</span> <span class="attr">style</span>=<span class="string">&quot;--percentage:20%&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>A doughnut chart with 75%:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;piechart&quot;</span> <span class="attr">style</span>=<span class="string">&quot;--percentage:75%&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-percentage-20"><a href="#1-percentage-20" class="headerlink" title="1.percentage: 20%"></a>1.percentage: 20%</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144427.png" alt="1"></p>
+<h4 id="2-percentage-75"><a href="#2-percentage-75" class="headerlink" title="2.percentage: 75%"></a>2.percentage: 75%</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144434.png" alt="2"></p>
+<h4 id="3-percentage-100"><a href="#3-percentage-100" class="headerlink" title="3.percentage: 100%"></a>3.percentage: 100%</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912144441.png" alt="3"></p>
+<h3 id="答案-14"><a href="#答案-14" class="headerlink" title="答案"></a>答案</h3><p>To solve this task you have to make a circle using the ‘clip-path’ property instead of ‘border-radius’. In this way, the browser draws a circle using other calculations. Then your solution will be accepted. </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.piechart</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">clip-path</span>: <span class="built_in">circle</span>(<span class="number">50px</span> at center);</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">conic-gradient</span>(<span class="number">#f44336</span> <span class="built_in">var</span>(--percentage), transparent <span class="number">0</span>);</span><br><span class="line">  <span class="attribute">mask</span>-image: <span class="built_in">radial-gradient</span>(circle closest-side, transparent <span class="number">80%</span>, black <span class="number">80%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="16-flex-layout-1"><a href="#16-flex-layout-1" class="headerlink" title="16. flex layout 1"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/flex-layout-1">16. flex layout 1</a></h2><h3 id="题目-15"><a href="#题目-15" class="headerlink" title="题目"></a>题目</h3><p>Suppose we have to layout a bunch of items with below requirements.</p>
+<ol>
+<li>fill out to width:100px, but stretch to fill the available space and shrink if not enough</li>
+<li>stack them if needed</li>
+</ol>
+<p>HTML structure is</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-width-60px"><a href="#1-width-60px" class="headerlink" title="1.width:60px"></a>1.width:60px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152353.png" alt="1"></p>
+<h4 id="2-width-150px"><a href="#2-width-150px" class="headerlink" title="2.width:150px"></a>2.width:150px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152400.png" alt="2"></p>
+<h4 id="3-width-250px"><a href="#3-width-250px" class="headerlink" title="3.width:250px"></a>3.width:250px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152406.png" alt="3"></p>
+<h4 id="4-width-400px"><a href="#4-width-400px" class="headerlink" title="4.width:400px"></a>4.width:400px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912152412.png" alt="4"></p>
+<h3 id="答案-15"><a href="#答案-15" class="headerlink" title="答案"></a>答案</h3><p>To solve this task you have to make a circle using the ‘clip-path’ property instead of ‘border-radius’. In this way, the browser draws a circle using other calculations. Then your solution will be accepted. </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#7aa4f0</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span> <span class="number">1</span> <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="17-fragment-style"><a href="#17-fragment-style" class="headerlink" title="17. fragment style"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/fragment-style">17. fragment style</a></h2><h3 id="题目-16"><a href="#题目-16" class="headerlink" title="题目"></a>题目</h3><p>Suppose we have an <code>&lt;a/&gt;</code> tag which is streched to multiple lines, add borders to all its fragments.</p>
+<ol>
+<li>color <code>#7aa4f0</code> with <code>1px</code> thickness</li>
+<li>add <code>5px</code> padding horizontally for each line</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;border&quot;</span>&gt;</span></span><br><span class="line">  BFE.dev is a website to practice Front-End development skills.</span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-width-100px"><a href="#1-width-100px" class="headerlink" title="1.width:100px"></a>1.width:100px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153111.png" alt="1"></p>
+<h4 id="2-width-200px"><a href="#2-width-200px" class="headerlink" title="2.width:200px"></a>2.width:200px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153117.png" alt="2"></p>
+<h4 id="3-width-500px"><a href="#3-width-500px" class="headerlink" title="3.width:500px"></a>3.width:500px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912153121.png" alt="3"></p>
+<h3 id="答案-16"><a href="#答案-16" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break">https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.border</span> &#123;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">1.5</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#7aa4f0</span>;</span><br><span class="line">  <span class="attribute">box-decoration-break</span>: clone;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="18-color-gradients-on-text"><a href="#18-color-gradients-on-text" class="headerlink" title="18. color gradients on text"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/gradient-text">18. color gradients on text</a></h2><h3 id="题目-17"><a href="#题目-17" class="headerlink" title="题目"></a>题目</h3><p>Let’s give text some color gradients, from <code>red</code> on the left to <code>yellow</code> on the right.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;gradient-text&quot;</span>&gt;</span>practice on BFE.dev, get an offer<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-short-text"><a href="#1-short-text" class="headerlink" title="1.short text"></a>1.short text</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171016.png" alt="1"></p>
+<h4 id="2-longer-text"><a href="#2-longer-text" class="headerlink" title="2.longer text"></a>2.longer text</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171022.png"></p>
+<h3 id="答案-17"><a href="#答案-17" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break">https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.gradient-text</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">30px</span>;</span><br><span class="line">  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to right, red, yellow);</span><br><span class="line">  <span class="attribute">background-clip</span>: text;</span><br><span class="line">  <span class="attribute">color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="19-color-of-input-elements"><a href="#19-color-of-input-elements" class="headerlink" title="19. color of input elements"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/change-color-of-input-elements">19. color of input elements</a></h2><h3 id="题目-18"><a href="#题目-18" class="headerlink" title="题目"></a>题目</h3><p>We have a slider but we want to change the default color into <code>#F44336</code>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;range&quot;</span> <span class="attr">min</span>=<span class="string">&quot;0&quot;</span> <span class="attr">max</span>=<span class="string">&quot;10&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="F44336"><a href="#F44336" class="headerlink" title="#F44336"></a>#F44336</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912171823.png" alt="1"></p>
+<h3 id="答案-18"><a href="#答案-18" class="headerlink" title="答案"></a>答案</h3><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color">https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=<span class="string">&quot;range&quot;</span>]</span> &#123;</span><br><span class="line">  accent-<span class="attribute">color</span>: <span class="number">#F44336</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="20-sticky-footer"><a href="#20-sticky-footer" class="headerlink" title="20. sticky footer"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/sticky-footer">20. sticky footer</a></h2><h3 id="题目-19"><a href="#题目-19" class="headerlink" title="题目"></a>题目</h3><p>“Sticky footer” is a layout pattern that</p>
+<ol>
+<li>if content is short, the footer “sticks” to the bottom</li>
+<li>otherwise, footer is is displayed after the content as normal.</li>
+</ol>
+<p>Suppose we have some HTML structure:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;body&quot;</span>&gt;</span></span><br><span class="line">    content here might be tall , might be short</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Below is how Sticky Footer pattern should behave.</p>
+<h4 id="1-footer-sticks-to-bottom-if-content-is-short"><a href="#1-footer-sticks-to-bottom-if-content-is-short" class="headerlink" title="1.footer sticks to bottom if content is short"></a>1.footer sticks to bottom if content is short</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172849.png" alt="1"></p>
+<h4 id="2-otherwise-footer-is-displayed-as-normal"><a href="#2-otherwise-footer-is-displayed-as-normal" class="headerlink" title="2.otherwise footer is displayed as normal"></a>2.otherwise footer is displayed as normal</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172900.png" alt="2"></p>
+<h4 id="3-event-be-pushed-out-from-viewport-if-enough-content"><a href="#3-event-be-pushed-out-from-viewport-if-enough-content" class="headerlink" title="3.event be pushed out from viewport if enough content"></a>3.event be pushed out from viewport if enough content</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912172910.png" alt="3"></p>
+<h3 id="答案-19"><a href="#答案-19" class="headerlink" title="答案"></a>答案</h3><p> <code>margin: auto</code> actually has no specific rules and browser pretty much decides how it effects the element 😅</p>
+<p>However, when we give any margin as auto to a child in a flex container, it basically means that margin should take the maximum possible value for that element.</p>
+<p>In simple terms, it will push that element to opposite edge, ex. <code>margin-left : auto</code> , will push that element to the right edge.</p>
+<p>If you want a little more detail, read this explanation on <a target="_blank" rel="noopener" href="https://css-tricks.com/the-peculiar-magic-of-flexbox-and-auto-margins/">https://css-tricks.com/the-peculiar-magic-of-flexbox-and-auto-margins/</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100vh</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#555</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">20px</span> <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.body</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">20px</span> <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.footer</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#555</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">20px</span> <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">margin-top</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="21-Holy-Grail-Layout"><a href="#21-Holy-Grail-Layout" class="headerlink" title="21. Holy Grail Layout"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/Holy-Grail-Layout">21. Holy Grail Layout</a></h2><h3 id="题目-20"><a href="#题目-20" class="headerlink" title="题目"></a>题目</h3><p>“Implement Holy Grail Layout which includes header, left sidebar, body, right sidebar and footer.</p>
+<ol>
+<li>it should be <a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/sticky-footer">sticky footer</a></li>
+<li>left sidebar and right sidebar should be fixed width of 100px.</li>
+<li>styles of color .etc are already set for you, only layout related CSS code is needed.</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span>header<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left-sidebar&quot;</span>&gt;</span>left sidebar<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;body&quot;</span>&gt;</span>body<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right-sidebar&quot;</span>&gt;</span>right sidebar<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">footer</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-footer-sticks-to-bottom-if-content-is-short-1"><a href="#1-footer-sticks-to-bottom-if-content-is-short-1" class="headerlink" title="1.footer sticks to bottom if content is short"></a>1.footer sticks to bottom if content is short</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174051.png" alt="1"></p>
+<h4 id="2-otherwise-footer-is-displayed-as-normal-1"><a href="#2-otherwise-footer-is-displayed-as-normal-1" class="headerlink" title="2.otherwise footer is displayed as normal"></a>2.otherwise footer is displayed as normal</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174107.png" alt="2"></p>
+<h4 id="3-event-be-pushed-out-from-viewport-if-enough-content-1"><a href="#3-event-be-pushed-out-from-viewport-if-enough-content-1" class="headerlink" title="3.event be pushed out from viewport if enough content"></a>3.event be pushed out from viewport if enough content</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912174118.png" alt="3"></p>
+<h3 id="答案-20"><a href="#答案-20" class="headerlink" title="答案"></a>答案</h3><p>grid布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-areas: <span class="string">&quot;head head head&quot;</span></span><br><span class="line">                       <span class="string">&quot;left body right&quot;</span></span><br><span class="line">                       <span class="string">&quot;foot foot foot&quot;</span>;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="number">100px</span> <span class="number">1</span>fr <span class="number">100px</span>;</span><br><span class="line">  grid-template-rows: auto <span class="number">1</span>fr auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">  grid-area: head;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left-sidebar</span> &#123;</span><br><span class="line">  grid-area: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.body</span> &#123;</span><br><span class="line">  grid-area: body;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right-sidebar</span> &#123;</span><br><span class="line">  grid-area: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.footer</span> &#123;</span><br><span class="line">  grid-area: foot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flex布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.body</span>&#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span> <span class="number">1</span> auto;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="built_in">calc</span>(<span class="number">100vh</span> - <span class="number">100px</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.left-sidebar</span>, <span class="selector-class">.right-sidebar</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100vh</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="22-Grid-Layout-1"><a href="#22-Grid-Layout-1" class="headerlink" title="22. Grid Layout 1"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/grid-layout-1">22. Grid Layout 1</a></h2><h3 id="题目-21"><a href="#题目-21" class="headerlink" title="题目"></a>题目</h3><p>Layout a 3x3 grid and place <code>A</code> to <code>I</code> in column-first order.</p>
+<ol>
+<li>set gap in rows and columns of <code>10px</code></li>
+<li>container size is already set.</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item a&quot;</span>&gt;</span>A<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item b&quot;</span>&gt;</span>B<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item c&quot;</span>&gt;</span>C<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item d&quot;</span>&gt;</span>D<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item e&quot;</span>&gt;</span>E<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item f&quot;</span>&gt;</span>F<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item g&quot;</span>&gt;</span>G<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item h&quot;</span>&gt;</span>H<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item i&quot;</span>&gt;</span>I<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="200x200"><a href="#200x200" class="headerlink" title="200x200"></a>200x200</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220912225051.png" alt="1"></p>
+<h3 id="答案-21"><a href="#答案-21" class="headerlink" title="答案"></a>答案</h3><p>grid布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#BFEBFE</span>;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  place-items: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-rows: <span class="built_in">repeat</span>(<span class="number">3</span>, <span class="number">1</span>fr);</span><br><span class="line">  grid-<span class="attribute">auto</span>-flow: column;</span><br><span class="line">  gap: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一种方式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="number">1</span>fr <span class="number">1</span>fr <span class="number">1</span>fr;</span><br><span class="line">  grid-template-rows: <span class="number">1</span>fr <span class="number">1</span>fr <span class="number">1</span>fr;</span><br><span class="line">  grid-<span class="attribute">auto</span>-flow: column;</span><br><span class="line">  gap: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#BFEBFE</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">60px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flex布局也可以</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">flex-basis</span>: <span class="number">30%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="built_in">calc</span>((<span class="number">200px</span>-<span class="number">10px</span>/<span class="number">3</span>));</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#BFEBFE</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  gap: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="23-Grid-Layout-2"><a href="#23-Grid-Layout-2" class="headerlink" title="23. Grid Layout 2"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/grid-layout-2">23. Grid Layout 2</a></h2><h3 id="题目-22"><a href="#题目-22" class="headerlink" title="题目"></a>题目</h3><p>Layout the items in a grid so that:</p>
+<ul>
+<li>items have minium width of 100px and fill up the space</li>
+<li>place as many items in a row as possible</li>
+<li>gap between items is 10px</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;item&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-width-100px-1"><a href="#1-width-100px-1" class="headerlink" title="1.width:100px"></a>1.width:100px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085648.png" alt="1"></p>
+<h4 id="2-width-150px-1"><a href="#2-width-150px-1" class="headerlink" title="2.width:150px"></a>2.width:150px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085659.png" alt="2"></p>
+<h4 id="3-width-250px-1"><a href="#3-width-250px-1" class="headerlink" title="3.width:250px"></a>3.width:250px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085704.png" alt="3"></p>
+<h4 id="4-width-400px-1"><a href="#4-width-400px-1" class="headerlink" title="4.width:400px"></a>4.width:400px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913085710.png" alt="4"></p>
+<h3 id="答案-22"><a href="#答案-22" class="headerlink" title="答案"></a>答案</h3><p>自适应grid布局</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  gap: <span class="number">10px</span>;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="built_in">repeat</span>(auto-fit, <span class="built_in">minmax</span>(<span class="number">100px</span>, <span class="number">1</span>fr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#7aa4f0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="24-fluid-font-size"><a href="#24-fluid-font-size" class="headerlink" title="24. fluid font size"></a><a target="_blank" rel="noopener" href="https://bigfrontend.dev/css/fluid-font-size">24. fluid font size</a></h2><h3 id="题目-23"><a href="#题目-23" class="headerlink" title="题目"></a>题目</h3><p>Create a heading of fluid font size.</p>
+<ol>
+<li>if viewport width is smaller than 200px, use 16px</li>
+<li>if viewport width is bigger than 400px, use 32px</li>
+<li>otherwise font-size is linearly scaled. For example if viewport is 300px = (200px + 400px) / 2, then font-size is 24px = (16px + 32px) / 2</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>BFE.dev<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-100px"><a href="#1-100px" class="headerlink" title="1.100px"></a>1.100px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090844.png" alt="1"></p>
+<h4 id="2-150px"><a href="#2-150px" class="headerlink" title="2.150px"></a>2.150px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090858.png" alt="2"></p>
+<h4 id="3-200px"><a href="#3-200px" class="headerlink" title="3.200px"></a>3.200px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090902.png" alt="3"></p>
+<h4 id="4-219px"><a href="#4-219px" class="headerlink" title="4.219px"></a>4.219px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090908.png" alt="4"></p>
+<h4 id="5-252px"><a href="#5-252px" class="headerlink" title="5.252px"></a>5.252px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090914.png" alt="5"></p>
+<h4 id="6-300px"><a href="#6-300px" class="headerlink" title="6.300px"></a>6.300px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090920.png" alt="6"></p>
+<h4 id="7-379px"><a href="#7-379px" class="headerlink" title="7.379px"></a>7.379px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913090930.png" alt="7"></p>
+<h4 id="8-400px"><a href="#8-400px" class="headerlink" title="8.400px"></a>8.400px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913091102.png" alt="8"></p>
+<h4 id="9-500px"><a href="#9-500px" class="headerlink" title="9.500px"></a>9.500px</h4><p><img data-src="https://cdn.jsdelivr.net/gh/huxingyi1997/my_img/img/20220913091130.png" alt="9"></p>
+<h3 id="答案-23"><a href="#答案-23" class="headerlink" title="答案"></a>答案</h3><p><code>clamp()</code> is a CSS function that clamps a value between an upper and lower bound. clamp() enables selecting a middle value within a range of values between a defined minimum and maximum. It takes three parameters: a minimum value, a preferred value, and a maximum allowed value. <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/clamp">https://developer.mozilla.org/en-US/docs/Web/CSS/clamp</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="comment">/* 200/16 = 12.5 and also 400/32 = 12.5 so that is our linear ratio to keep when scaling</span></span><br><span class="line"><span class="comment">   we set minimum (16px) and maximum (32px) boundary for clam, and a function to dinamically</span></span><br><span class="line"><span class="comment">   calculate the values in between, which is given by diving our viewport (100vw)</span></span><br><span class="line"><span class="comment">   to our ratio 12.5 */</span></span><br><span class="line">  <span class="attribute">font-size</span>: <span class="built_in">clamp</span>(<span class="number">16px</span>, <span class="built_in">calc</span>(<span class="number">100vw</span>/<span class="number">12.5</span>), <span class="number">32px</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+      
+<div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+</div>
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+              <a href="/tags/bigfrontend/" rel="tag"><i class="fa fa-tag"></i> bigfrontend</a>
+              <a href="/tags/%E9%A2%98%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 题库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/17/bigfrontend%E7%9A%84TS%E9%A2%98%E7%9B%AE%E8%AE%A8%E8%AE%BA/" rel="prev" title="bigfrontend的TS题目讨论">
+      <i class="fa fa-chevron-left"></i> bigfrontend的TS题目讨论
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS"><span class="nav-text">CSS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-center-an-element-vertically"><span class="nav-text">1. center an element vertically</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Should-be-centered-vertically"><span class="nav-text">1.Should be centered vertically</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-even-if-container-size-changes"><span class="nav-text">2.even if container size changes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-truncate-text-in-one-line-with-ellipsis"><span class="nav-text">2. truncate text in one line(with ellipsis)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-1"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-When-no-overflow"><span class="nav-text">1.When no overflow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-when-there-is-need-to-truncate-add-ellipsis"><span class="nav-text">2.when there is need to truncate, add ellipsis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-1"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-truncate-text-in-multiple-lines-with-ellipsis"><span class="nav-text">3. truncate text in multiple lines(with ellipsis)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-2"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-short-text-1-line"><span class="nav-text">1.short text(1 line)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-short-text-2-lines"><span class="nav-text">2.short text (2 lines)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-lines-no-overflow"><span class="nav-text">3. lines(no overflow)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-more-than-3-lines"><span class="nav-text">4. more than 3 lines</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-2"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-two-column-layout"><span class="nav-text">4. two-column layout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-3"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-400x300"><span class="nav-text">1.400x300</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-600x300"><span class="nav-text">2.600x300</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-300x300"><span class="nav-text">3.300x300</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-3"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-modal-with-max-height"><span class="nav-text">5. modal with max height</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-4"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-400x150"><span class="nav-text">1.400x150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-400x300"><span class="nav-text">2.400x300</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-400x400"><span class="nav-text">3.400x400</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-400x600"><span class="nav-text">4.400x600</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-4"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-different-checkbox-style"><span class="nav-text">6. different checkbox style</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-5"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-unchecked"><span class="nav-text">1.unchecked</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-checked"><span class="nav-text">2.checked</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-5"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-a-row"><span class="nav-text">7. a row</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-6"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-one-row"><span class="nav-text">1.one row</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-two-rows"><span class="nav-text">2.two rows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-three-rows"><span class="nav-text">3.three rows</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-6"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Twitter%E2%80%99s-website-layout"><span class="nav-text">8. Twitter’s website layout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-7"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-100-x-150"><span class="nav-text">1.100 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-200-x-150"><span class="nav-text">2.200 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-300-x-150"><span class="nav-text">3.300 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-360-x-150"><span class="nav-text">4.360 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-400-x-150"><span class="nav-text">5.400 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-420-x-150"><span class="nav-text">6.420 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-460-x-150"><span class="nav-text">7.460 x 150</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-500-x-150"><span class="nav-text">8.500 x 150</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-7"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-multi-column-text"><span class="nav-text">9. multi-column text</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-8"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#text-in-3-columns"><span class="nav-text">text in 3 columns</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-8"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-golden-ratio-rectangle"><span class="nav-text">10. golden-ratio rectangle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-9"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-width-50px"><span class="nav-text">1.width: 50px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-width-100px"><span class="nav-text">2.width: 100px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-width-200px"><span class="nav-text">3.width: 200px</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-9"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-fit-the-image"><span class="nav-text">11. fit the image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-10"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-50x50"><span class="nav-text">1.50x50</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-100x100"><span class="nav-text">2.100x100</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-200x100"><span class="nav-text">3.200x100</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-100x200"><span class="nav-text">4.100x200</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-300x100"><span class="nav-text">5.300x100</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-100x300"><span class="nav-text">6.100x300</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-700x100"><span class="nav-text">7.700x100</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-10"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-close-button-in-CSS"><span class="nav-text">12. close button in CSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-11"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-20x20"><span class="nav-text">1.20x20</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-40x40"><span class="nav-text">2.40x40</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-60x60"><span class="nav-text">3.60x60</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-11"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-list-numbering"><span class="nav-text">13. list numbering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-12"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-simple-list"><span class="nav-text">1.simple list</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-nested"><span class="nav-text">2.nested</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-12"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-0-5px-border"><span class="nav-text">14. 0.5px border</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-13"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#should-be-thin-enough"><span class="nav-text">should be thin enough</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-13"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-doughnut-chart"><span class="nav-text">15. doughnut chart</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-14"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-percentage-20"><span class="nav-text">1.percentage: 20%</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-percentage-75"><span class="nav-text">2.percentage: 75%</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-percentage-100"><span class="nav-text">3.percentage: 100%</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-14"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-flex-layout-1"><span class="nav-text">16. flex layout 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-15"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-width-60px"><span class="nav-text">1.width:60px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-width-150px"><span class="nav-text">2.width:150px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-width-250px"><span class="nav-text">3.width:250px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-width-400px"><span class="nav-text">4.width:400px</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-15"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-fragment-style"><span class="nav-text">17. fragment style</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-16"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-width-100px"><span class="nav-text">1.width:100px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-width-200px"><span class="nav-text">2.width:200px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-width-500px"><span class="nav-text">3.width:500px</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-16"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-color-gradients-on-text"><span class="nav-text">18. color gradients on text</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-17"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-short-text"><span class="nav-text">1.short text</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-longer-text"><span class="nav-text">2.longer text</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-17"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-color-of-input-elements"><span class="nav-text">19. color of input elements</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-18"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#F44336"><span class="nav-text">#F44336</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-18"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-sticky-footer"><span class="nav-text">20. sticky footer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-19"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-footer-sticks-to-bottom-if-content-is-short"><span class="nav-text">1.footer sticks to bottom if content is short</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-otherwise-footer-is-displayed-as-normal"><span class="nav-text">2.otherwise footer is displayed as normal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-event-be-pushed-out-from-viewport-if-enough-content"><span class="nav-text">3.event be pushed out from viewport if enough content</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-19"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-Holy-Grail-Layout"><span class="nav-text">21. Holy Grail Layout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-20"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-footer-sticks-to-bottom-if-content-is-short-1"><span class="nav-text">1.footer sticks to bottom if content is short</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-otherwise-footer-is-displayed-as-normal-1"><span class="nav-text">2.otherwise footer is displayed as normal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-event-be-pushed-out-from-viewport-if-enough-content-1"><span class="nav-text">3.event be pushed out from viewport if enough content</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-20"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-Grid-Layout-1"><span class="nav-text">22. Grid Layout 1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-21"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#200x200"><span class="nav-text">200x200</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-21"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-Grid-Layout-2"><span class="nav-text">23. Grid Layout 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-22"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-width-100px-1"><span class="nav-text">1.width:100px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-width-150px-1"><span class="nav-text">2.width:150px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-width-250px-1"><span class="nav-text">3.width:250px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-width-400px-1"><span class="nav-text">4.width:400px</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-22"><span class="nav-text">答案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-fluid-font-size"><span class="nav-text">24. fluid font size</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE-23"><span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-100px"><span class="nav-text">1.100px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-150px"><span class="nav-text">2.150px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-200px"><span class="nav-text">3.200px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-219px"><span class="nav-text">4.219px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-252px"><span class="nav-text">5.252px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-300px"><span class="nav-text">6.300px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-379px"><span class="nav-text">7.379px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-400px"><span class="nav-text">8.400px</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-500px"><span class="nav-text">9.500px</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%94%E6%A1%88-23"><span class="nav-text">答案</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hxy"
+      src="/images/Robben.gif">
+  <p class="site-author-name" itemprop="name">hxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/huxingyi1997" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;huxingyi1997" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:huxingyi1997@zju.edu.cn" title="E-Mail → mailto:huxingyi1997@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-frog"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hxy</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共1018.3k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'pQsO3ySbU4VtWN2j1FLA74Ha-gzGzoHsz',
+      appKey     : 'QYacMDY2VY7Wazprg1X6FiUv',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <!-- 动态背景特效 -->
+  <!-- 樱花特效 -->
+    <script async src="/js/src/sakura.js"></script>
+    <script async src="/js/src/fairyDustCursor.js"></script>
+</body>
+</html>

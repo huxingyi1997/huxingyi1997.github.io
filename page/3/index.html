@@ -195,6 +195,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/06/28/TypeScript%20%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E8%A7%A3%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Robben.gif">
+      <meta itemprop="name" content="hxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hxy的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/28/TypeScript%20%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E8%A7%A3%E8%AF%BB/" class="post-title-link" itemprop="url">TypeScript 源码详细解读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-28 23:12:00" itemprop="dateCreated datePublished" datetime="2021-06-28T23:12:00+08:00">2021-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-08 08:57:37" itemprop="dateModified" datetime="2021-07-08T08:57:37+08:00">2021-07-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/06/28/TypeScript%20%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E8%A7%A3%E8%AF%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/06/28/TypeScript%20%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E8%A7%A3%E8%AF%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>TypeScript 由微软在 2012 年 10 月首发，经过几年的发展，已经成为国内外很多前端团队的首选编程语言。前端三大框架中的 Angular 和 Vue 3 也都改用了 TypeScript 开发。即使很多人没直接用过 TypeScript，他们也在通过 VSCode 提供的智能提示功能间接享受着 TypeScript 带来的各项便利。推荐一下电子书<a target="_blank" rel="noopener" href="https://jkchao.github.io/typescript-book-chinese/">深入理解 TypeScript</a>，虽然没看完，一定会抽空阅读。也有大佬们写好的总结，<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5b5ad5b34376">淡如止水 TypeScript</a>，打算也偷偷复制一份。</p>
+<p> 很多人对 TypeScript 背后的原理很感兴趣，你可能想要：</p>
+<ul>
+<li>更好地理解 TypeScript；</li>
+<li>学习编译原理相关的知识来丰富自己（编译器和操作系统是很多程序员的梦想）；</li>
+<li>设计一门类似的语言；</li>
+<li>定制自己的打包工具；</li>
+<li>做一个 VSCode 插件。</li>
+</ul>
+<p>但你上网搜索，你会发现能搜到的全是 TypeScript 如何使用的教程，即使是英文的资料，也鲜有能完全讲解清楚 TypeScript 内部原理的文章。</p>
+<p>只有少数的几篇教程会在文末稍微附带一下原理说明，但它们只是大概阐述了一下 TypeScript 的整体架构，最核心的类型分析的具体实现几乎都是一句带过。</p>
+<p>能真正了解 TypeScript 内部原理的人极少，多数人对 TypeScript 的想法是：“这方面的东西和我工作没啥关系，我只管能用就行！”（其实内心的想法是：这东西好烦啊！为什么大家都在用？求你别加功能了，学不动了……）</p>
+<p>既然你读到这里了，说明你真的想学习 TypeScript 的内部原理。这篇系列文章不教你如何使用 TypeScript（那种你网上随便一搜，很多），我假设你已经熟悉了 TypeScript 的各种语法，文中不会介绍这些语法的功能，也不探讨这些语法的好坏，只重点介绍 TypeScript 是如何实现这个语法的功能的。这篇系列文章可以帮助你在没学过编译原理之类的书的前提下，真正地学会编译相关的知识。但你必须先做好两点准备：1. 检查这个页面的网址，这篇系列文章由徐林迪(xuld)原创，前三篇在博客园首发，禁随意转载、偷爬，如果需要引用文章内容，请直接链接到这篇文章的地址，不要复制内容。2. TypeScript 核心编译器截止目前一共有 8 万行以上代码，<a target="_blank" rel="noopener" href="https://github.com/Microsoft/TypeScript/tree/master/src/compiler">GIT 源码仓库</a> 超过 1 G，学习 TypeScript 原理是一个漫长的过程，不是几天就可以搞定的，你需要静下心来，而且原理中包含了大量抽象的逻辑，如果你不打算用太久时间，请尽早放弃。</p>
+<p>如果有天你问一个“高手”，TypeScript 是怎么写的，“高手”就回复你一句“你去看编译原理的书，比如某某动物书”，那我可以很肯定地告诉你，你的那位“高手”也不懂 TypeScript 的原理。要实现一个 TypeScript ，确实需要一些编译原理的知识，但并不多，TypeScript 的核心是类型分析、流程分析、ES5 语法转换，而这些东西，在传统的 C 编译器之类的领域都是不存在的。所以你去读那些教你怎么写 parser，怎么编译成机器码的传统编译原理的书，是远远不够的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/28/TypeScript%20%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E8%A7%A3%E8%AF%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/06/25/%E5%85%AB%E8%82%A1%E6%96%87%E7%B3%BB%E5%88%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -321,7 +429,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-24 16:07:30" itemprop="dateModified" datetime="2022-09-24T16:07:30+08:00">2022-09-24</time>
+                <time title="修改时间：2022-10-03 15:30:55" itemprop="dateModified" datetime="2022-10-03T15:30:55+08:00">2022-10-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -416,7 +524,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-19 09:06:23" itemprop="dateModified" datetime="2022-08-19T09:06:23+08:00">2022-08-19</time>
+                <time title="修改时间：2022-09-28 09:24:27" itemprop="dateModified" datetime="2022-09-28T09:24:27+08:00">2022-09-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1052,101 +1160,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hxy1997.xyz/2021/05/11/%E8%AF%A6%E8%A7%A3ES6%E4%B8%AD%E7%9A%84class/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Robben.gif">
-      <meta itemprop="name" content="hxy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hxy的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/11/%E8%AF%A6%E8%A7%A3ES6%E4%B8%AD%E7%9A%84class/" class="post-title-link" itemprop="url">详解ES6中的class</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-11 21:30:00" itemprop="dateCreated datePublished" datetime="2021-05-11T21:30:00+08:00">2021-05-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-13 13:30:58" itemprop="dateModified" datetime="2021-05-13T13:30:58+08:00">2021-05-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/05/11/%E8%AF%A6%E8%A7%A3ES6%E4%B8%AD%E7%9A%84class/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/11/%E8%AF%A6%E8%A7%A3ES6%E4%B8%AD%E7%9A%84class/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Javascript的Object模型很独特，和其他语言都不一样，初学者不容易掌握。Javascript是一种基于对象（object-based）的语言，你遇到的所有东西几乎都是对象。但是在ES6之前，它又不是一种真正的面向对象编程（OOP）语言，因为它的语法中没有class（类）。ES6中实现class，这其实是一个语法糖，其底层还是通过 构造函数 去创建的。所以它的绝大部分功能，ES5 都可以做到。新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。其实是我在思考怎么去写一个私有不可改变的属性的时候，向大佬讨教了一番，也想着怎么去收集相关知识，为TS进一步学习打好基础，感谢大佬的<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904086089760775">详解ES6中的class</a>，受益匪浅。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/11/%E8%AF%A6%E8%A7%A3ES6%E4%B8%AD%E7%9A%84class/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1218,7 +1231,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1275,7 +1288,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共1024.5k字</span>
+  <span class="post-count">博客全站共1034.5k字</span>
 </div>
 
         
